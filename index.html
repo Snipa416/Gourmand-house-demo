@@ -3,72 +3,674 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#24140e">
-  <meta name="description" content="Gourmand House — a little house of gourmand goods. Small-batch cookies, baked in Toronto.">
-  <title>Gourmand House — Small-batch cookies</title>
+  <meta name="theme-color" content="#1a0f0a">
+  <meta name="description" content="Gourmand House — small-batch cookies in limited weekly drops. Toronto pickup, e-Transfer ordering, and catering for events worth remembering.">
+  <title>Gourmand House — Small-batch cookies, dropped weekly</title>
+  <link rel="canonical" href="https://snipa416.github.io/Gourmand-house-demo/">
+
+  <!-- Link previews: Instagram, iMessage, WhatsApp, Facebook -->
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Gourmand House">
+  <meta property="og:title" content="Gourmand House — Small-batch cookies, dropped weekly">
+  <meta property="og:description" content="Sixty boxes. Forty-eight hours. Crisp edges, soft centres and unapologetically generous chocolate. Baked in Toronto.">
+  <meta property="og:url" content="https://snipa416.github.io/Gourmand-house-demo/">
+  <meta property="og:image" content="https://snipa416.github.io/Gourmand-house-demo/og-cover.jpg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="Milk and dark chocolate sea salt cookies from Gourmand House">
+  <meta property="og:locale" content="en_CA">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Gourmand House — Small-batch cookies, dropped weekly">
+  <meta name="twitter:description" content="Sixty boxes. Forty-eight hours. Baked in Toronto for limited weekly drops.">
+  <meta name="twitter:image" content="https://snipa416.github.io/Gourmand-house-demo/og-cover.jpg">
+
+  <!-- Favicon: the GH monogram arch from the cookie seal -->
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%231a0f0a'/%3E%3Cpath d='M8 26V15a8 8 0 0 1 16 0v11Z' fill='none' stroke='%23e9d2ca' stroke-width='1.4'/%3E%3Ctext x='16' y='24' text-anchor='middle' font-family='Georgia,serif' font-size='9' fill='%23e9d2ca'%3EGH%3C/text%3E%3C/svg%3E">
+
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&family=League+Gothic&family=Playfair+Display:ital,wght@0,500;0,600;1,500&display=swap" rel="stylesheet">
+  <!-- The hero is a CSS background, so the browser finds it late. Preloading it pulls LCP forward. -->
+  <link rel="preload" as="image" href="B99ED5DC-0EE8-426E-A412-FC6832EF6845.jpeg" fetchpriority="high">
+
+  <script type="application/ld+json">
+  {"@context":"https://schema.org","@type":"Bakery","name":"Gourmand House","description":"Small-batch cookies in limited weekly drops, baked in Toronto. Pickup ordering and catering for events.","url":"https://snipa416.github.io/Gourmand-house-demo/","image":"https://snipa416.github.io/Gourmand-house-demo/og-cover.jpg","email":"gourmandhouse@gmail.com","address":{"@type":"PostalAddress","addressLocality":"Toronto","addressRegion":"ON","addressCountry":"CA"},"sameAs":["https://www.instagram.com/gourmandhouseco/"],"servesCuisine":"Bakery","makesOffer":[{"@type":"Offer","itemOffered":{"@type":"Product","name":"Milk / Dark Chocolate Sea Salt cookie"},"price":"6.00","priceCurrency":"CAD"},{"@type":"Offer","itemOffered":{"@type":"Product","name":"Maple Fudge & Pecan cookie"},"price":"6.00","priceCurrency":"CAD"},{"@type":"Offer","itemOffered":{"@type":"Product","name":"The Mixed Six box"},"price":"32.00","priceCurrency":"CAD"}]}
+  </script>
+
   <style>
-    :root{--cream:#f3e6cf;--paper:#fbf7ef;--cocoa:#24140e;--milk:#7f4b35;--caramel:#c1804f;--line:rgba(36,20,14,.22);--shadow:0 24px 70px rgba(36,20,14,.16)}
+    /* Palette pulled from the physical brand: cocoa ink, cream marble, the blush of the
+       cookie seal, and the terracotta tile on the pop-up counter. */
+    :root{--ink:#150c07;--cocoa:#24140e;--cream:#f3e6cf;--paper:#fbf7ef;--blush:#e9d2ca;--clay:#c17c5b;--milk:#7f4b35;--caramel:#c1804f;--line:rgba(36,20,14,.22);--line-dk:rgba(243,230,207,.2);--shadow:0 24px 70px rgba(21,12,7,.18)}
     *{box-sizing:border-box} html{scroll-behavior:smooth} body{margin:0;background:var(--paper);color:var(--cocoa);font-family:"DM Sans",sans-serif} body.locked{overflow:hidden}
-    a{color:inherit} button,input,select{font:inherit} button{cursor:pointer} img{display:block;width:100%}.serif{font-family:"Playfair Display",serif}.condensed{font-family:"League Gothic",sans-serif;text-transform:uppercase;letter-spacing:.035em}
-    .announcement{height:34px;display:flex;align-items:center;justify-content:center;background:var(--cocoa);color:var(--cream);font-size:11px;letter-spacing:.16em;text-transform:uppercase}
-    header{height:82px;display:grid;grid-template-columns:1fr auto 1fr;align-items:center;padding:0 clamp(20px,4vw,64px);border-bottom:1px solid var(--line);position:absolute;top:34px;z-index:10;width:100%;color:var(--paper)}
-    nav{display:flex;gap:28px}nav a{text-decoration:none;font-size:12px;text-transform:uppercase;letter-spacing:.13em}.brand{text-align:center;line-height:.85;text-decoration:none}.brand strong{display:block;font-family:"Playfair Display",serif;font-size:22px;letter-spacing:.23em}.brand span{font-size:9px;letter-spacing:.5em}.header-actions{justify-self:end;display:flex;gap:12px}.pill{border:1px solid currentColor;background:transparent;color:inherit;border-radius:999px;padding:11px 16px;font-size:11px;text-transform:uppercase;letter-spacing:.1em}.bag-count{display:inline-grid;place-items:center;width:20px;height:20px;background:var(--paper);color:var(--cocoa);border-radius:50%;margin-left:7px}
-    .hero{min-height:94vh;position:relative;display:flex;align-items:flex-end;padding:160px clamp(20px,6vw,90px) 70px;color:#fff;overflow:hidden}.hero:before{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(25,11,6,.82),rgba(25,11,6,.1) 65%),url('B99ED5DC-0EE8-426E-A412-FC6832EF6845.jpeg') center 54%/cover;transform:scale(1.01)}.hero-copy{position:relative;max-width:760px}.eyebrow{font-size:11px;text-transform:uppercase;letter-spacing:.22em;margin:0 0 18px}.hero h1{font-family:"Playfair Display",serif;font-weight:500;font-size:clamp(62px,9vw,132px);line-height:.86;letter-spacing:-.045em;margin:0}.hero h1 em{display:block;font-weight:500}.hero-bottom{display:flex;align-items:end;gap:36px;margin-top:34px}.hero-bottom p{max-width:390px;line-height:1.6;margin:0;color:rgba(255,255,255,.84)}.cta{border:0;border-radius:999px;background:var(--cream);color:var(--cocoa);padding:17px 24px;text-decoration:none;text-transform:uppercase;letter-spacing:.12em;font-size:11px;white-space:nowrap}
-    .ticker{overflow:hidden;background:var(--cream);border-block:1px solid var(--line);padding:17px 0}.ticker-inner{display:flex;gap:46px;width:max-content;animation:ticker 28s linear infinite}.ticker span{font-family:"Playfair Display",serif;font-style:italic;font-size:18px}.ticker b{font-family:sans-serif;font-weight:400}@keyframes ticker{to{transform:translateX(-50%)}}
-    section{padding:100px clamp(20px,6vw,90px)}.section-head{display:flex;justify-content:space-between;align-items:end;gap:30px;margin-bottom:48px}.section-head h2{font-size:clamp(52px,8vw,106px);line-height:.82;margin:0;font-weight:400}.section-head p{max-width:370px;line-height:1.65;margin:0;color:#674e43}.drop-badge{display:inline-flex;gap:9px;align-items:center;border:1px solid var(--line);border-radius:999px;padding:9px 13px;font-size:11px;text-transform:uppercase;letter-spacing:.1em}.dot{width:7px;height:7px;background:#4b7b42;border-radius:50%;box-shadow:0 0 0 5px rgba(75,123,66,.12)}
-    .products{display:grid;grid-template-columns:1fr 1fr;gap:24px}.product{border:1px solid var(--line);background:#fff8ed;overflow:hidden;position:relative}.product-photo{aspect-ratio:1.1;overflow:hidden;background:#e6d1b2}.product-photo img{height:100%;object-fit:cover;transition:transform .7s ease}.product:hover img{transform:scale(1.025)}.product-info{padding:27px}.product-top{display:flex;justify-content:space-between;gap:20px;align-items:start}.product h3{font-family:"Playfair Display",serif;font-size:30px;font-weight:500;margin:0 0 9px}.product p{color:#6c5044;line-height:1.55;margin:0}.price{font-family:"Playfair Display",serif;font-size:24px;white-space:nowrap}.product-foot{display:flex;align-items:center;justify-content:space-between;margin-top:25px}.stock{font-size:10px;letter-spacing:.12em;text-transform:uppercase}.add{border:0;background:var(--cocoa);color:#fff;border-radius:999px;padding:13px 18px;text-transform:uppercase;font-size:10px;letter-spacing:.12em}.add:active{transform:scale(.97)}
-    .bundle{margin-top:24px;display:grid;grid-template-columns:1.1fr .9fr;background:var(--cocoa);color:var(--cream);min-height:430px}.bundle-copy{padding:clamp(36px,6vw,84px);display:flex;flex-direction:column;justify-content:center}.bundle h3{font-size:clamp(54px,7vw,92px);font-weight:400;line-height:.85;margin:10px 0 24px}.bundle p{max-width:420px;line-height:1.6;color:#ddc8b3}.bundle .cta{align-self:flex-start;margin-top:15px}.bundle img{height:100%;object-fit:cover}
-    .story{background:var(--cream);display:grid;grid-template-columns:.9fr 1.1fr;gap:clamp(36px,7vw,110px);align-items:center}.story-image{position:relative}.story-image img{aspect-ratio:.9;object-fit:cover}.stamp{position:absolute;right:-35px;bottom:-35px;width:132px;height:132px;border-radius:50%;background:var(--cocoa);color:var(--cream);display:grid;place-items:center;text-align:center;font-family:"Playfair Display",serif;font-style:italic;transform:rotate(-9deg);padding:20px}.story h2{font-size:clamp(50px,7vw,94px);line-height:.92;font-weight:500;margin:10px 0 28px}.story p{line-height:1.75;max-width:520px;color:#594034}.signature{margin-top:30px;font-family:"Playfair Display",serif;font-style:italic;font-size:22px}
-    .gallery{padding-top:24px;display:grid;grid-template-columns:1.2fr .8fr .8fr;gap:14px}.gallery img{height:420px;object-fit:cover}.gallery img:nth-child(2){margin-top:70px}.gallery img:nth-child(3){margin-top:25px}
-    .alerts{text-align:center;border-top:1px solid var(--line);background:#fff8ed}.alerts h2{font-size:clamp(54px,8vw,105px);line-height:.85;font-weight:400;max-width:900px;margin:0 auto 25px}.alerts p{color:#654a3e}.signup{margin:34px auto 0;display:flex;max-width:560px;border-bottom:1px solid var(--cocoa);padding:9px 0}.signup input{flex:1;border:0;background:transparent;outline:0;padding:12px}.signup button{border:0;background:transparent;text-transform:uppercase;letter-spacing:.12em;font-size:11px}.success{display:none;color:#4b7b42;margin-top:18px}.success.show{display:block}
-    footer{padding:60px clamp(20px,6vw,90px) 28px;background:var(--cocoa);color:var(--cream)}.footer-grid{display:grid;grid-template-columns:1.6fr 1fr 1fr;gap:50px}.footer-brand{font-family:"Playfair Display",serif;font-size:clamp(38px,6vw,72px);line-height:.9}.footer-col strong{display:block;font-size:10px;letter-spacing:.17em;text-transform:uppercase;margin-bottom:18px}.footer-col a{display:block;text-decoration:none;margin:9px 0;color:#d9c7b5}.fine{margin-top:70px;border-top:1px solid rgba(255,255,255,.16);padding-top:22px;display:flex;justify-content:space-between;font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:#af9787}
-    .drawer{position:fixed;inset:0;z-index:30;pointer-events:none}.overlay{position:absolute;inset:0;background:rgba(22,10,5,.5);opacity:0;transition:.25s}.panel{position:absolute;right:0;top:0;height:100%;width:min(460px,100%);background:var(--paper);transform:translateX(100%);transition:.35s ease;padding:28px;display:flex;flex-direction:column;box-shadow:var(--shadow)}.drawer.open{pointer-events:auto}.drawer.open .overlay{opacity:1}.drawer.open .panel{transform:none}.drawer-head{display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--line);padding-bottom:18px}.drawer h2{margin:0;font-size:38px;font-weight:500}.close{border:0;background:transparent;font-size:28px}.cart-items{flex:1;overflow:auto;padding:10px 0}.empty{margin-top:80px;text-align:center;color:#745b50}.cart-row{display:grid;grid-template-columns:66px 1fr auto;gap:14px;padding:16px 0;border-bottom:1px solid var(--line);align-items:center}.cart-row img{width:66px;height:66px;object-fit:cover}.cart-row h4{margin:0 0 6px;font-family:"Playfair Display",serif}.qty{display:flex;gap:10px;align-items:center}.qty button{width:26px;height:26px;border:1px solid var(--line);border-radius:50%;background:transparent}.pickup{border-top:1px solid var(--line);padding-top:18px}.pickup label{font-size:10px;text-transform:uppercase;letter-spacing:.12em}.pickup select{width:100%;padding:13px;margin-top:8px;background:#fff;border:1px solid var(--line)}.total{display:flex;justify-content:space-between;font-family:"Playfair Display",serif;font-size:24px;margin:18px 0}.checkout{border:0;background:var(--cocoa);color:white;padding:16px;text-transform:uppercase;letter-spacing:.12em;font-size:11px}.demo-note{text-align:center;font-size:10px;color:#786157;margin:10px 0 0}.payment-card{display:none;background:var(--cream);border:1px solid var(--line);padding:18px;margin-top:16px}.payment-card.show{display:block}.payment-card h3{font-family:"Playfair Display",serif;font-size:25px;margin:0 0 10px}.payment-card p{font-size:12px;line-height:1.55;margin:7px 0}.payment-email{display:flex;justify-content:space-between;align-items:center;gap:10px;background:var(--paper);border:1px solid var(--line);padding:11px;margin:12px 0;font-weight:600;font-size:12px}.payment-email button{border:0;background:transparent;text-transform:uppercase;font-size:9px;letter-spacing:.1em}.email-order{display:block;text-align:center;background:var(--cocoa);color:#fff;text-decoration:none;padding:13px;margin-top:13px;text-transform:uppercase;letter-spacing:.1em;font-size:10px}
-    .toast{position:fixed;left:50%;bottom:24px;transform:translate(-50%,30px);background:var(--cocoa);color:#fff;padding:13px 20px;border-radius:999px;font-size:12px;opacity:0;pointer-events:none;transition:.25s;z-index:50}.toast.show{opacity:1;transform:translate(-50%,0)}
-    @media(max-width:760px){header{height:68px;top:34px;padding:0 16px}nav{display:none}.brand{grid-column:1/3;text-align:left}.header-actions{grid-column:3}.header-actions .pill:first-child{display:none}.hero{min-height:84vh;padding:130px 20px 46px}.hero:before{background:linear-gradient(0deg,rgba(25,11,6,.84),rgba(25,11,6,.1) 70%),url('B99ED5DC-0EE8-426E-A412-FC6832EF6845.jpeg') 47% center/cover}.hero-bottom{display:block}.hero-bottom .cta{display:inline-block;margin-top:25px}.section-head{display:block}.section-head p{margin-top:25px}.products{grid-template-columns:1fr}.bundle{grid-template-columns:1fr}.bundle img{height:350px;order:-1}.story{grid-template-columns:1fr}.story .stamp{right:-8px}.gallery{grid-template-columns:1fr 1fr}.gallery img{height:280px}.gallery img:first-child{grid-column:1/-1;height:340px}.gallery img:nth-child(2),.gallery img:nth-child(3){margin-top:0}.footer-grid{grid-template-columns:1fr 1fr}.footer-brand{grid-column:1/-1}.fine{display:block;line-height:1.7}.signup{max-width:100%}}
+    a{color:inherit} button,input,select,textarea{font:inherit} button{cursor:pointer} img{display:block;width:100%}
+    .serif{font-family:"Playfair Display",serif}.condensed{font-family:"League Gothic",sans-serif;text-transform:uppercase;letter-spacing:.035em}
+    .eyebrow{font-size:11px;text-transform:uppercase;letter-spacing:.22em;margin:0 0 18px}
+    :focus-visible{outline:2px solid var(--clay);outline-offset:3px}
+
+    .announcement{min-height:34px;display:flex;align-items:center;justify-content:center;gap:14px;background:var(--ink);color:var(--cream);font-size:11px;letter-spacing:.16em;text-transform:uppercase;padding:9px 16px;text-align:center}
+    .announcement .live{display:inline-flex;align-items:center;gap:7px}
+    .dot{width:7px;height:7px;background:#6f9c63;border-radius:50%;box-shadow:0 0 0 5px rgba(111,156,99,.16)}
+    .dot.closed{background:var(--clay);box-shadow:0 0 0 5px rgba(193,124,91,.16)}
+
+    header{height:82px;display:grid;grid-template-columns:1fr auto 1fr;align-items:center;padding:0 clamp(20px,4vw,64px);position:absolute;z-index:10;width:100%;color:var(--paper)}
+    nav{display:flex;gap:28px}nav a{text-decoration:none;font-size:12px;text-transform:uppercase;letter-spacing:.13em}
+    .brand{justify-self:center;display:flex;align-items:center;gap:11px;text-decoration:none}
+    .mark{width:26px;height:30px;flex:none}
+    .brand-type{line-height:.9}.brand-type strong{display:block;font-family:"Playfair Display",serif;font-size:19px;letter-spacing:.2em;font-weight:500}.brand-type span{font-size:8px;letter-spacing:.46em}
+    .header-actions{justify-self:end;display:flex;gap:12px}
+    .pill{border:1px solid currentColor;background:transparent;color:inherit;border-radius:999px;padding:11px 16px;font-size:11px;text-transform:uppercase;letter-spacing:.1em}
+    .bag-count{display:inline-grid;place-items:center;width:20px;height:20px;background:var(--paper);color:var(--cocoa);border-radius:50%;margin-left:7px}
+
+    .hero{min-height:96vh;position:relative;display:flex;align-items:flex-end;padding:150px clamp(20px,6vw,90px) 64px;color:#fff;overflow:hidden}
+    .hero:before{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(15,8,4,.9),rgba(15,8,4,.32) 70%),url('B99ED5DC-0EE8-426E-A412-FC6832EF6845.jpeg') center 54%/cover}
+    .hero-copy{position:relative;max-width:820px}
+    .drop-tag{display:inline-flex;align-items:center;gap:10px;border:1px solid rgba(255,255,255,.42);border-radius:999px;padding:8px 15px;font-size:10px;text-transform:uppercase;letter-spacing:.2em;margin-bottom:22px}
+    .hero h1{font-family:"Playfair Display",serif;font-weight:500;font-size:clamp(58px,8.6vw,126px);line-height:.86;letter-spacing:-.045em;margin:0}
+    .hero h1 em{display:block;font-weight:500}
+    .hero-bottom{display:flex;align-items:end;gap:36px;margin-top:32px;flex-wrap:wrap}
+    .hero-bottom p{max-width:380px;line-height:1.6;margin:0;color:rgba(255,255,255,.86)}
+    .cta{border:0;border-radius:999px;background:var(--cream);color:var(--cocoa);padding:17px 24px;text-decoration:none;text-transform:uppercase;letter-spacing:.12em;font-size:11px;white-space:nowrap;display:inline-block}
+    .cta.ghost{background:transparent;color:#fff;border:1px solid rgba(255,255,255,.5)}
+    .cta[disabled]{opacity:.45;cursor:not-allowed}
+
+    /* Countdown — the drop ritual, made literal */
+    .countdown{position:relative;margin-top:38px;display:inline-flex;gap:8px;align-items:flex-end}
+    .cd-unit{min-width:66px;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.24);backdrop-filter:blur(6px);padding:11px 8px;text-align:center}
+    .cd-unit b{display:block;font-family:"Playfair Display",serif;font-size:30px;font-weight:500;line-height:1;font-variant-numeric:tabular-nums}
+    .cd-unit span{display:block;font-size:8px;letter-spacing:.2em;text-transform:uppercase;margin-top:6px;color:rgba(255,255,255,.72)}
+    .cd-label{font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:rgba(255,255,255,.75);margin:0 0 10px}
+
+    .ticker{overflow:hidden;background:var(--cream);border-block:1px solid var(--line);padding:17px 0}
+    .ticker-inner{display:flex;gap:46px;width:max-content;animation:ticker 28s linear infinite}
+    .ticker span{font-family:"Playfair Display",serif;font-style:italic;font-size:18px}.ticker b{font-family:sans-serif;font-weight:400;color:var(--clay)}
+    @keyframes ticker{to{transform:translateX(-50%)}}
+    @media(prefers-reduced-motion:reduce){.ticker-inner{animation:none}*{scroll-behavior:auto}}
+
+    section{padding:100px clamp(20px,6vw,90px)}
+    .section-head{display:flex;justify-content:space-between;align-items:end;gap:30px;margin-bottom:48px}
+    .section-head h2{font-size:clamp(52px,8vw,106px);line-height:.82;margin:0;font-weight:400}
+    .section-head p{max-width:380px;line-height:1.65;margin:0;color:#674e43}
+    .drop-badge{display:inline-flex;gap:9px;align-items:center;border:1px solid var(--line);border-radius:999px;padding:9px 13px;font-size:11px;text-transform:uppercase;letter-spacing:.1em;margin-bottom:14px}
+
+    /* How the drop works */
+    .ritual{background:var(--ink);color:var(--cream)}
+    .ritual .section-head h2{color:var(--cream)}
+    .ritual .section-head p{color:#c6ac97}
+    .steps{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--line-dk);border:1px solid var(--line-dk)}
+    .step{background:var(--ink);padding:clamp(28px,3.4vw,44px)}
+    .step b{display:block;font-family:"Playfair Display",serif;font-size:13px;letter-spacing:.3em;color:var(--clay);margin-bottom:22px}
+    .step h3{font-family:"Playfair Display",serif;font-size:clamp(26px,2.6vw,34px);font-weight:500;margin:0 0 12px;line-height:1.1}
+    .step p{margin:0;line-height:1.65;color:#c6ac97}
+
+    .products{display:grid;grid-template-columns:1fr 1fr;gap:24px}
+    .product{border:1px solid var(--line);background:#fff8ed;overflow:hidden;position:relative;display:flex;flex-direction:column}
+    .product-photo{aspect-ratio:1.1;overflow:hidden;background:#e6d1b2;position:relative}
+    .product-photo img{height:100%;object-fit:cover;transition:transform .7s ease}
+    .product:hover img{transform:scale(1.025)}
+    .seal{position:absolute;right:16px;top:16px;width:62px;height:62px;border-radius:50%;background:var(--blush);border:1px solid rgba(21,12,7,.5);display:grid;place-items:center;color:var(--ink);box-shadow:0 6px 18px rgba(21,12,7,.22)}
+    .product-info{padding:27px;display:flex;flex-direction:column;flex:1}
+    .product-top{display:flex;justify-content:space-between;gap:20px;align-items:start}
+    .product h3{font-family:"Playfair Display",serif;font-size:30px;font-weight:500;margin:0 0 9px}
+    .product p{color:#6c5044;line-height:1.55;margin:0}
+    .price{font-family:"Playfair Display",serif;font-size:24px;white-space:nowrap}
+    .product-foot{display:flex;align-items:center;justify-content:space-between;gap:14px;margin-top:auto;padding-top:25px}
+    .stock{font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--milk)}
+    .stock.low{color:var(--clay);font-weight:600}
+    .stock.out{color:#96261f}
+    .add{border:0;background:var(--cocoa);color:#fff;border-radius:999px;padding:14px 18px;text-transform:uppercase;font-size:10px;letter-spacing:.12em;min-height:44px}
+    .add:active{transform:scale(.97)}
+    .add[disabled]{background:#8c7566;opacity:.55;cursor:not-allowed}
+    .cta[disabled],.cta[aria-disabled="true"]{opacity:.45;cursor:not-allowed}
+    .sold-out-veil{position:absolute;inset:0;background:rgba(21,12,7,.58);display:grid;place-items:center;color:var(--cream);font-family:"League Gothic",sans-serif;text-transform:uppercase;letter-spacing:.14em;font-size:30px}
+
+    .bundle{margin-top:24px;display:grid;grid-template-columns:1.1fr .9fr;background:var(--cocoa);color:var(--cream);min-height:430px}
+    .bundle-copy{padding:clamp(36px,6vw,84px);display:flex;flex-direction:column;justify-content:center}
+    .bundle h3{font-size:clamp(54px,7vw,92px);font-weight:400;line-height:.85;margin:10px 0 24px}
+    .bundle p{max-width:420px;line-height:1.6;color:#ddc8b3}
+    .bundle .cta{align-self:flex-start;margin-top:15px}
+    .bundle img{height:100%;object-fit:cover}
+    .allergen{margin-top:26px;font-size:12px;line-height:1.6;color:#7a6155;border-left:2px solid var(--clay);padding-left:14px;max-width:640px}
+
+    /* Past drops — proof the hype is real */
+    .past{background:var(--cream)}
+    .past-list{border-top:1px solid var(--line)}
+    .past-row{display:grid;grid-template-columns:auto 1fr auto;gap:clamp(16px,4vw,50px);align-items:center;padding:24px 4px;border-bottom:1px solid var(--line)}
+    .past-row b{font-family:"Playfair Display",serif;font-size:clamp(28px,4vw,44px);font-weight:500;color:var(--clay);line-height:1}
+    .past-row .what{line-height:1.5}
+    .past-row .what span{display:block;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--milk);margin-top:5px}
+    .past-row .when{font-size:11px;letter-spacing:.14em;text-transform:uppercase;text-align:right;color:var(--cocoa);white-space:nowrap}
+
+    /* Events & catering */
+    .events{background:var(--ink);color:var(--cream);display:grid;grid-template-columns:.95fr 1.05fr;gap:clamp(36px,6vw,90px);align-items:center}
+    .events h2{font-size:clamp(50px,7vw,92px);line-height:.86;font-weight:400;margin:10px 0 22px;color:var(--cream)}
+    .events p.lede{line-height:1.75;color:#c6ac97;max-width:520px;margin:0 0 26px}
+    .events-image{position:relative}
+    .events-image img{aspect-ratio:.86;object-fit:cover}
+    .events-list{list-style:none;margin:0 0 30px;padding:0;display:grid;gap:11px}
+    .events-list li{display:flex;gap:12px;align-items:baseline;font-size:14px;color:#dcc6b2}
+    .events-list li:before{content:"";width:5px;height:5px;background:var(--clay);border-radius:50%;flex:none;transform:translateY(-3px)}
+    .cater-form{display:grid;gap:14px;max-width:560px}
+    .cater-row{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+    .field{display:grid;gap:7px}
+    .field label{font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:#b79c86}
+    .field input,.field select,.field textarea{background:rgba(243,230,207,.06);border:1px solid var(--line-dk);color:var(--cream);padding:13px;border-radius:0;min-height:44px}
+    .field textarea{min-height:96px;resize:vertical}
+    .field select option{background:var(--ink);color:var(--cream)}
+    .cater-form .cta{justify-self:start;margin-top:6px}
+    .cater-note{font-size:11px;color:#9b8271;line-height:1.6;margin:0}
+
+    .story{background:var(--paper);display:grid;grid-template-columns:.9fr 1.1fr;gap:clamp(36px,7vw,110px);align-items:center}
+    .story-image{position:relative}.story-image img{aspect-ratio:.9;object-fit:cover}
+    .stamp{position:absolute;right:-35px;bottom:-35px;width:136px;height:136px;border-radius:50%;background:var(--ink);color:var(--blush);display:grid;place-items:center;text-align:center;font-family:"Playfair Display",serif;font-style:italic;transform:rotate(-9deg);padding:22px;font-size:15px;line-height:1.3;border:1px solid var(--clay)}
+    .story h2{font-size:clamp(50px,7vw,94px);line-height:.92;font-weight:500;margin:10px 0 28px}
+    .story p{line-height:1.75;max-width:520px;color:#594034}
+    .signature{margin-top:30px;font-family:"Playfair Display",serif;font-style:italic;font-size:22px}
+
+    .gallery{padding-top:24px;display:grid;grid-template-columns:1.2fr .8fr .8fr;gap:14px}
+    .gallery img{height:420px;object-fit:cover}
+    .gallery img:nth-child(2){margin-top:70px}.gallery img:nth-child(3){margin-top:25px}
+
+    .alerts{text-align:center;border-top:1px solid var(--line);background:#fff8ed}
+    .alerts h2{font-size:clamp(50px,8vw,100px);line-height:.85;font-weight:400;max-width:900px;margin:0 auto 25px}
+    .alerts p{color:#654a3e;max-width:560px;margin:0 auto}
+    .signup{margin:34px auto 0;display:flex;max-width:560px;border-bottom:1px solid var(--cocoa);padding:9px 0}
+    .signup input{flex:1;border:0;background:transparent;outline:0;padding:12px;min-height:44px}
+    .signup button{border:0;background:transparent;text-transform:uppercase;letter-spacing:.12em;font-size:11px;padding:0 10px;min-height:44px}
+    .success{display:none;color:#4b7b42;margin-top:18px}.success.show{display:block}
+
+    footer{padding:60px clamp(20px,6vw,90px) 28px;background:var(--ink);color:var(--cream)}
+    .footer-grid{display:grid;grid-template-columns:1.6fr 1fr 1fr;gap:50px}
+    .footer-brand{display:flex;align-items:flex-start;gap:16px}
+    .footer-brand .mark{width:44px;height:50px;color:var(--blush)}
+    .footer-brand-type{font-family:"Playfair Display",serif;font-size:clamp(32px,4.6vw,54px);line-height:.9}
+    .footer-col strong{display:block;font-size:10px;letter-spacing:.17em;text-transform:uppercase;margin-bottom:18px}
+    .footer-col a{display:block;text-decoration:none;margin:0;padding:11px 0;color:#d9c7b5;min-height:44px}
+    .fine{margin-top:60px;border-top:1px solid var(--line-dk);padding-top:22px;display:flex;justify-content:space-between;gap:20px;font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:#af9787}
+
+    .drawer{position:fixed;inset:0;z-index:30;pointer-events:none}
+    .overlay{position:absolute;inset:0;background:rgba(21,10,5,.55);opacity:0;transition:.25s}
+    .panel{position:absolute;right:0;top:0;height:100%;width:min(460px,100%);background:var(--paper);transform:translateX(100%);transition:.35s ease;padding:28px;display:flex;flex-direction:column;box-shadow:var(--shadow)}
+    .drawer.open{pointer-events:auto}.drawer.open .overlay{opacity:1}.drawer.open .panel{transform:none}
+    .drawer-head{display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--line);padding-bottom:18px}
+    .drawer h2{margin:0;font-size:38px;font-weight:500}
+    .close{border:0;background:transparent;font-size:28px;width:44px;height:44px;line-height:1}
+    .cart-items{flex:1;overflow:auto;padding:10px 0}
+    .empty{margin-top:80px;text-align:center;color:#745b50}
+    .cart-row{display:grid;grid-template-columns:66px 1fr auto;gap:14px;padding:16px 0;border-bottom:1px solid var(--line);align-items:center}
+    .cart-row img{width:66px;height:66px;object-fit:cover}
+    .cart-row h4{margin:0 0 6px;font-family:"Playfair Display",serif;font-weight:500}
+    .qty{display:flex;gap:10px;align-items:center}
+    .qty button{width:34px;height:34px;border:1px solid var(--line);border-radius:50%;background:transparent}
+    .qty button[disabled]{opacity:.35;cursor:not-allowed}
+    .pickup{border-top:1px solid var(--line);padding-top:18px}
+    .pickup label{font-size:10px;text-transform:uppercase;letter-spacing:.12em}
+    .pickup select{width:100%;padding:13px;margin-top:8px;background:#fff;border:1px solid var(--line);min-height:44px}
+    .total{display:flex;justify-content:space-between;font-family:"Playfair Display",serif;font-size:24px;margin:18px 0}
+    .checkout{border:0;background:var(--cocoa);color:white;padding:16px;text-transform:uppercase;letter-spacing:.12em;font-size:11px;width:100%;min-height:44px}
+    .demo-note{text-align:center;font-size:10px;color:#786157;margin:10px 0 0}
+    .payment-card{display:none;background:var(--cream);border:1px solid var(--line);padding:18px;margin-top:16px}
+    .payment-card.show{display:block}
+    .payment-card h3{font-family:"Playfair Display",serif;font-size:25px;margin:0 0 10px;font-weight:500}
+    .payment-card p{font-size:12px;line-height:1.55;margin:7px 0}
+    .payment-email{display:flex;justify-content:space-between;align-items:center;gap:10px;background:var(--paper);border:1px solid var(--line);padding:11px;margin:12px 0;font-weight:600;font-size:12px}
+    .payment-email button{border:0;background:transparent;text-transform:uppercase;font-size:9px;letter-spacing:.1em;min-height:44px;padding:0 8px}
+    .email-order{display:block;text-align:center;background:var(--cocoa);color:#fff;text-decoration:none;padding:14px;margin-top:13px;text-transform:uppercase;letter-spacing:.1em;font-size:10px}
+    .toast{position:fixed;left:50%;bottom:24px;transform:translate(-50%,30px);background:var(--ink);color:#fff;padding:13px 20px;border-radius:999px;font-size:12px;opacity:0;pointer-events:none;transition:.25s;z-index:50}
+    .toast.show{opacity:1;transform:translate(-50%,0)}
+
+    @media(max-width:900px){
+      .steps{grid-template-columns:1fr}
+      .events{grid-template-columns:1fr}
+      .events-image{order:-1}
+    }
+    @media(max-width:760px){
+      header{height:68px;padding:0 16px}nav{display:none}
+      .brand{justify-self:start}.header-actions .pill:first-child{display:none}
+      .hero{min-height:86vh;padding:120px 20px 46px}
+      .hero:before{background:linear-gradient(0deg,rgba(15,8,4,.88),rgba(15,8,4,.2) 72%),url('B99ED5DC-0EE8-426E-A412-FC6832EF6845.jpeg') 47% center/cover}
+      .hero-bottom{display:block}.hero-bottom .cta{display:inline-block;margin-top:14px;margin-right:8px}
+      .countdown{margin-top:28px}.cd-unit{min-width:58px}
+      .section-head{display:block}.section-head p{margin-top:25px}
+      .products{grid-template-columns:1fr}
+      .bundle{grid-template-columns:1fr}.bundle img{height:350px;order:-1}
+      .story{grid-template-columns:1fr}.story .stamp{right:-8px;width:112px;height:112px;font-size:13px}
+      .gallery{grid-template-columns:1fr 1fr}.gallery img{height:280px}
+      .gallery img:first-child{grid-column:1/-1;height:340px}
+      .gallery img:nth-child(2),.gallery img:nth-child(3){margin-top:0}
+      .cater-row{grid-template-columns:1fr}
+      .past-row{grid-template-columns:auto 1fr;row-gap:6px}
+      .past-row .when{grid-column:1/-1;text-align:left}
+      .footer-grid{grid-template-columns:1fr 1fr}.footer-brand{grid-column:1/-1}
+      .fine{display:block;line-height:1.9}
+      .signup{max-width:100%}
+    }
   </style>
 </head>
 <body>
-  <div class="announcement">Toronto’s small-batch cookie drop · Orders paid by Interac e-Transfer</div>
+  <!-- Reusable GH monogram from the cookie seal -->
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true"><symbol id="gh-mark" viewBox="0 0 40 46"><path d="M3 44V18a17 17 0 0 1 34 0v26Z" fill="none" stroke="currentColor" stroke-width="1.6"/><line x1="20" y1="14" x2="20" y2="31" stroke="currentColor" stroke-width=".9"/><text x="13" y="29" text-anchor="middle" font-family="Playfair Display,Georgia,serif" font-size="15" fill="currentColor">G</text><text x="27" y="29" text-anchor="middle" font-family="Playfair Display,Georgia,serif" font-size="15" fill="currentColor">H</text><path d="M20 34v6" stroke="currentColor" stroke-width=".9"/></symbol></svg>
+
+  <div class="announcement">
+    <span class="live"><i class="dot" id="statusDot"></i> <span id="dropStatus">Drop 09 · list opens Thursday 7PM ET</span></span>
+    <span aria-hidden="true">·</span>
+    <span>Toronto pickup · paid by Interac e-Transfer</span>
+  </div>
+
   <header>
-    <nav><a href="#drop">The drop</a><a href="#story">Our house</a></nav>
-    <a class="brand" href="#"><strong>GOURMAND</strong><span>HOUSE</span></a>
-    <div class="header-actions"><a class="pill" href="https://www.instagram.com/gourmandhouseco/" target="_blank" rel="noreferrer">Instagram</a><button class="pill" onclick="openBag()">Bag <span class="bag-count">0</span></button></div>
+    <nav><a href="#drop">The drop</a><a href="#catering">Events</a><a href="#story">Our house</a></nav>
+    <a class="brand" href="#">
+      <svg class="mark" aria-hidden="true"><use href="#gh-mark"></use></svg>
+      <span class="brand-type"><strong>GOURMAND</strong><span>HOUSE</span></span>
+    </a>
+    <div class="header-actions">
+      <a class="pill" href="https://www.instagram.com/gourmandhouseco/" target="_blank" rel="noreferrer">Instagram</a>
+      <button class="pill" onclick="openBag()">Bag <span class="bag-count">0</span></button>
+    </div>
   </header>
+
   <main>
     <section class="hero">
-      <div class="hero-copy"><p class="eyebrow">A little house of gourmand goods</p><h1>Cookies worth <em>coming home to.</em></h1><div class="hero-bottom"><p>Small-batch cookies with crisp edges, soft centres and unapologetically generous chocolate. Baked in Toronto for limited weekly drops.</p><a class="cta" href="#drop">Shop this week’s drop</a></div></div>
-    </section>
-    <div class="ticker"><div class="ticker-inner"><span>Small batch</span><b>✦</b><span>Big chocolate</span><b>✦</b><span>Baked in Toronto</span><b>✦</b><span>Made for sharing</span><b>✦</b><span>Small batch</span><b>✦</b><span>Big chocolate</span><b>✦</b><span>Baked in Toronto</span><b>✦</b><span>Made for sharing</span><b>✦</b></div></div>
-    <section id="drop">
-      <div class="section-head"><div><div class="drop-badge"><i class="dot"></i> Ordering open</div><h2 class="condensed">This week’s drop</h2></div><p>Choose your favourites or build a mixed box, select a pickup window, then confirm your order by Interac e-Transfer.</p></div>
-      <div class="products">
-        <article class="product"><div class="product-photo"><img src="4AB39ADC-D8EB-4D01-AFA0-32A42EE76074.jpeg" alt="Milk and dark chocolate sea salt cookies"></div><div class="product-info"><div class="product-top"><div><h3>Milk / Dark Chocolate Sea Salt</h3><p>Milk chocolate, 70% dark chocolate and a finish of sea salt flakes.</p></div><div class="price">$6</div></div><div class="product-foot"><span class="stock">36 left this drop</span><button class="add" onclick="addItem('chocolate')">Add to bag +</button></div></div></article>
-        <article class="product"><div class="product-photo"><img src="4BE04C85-C862-4E36-8157-039B985A769A.jpeg" alt="Maple fudge and pecan cookies"></div><div class="product-info"><div class="product-top"><div><h3>Maple Fudge &amp; Pecan</h3><p>Rich maple fudge folded through brown-butter dough with roasted pecans.</p></div><div class="price">$6</div></div><div class="product-foot"><span class="stock">28 left this drop</span><button class="add" onclick="addItem('maple')">Add to bag +</button></div></div></article>
+      <div class="hero-copy">
+        <span class="drop-tag"><i class="dot"></i> Drop 09 · 60 boxes only</span>
+        <h1>Cookies worth <em>coming home to.</em></h1>
+        <div class="hero-bottom">
+          <p>Crisp edges, soft centres and unapologetically generous chocolate. Baked in Toronto, released sixty boxes at a time.</p>
+          <div>
+            <a class="cta" href="#drop">Shop this week's drop</a>
+            <a class="cta ghost" href="#list">Join the list</a>
+          </div>
+        </div>
+        <p class="cd-label" id="cdLabel">Next drop opens in</p>
+        <div class="countdown" id="countdown" role="timer" aria-live="polite">
+          <div class="cd-unit"><b id="cdD">--</b><span>Days</span></div>
+          <div class="cd-unit"><b id="cdH">--</b><span>Hours</span></div>
+          <div class="cd-unit"><b id="cdM">--</b><span>Mins</span></div>
+          <div class="cd-unit"><b id="cdS">--</b><span>Secs</span></div>
+        </div>
       </div>
-      <div class="bundle"><div class="bundle-copy"><p class="eyebrow">The house favourite</p><h3 class="condensed">The mixed six</h3><p>Three of each signature flavour, boxed and ready to share—or quietly keep to yourself.</p><button class="cta" onclick="addItem('box')">Add the box · $32</button></div><img src="FD827772-E18E-41BC-BA83-A822125C1F7E.jpeg" alt="A tall stack of freshly baked cookies"></div>
     </section>
-    <section class="story" id="story"><div class="story-image"><img src="9A89D088-E9F7-413A-97D6-80C8787F5B4D.jpeg" alt="Friends enjoying Gourmand House cookies"><div class="stamp">Made to make the room sweeter</div></div><div><p class="eyebrow">Inside Gourmand House</p><h2 class="serif">A good cookie turns any place into a gathering.</h2><p>Gourmand House began with the kind of cookie people ask about before they’ve finished the first bite. We bake in small batches, choose ingredients for flavour—not shortcuts—and make every drop feel like something special arriving at the table.</p><p>Find us at local pop-ups, follow the next drop online, and bring a little house of gourmand goods home.</p><div class="signature">— Gourmand House, Toronto</div></div></section>
-    <section><div class="section-head"><h2 class="condensed">Out in the world</h2><p>From the bake table to the pop-up counter, every batch is packed by hand.</p></div><div class="gallery"><img src="DF70F213-8663-46CD-974E-78D400AA6E37.jpeg" alt="Individually wrapped Gourmand House cookies"><img src="B99ED5DC-0EE8-426E-A412-FC6832EF6845.jpeg" alt="Gourmand House pop-up counter"><img src="07D5A38A-EA2C-49D5-A60F-517D2FA81799.jpeg" alt="Gourmand House menu"></div></section>
-    <section class="alerts"><p class="eyebrow">Simple pickup ordering</p><h2 class="condensed">Choose. Transfer. Pick up.</h2><p>Add your cookies, choose a pickup window and send the order total by Interac e-Transfer to <strong>gourmandhouse@gmail.com</strong>.</p><form class="signup" onsubmit="signup(event)"><input type="email" required placeholder="Email for drop alerts" aria-label="Email for drop alerts"><button type="submit">Join the list →</button></form><p class="success" id="success">Thanks — drop alerts are coming soon.</p></section>
+
+    <div class="ticker"><div class="ticker-inner">
+      <span>Small batch</span><b>✦</b><span>Sixty boxes</span><b>✦</b><span>Baked in Toronto</span><b>✦</b><span>Sealed by hand</span><b>✦</b>
+      <span>Small batch</span><b>✦</b><span>Sixty boxes</span><b>✦</b><span>Baked in Toronto</span><b>✦</b><span>Sealed by hand</span><b>✦</b>
+    </div></div>
+
+    <section class="ritual">
+      <div class="section-head">
+        <div><p class="eyebrow" style="color:var(--clay)">The ritual</p><h2 class="condensed">How the drop works</h2></div>
+        <p>We don't keep a shelf stocked. Every Thursday we open a small run, and when it's claimed, that's the week.</p>
+      </div>
+      <div class="steps">
+        <div class="step"><b>01</b><h3>The list gets it first</h3><p>Thursday at 7PM ET the drop opens to the mailing list before it goes anywhere else. Most weeks, that's the only window that matters.</p></div>
+        <div class="step"><b>02</b><h3>Sixty boxes, forty-eight hours</h3><p>One bake, one batch, no restocks. Ordering closes Saturday morning or the moment the last box is spoken for.</p></div>
+        <div class="step"><b>03</b><h3>Collected warm</h3><p>Choose a Saturday pickup window and collect from the counter, individually wrapped and sealed by hand.</p></div>
+      </div>
+    </section>
+
+    <section id="drop">
+      <div class="section-head">
+        <div>
+          <div class="drop-badge"><i class="dot" id="dropBadgeDot"></i> <span id="dropBadgeText">Ordering open</span></div>
+          <h2 class="condensed">This week's drop</h2>
+        </div>
+        <p>Choose your favourites or take the mixed six, pick a Saturday window, then confirm by Interac e-Transfer.</p>
+      </div>
+      <div class="products">
+        <article class="product">
+          <div class="product-photo">
+            <img src="4AB39ADC-D8EB-4D01-AFA0-32A42EE76074.jpeg" alt="Milk and dark chocolate sea salt cookies" width="1200" height="900" loading="lazy" decoding="async">
+            <span class="seal"><svg width="30" height="34" aria-hidden="true"><use href="#gh-mark"></use></svg></span>
+          </div>
+          <div class="product-info">
+            <div class="product-top">
+              <div><h3>Milk / Dark Chocolate Sea Salt</h3><p>Milk chocolate, 70% dark chocolate and a finish of sea salt flakes.</p></div>
+              <div class="price">$6</div>
+            </div>
+            <div class="product-foot">
+              <span class="stock" id="stock-chocolate"></span>
+              <button class="add" id="add-chocolate" onclick="addItem('chocolate')">Add to bag +</button>
+            </div>
+          </div>
+        </article>
+        <article class="product">
+          <div class="product-photo">
+            <img src="4BE04C85-C862-4E36-8157-039B985A769A.jpeg" alt="Maple fudge and pecan cookies" width="1200" height="900" loading="lazy" decoding="async">
+            <span class="seal"><svg width="30" height="34" aria-hidden="true"><use href="#gh-mark"></use></svg></span>
+          </div>
+          <div class="product-info">
+            <div class="product-top">
+              <div><h3>Maple Fudge &amp; Pecan</h3><p>Rich maple fudge folded through brown-butter dough with roasted pecans.</p></div>
+              <div class="price">$6</div>
+            </div>
+            <div class="product-foot">
+              <span class="stock" id="stock-maple"></span>
+              <button class="add" id="add-maple" onclick="addItem('maple')">Add to bag +</button>
+            </div>
+          </div>
+        </article>
+      </div>
+      <div class="bundle">
+        <div class="bundle-copy">
+          <p class="eyebrow" style="color:var(--clay)">The house favourite</p>
+          <h3 class="condensed">The mixed six</h3>
+          <p>Three of each signature flavour, boxed and sealed — to share, or to quietly keep to yourself.</p>
+          <span class="stock" id="stock-box" style="color:#ddc8b3;margin-top:18px"></span>
+          <button class="cta" id="add-box" onclick="addItem('box')">Add the box · $32</button>
+        </div>
+        <img src="FD827772-E18E-41BC-BA83-A822125C1F7E.jpeg" alt="A tall stack of freshly baked cookies" width="900" height="1200" loading="lazy" decoding="async">
+      </div>
+      <p class="allergen" id="allergens"><strong>Allergens.</strong> Our cookies contain wheat, dairy and eggs. The Maple Fudge &amp; Pecan contains pecans. Everything is baked in a kitchen that also handles tree nuts, so we can't guarantee against cross-contact. Ordering for someone with a severe allergy? Email us before you order and we'll be straight with you.</p>
+    </section>
+
+    <section class="past">
+      <div class="section-head">
+        <div><p class="eyebrow" style="color:var(--clay)">Receipts</p><h2 class="condensed">Drops that came and went</h2></div>
+        <p>If you've been meaning to catch one, this is your sign to get on the list.</p>
+      </div>
+      <div class="past-list">
+        <div class="past-row"><b>08</b><div class="what">Brown Butter Toffee &amp; Milk Chocolate<span>60 boxes · sold out in 6 minutes</span></div><div class="when">Last Saturday</div></div>
+        <div class="past-row"><b>07</b><div class="what">Double Dark &amp; Sea Salt<span>48 boxes · sold out same day</span></div><div class="when">Two weeks ago</div></div>
+        <div class="past-row"><b>06</b><div class="what">Maple Fudge &amp; Pecan · debut<span>40 boxes · sold out in 22 minutes</span></div><div class="when">Three weeks ago</div></div>
+      </div>
+    </section>
+
+    <section class="events" id="catering">
+      <div class="events-image">
+        <img src="9A89D088-E9F7-413A-97D6-80C8787F5B4D.jpeg" alt="Guests at a Gourmand House catered event holding wrapped cookies and gift bags" width="975" height="1300" loading="lazy" decoding="async">
+      </div>
+      <div>
+        <p class="eyebrow" style="color:var(--clay)">Events &amp; catering</p>
+        <h2 class="condensed">Bring the house to your people.</h2>
+        <p class="lede">Launches, weddings, client gifting, community nights, the kind of party people mention for weeks. We bake to your headcount, wrap and seal every cookie by hand, and can brand the seal for the occasion.</p>
+        <ul class="events-list">
+          <li>Corporate gifting &amp; client boxes</li>
+          <li>Weddings, showers and engagement favours</li>
+          <li>Launches, pop-ups and brand activations</li>
+          <li>Community nights and studio events</li>
+        </ul>
+        <form class="cater-form" onsubmit="sendCateringEnquiry(event)">
+          <div class="cater-row">
+            <div class="field"><label for="cName">Your name</label><input id="cName" required autocomplete="name"></div>
+            <div class="field"><label for="cEmail">Email</label><input id="cEmail" type="email" required autocomplete="email"></div>
+          </div>
+          <div class="cater-row">
+            <div class="field">
+              <label for="cType">Occasion</label>
+              <select id="cType">
+                <option>Corporate gifting</option><option>Wedding or shower</option>
+                <option>Launch or activation</option><option>Community or studio event</option>
+                <option>Birthday or private party</option><option>Something else</option>
+              </select>
+            </div>
+            <div class="field"><label for="cDate">Event date</label><input id="cDate" type="date"></div>
+          </div>
+          <div class="cater-row">
+            <div class="field"><label for="cGuests">Guests</label><input id="cGuests" type="number" min="1" step="1" placeholder="e.g. 80"></div>
+            <div class="field"><label for="cPhone">Phone (optional)</label><input id="cPhone" type="tel" autocomplete="tel"></div>
+          </div>
+          <div class="field"><label for="cNotes">Tell us about it</label><textarea id="cNotes" placeholder="Flavours you're after, branding on the seal, delivery or pickup, budget if you have one."></textarea></div>
+          <button class="cta" type="submit">Send catering enquiry</button>
+          <p class="cater-note">Opens your email app with the details filled in — nothing is sent until you hit send. We reply to catering enquiries within two business days.</p>
+        </form>
+      </div>
+    </section>
+
+    <section class="story" id="story">
+      <div class="story-image">
+        <img src="DF70F213-8663-46CD-974E-78D400AA6E37.jpeg" alt="Individually wrapped Gourmand House cookies with hand-applied seals" width="900" height="1200" loading="lazy" decoding="async">
+        <div class="stamp">Made to make the room sweeter</div>
+      </div>
+      <div>
+        <p class="eyebrow" style="color:var(--clay)">Inside Gourmand House</p>
+        <h2 class="serif">A good cookie turns any place into a gathering.</h2>
+        <p>Gourmand House began with the kind of cookie people ask about before they've finished the first bite. We bake in small batches, choose ingredients for flavour — not shortcuts — and seal every cookie by hand so it arrives looking like it was meant for you.</p>
+        <p>Keeping the runs small is the whole point. It means one bake, full attention, and a drop that feels like something arriving rather than something sitting on a shelf.</p>
+        <div class="signature">— Gourmand House, Toronto</div>
+      </div>
+    </section>
+
+    <section>
+      <div class="section-head">
+        <h2 class="condensed">Out in the world</h2>
+        <p>From the bake table to the pop-up counter, every batch is packed by hand.</p>
+      </div>
+      <div class="gallery">
+        <img src="07D5A38A-EA2C-49D5-A60F-517D2FA81799.jpeg" alt="The Gourmand House menu card" width="618" height="800" loading="lazy" decoding="async">
+        <img src="B99ED5DC-0EE8-426E-A412-FC6832EF6845.jpeg" alt="The Gourmand House pop-up counter" width="1125" height="1500" loading="lazy" decoding="async">
+        <img src="FD827772-E18E-41BC-BA83-A822125C1F7E.jpeg" alt="A stack of freshly baked cookies" width="900" height="1200" loading="lazy" decoding="async">
+      </div>
+    </section>
+
+    <section class="alerts" id="list">
+      <p class="eyebrow" style="color:var(--clay)">The list</p>
+      <h2 class="condensed">First in line, every Thursday.</h2>
+      <p>The drop opens to the list at 7PM ET before it goes anywhere else. One email a week, the flavour and the link, nothing else.</p>
+      <form class="signup" onsubmit="signup(event)">
+        <input type="email" required placeholder="Email for drop alerts" aria-label="Email for drop alerts">
+        <button type="submit">Join the list →</button>
+      </form>
+      <p class="success" id="success">You're on the list — watch for Thursday at 7PM.</p>
+    </section>
   </main>
-  <footer><div class="footer-grid"><div class="footer-brand">Gourmand<br>House</div><div class="footer-col"><strong>Explore</strong><a href="#drop">Current drop</a><a href="#story">Our story</a><a href="https://www.instagram.com/gourmandhouseco/" target="_blank" rel="noreferrer">Instagram</a></div><div class="footer-col"><strong>Details</strong><a href="#">Pickup in Toronto</a><a href="mailto:gourmandhouse@gmail.com">gourmandhouse@gmail.com</a><a href="#">Allergen note</a></div></div><div class="fine"><span>© 2026 Gourmand House</span><span>Orders confirmed after payment is received</span></div></footer>
-  <div class="drawer" id="drawer"><div class="overlay" onclick="closeBag()"></div><aside class="panel"><div class="drawer-head"><h2 class="serif">Your bag</h2><button class="close" onclick="closeBag()" aria-label="Close bag">×</button></div><div class="cart-items" id="cartItems"></div><div class="pickup"><label for="pickup">Choose a pickup window</label><select id="pickup"><option>Saturday · 11:00–11:30 AM</option><option>Saturday · 11:30 AM–12:00 PM</option><option>Saturday · 12:00–12:30 PM</option></select><div class="total"><span>Total</span><span id="total">$0</span></div><button class="checkout" onclick="startCheckout()">Place order by e-Transfer</button><div class="payment-card" id="paymentCard"><h3>Finish your order</h3><p>Send the exact total by Interac e-Transfer and include your order reference in the message.</p><div class="payment-email"><span>gourmandhouse@gmail.com</span><button onclick="copyPaymentEmail()">Copy</button></div><p><strong>Order reference:</strong> <span id="orderRef"></span><br><strong>Pickup:</strong> <span id="pickupSummary"></span></p><a class="email-order" id="emailOrder" href="#">Email your order details</a><p class="demo-note">Your order is confirmed when Gourmand House receives your payment and replies by email.</p></div></div></aside></div>
+
+  <footer>
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <svg class="mark" aria-hidden="true"><use href="#gh-mark"></use></svg>
+        <div class="footer-brand-type">Gourmand<br>House</div>
+      </div>
+      <div class="footer-col">
+        <strong>Explore</strong>
+        <a href="#drop">Current drop</a><a href="#catering">Events &amp; catering</a><a href="#story">Our story</a>
+        <a href="https://www.instagram.com/gourmandhouseco/" target="_blank" rel="noreferrer">Instagram</a>
+      </div>
+      <div class="footer-col">
+        <strong>Details</strong>
+        <a href="#drop">Pickup in Toronto</a><a href="mailto:gourmandhouse@gmail.com">gourmandhouse@gmail.com</a><a href="#allergens">Allergen note</a>
+      </div>
+    </div>
+    <div class="fine"><span>© 2026 Gourmand House</span><span>Orders confirmed once payment is received</span></div>
+  </footer>
+
+  <div class="drawer" id="drawer">
+    <div class="overlay" onclick="closeBag()"></div>
+    <aside class="panel" role="dialog" aria-modal="true" aria-label="Your bag">
+      <div class="drawer-head"><h2 class="serif">Your bag</h2><button class="close" onclick="closeBag()" aria-label="Close bag">×</button></div>
+      <div class="cart-items" id="cartItems"></div>
+      <div class="pickup">
+        <label for="pickup">Choose a pickup window</label>
+        <select id="pickup" onchange="syncPaymentCard()">
+          <option>Saturday · 11:00–11:30 AM</option>
+          <option>Saturday · 11:30 AM–12:00 PM</option>
+          <option>Saturday · 12:00–12:30 PM</option>
+        </select>
+        <div class="total"><span>Total</span><span id="total">$0</span></div>
+        <button class="checkout" onclick="startCheckout()">Place order by e-Transfer</button>
+        <div class="payment-card" id="paymentCard">
+          <h3>Finish your order</h3>
+          <p>Send the exact total by Interac e-Transfer and include your order reference in the message.</p>
+          <div class="payment-email"><span>gourmandhouse@gmail.com</span><button onclick="copyPaymentEmail()">Copy</button></div>
+          <p><strong>Amount to send:</strong> <span id="payTotal"></span><br><strong>Order reference:</strong> <span id="currentRef"></span><br><strong>Pickup:</strong> <span id="pickupSummary"></span></p>
+          <a class="email-order" id="emailOrder" href="#">Email your order details</a>
+          <p class="demo-note">Your order is confirmed when Gourmand House receives your payment and replies by email.</p>
+        </div>
+      </div>
+    </aside>
+  </div>
+
   <div class="toast" id="toast">Added to your bag</div>
+
   <script>
-    const products={chocolate:{name:'Milk / Dark Chocolate Sea Salt',price:6,img:'4AB39ADC-D8EB-4D01-AFA0-32A42EE76074.jpeg'},maple:{name:'Maple Fudge & Pecan',price:6,img:'4BE04C85-C862-4E36-8157-039B985A769A.jpeg'},box:{name:'The Mixed Six',price:32,img:'FD827772-E18E-41BC-BA83-A822125C1F7E.jpeg'}};
-    let cart={};
-    function addItem(id){cart[id]=(cart[id]||0)+1;renderCart();const t=document.getElementById('toast');t.classList.add('show');setTimeout(()=>t.classList.remove('show'),1400)}
-    function changeQty(id,n){cart[id]=(cart[id]||0)+n;if(cart[id]<=0)delete cart[id];renderCart()}
-    function renderCart(){const box=document.getElementById('cartItems'),entries=Object.entries(cart);document.querySelector('.bag-count').textContent=entries.reduce((s,[,q])=>s+q,0);if(!entries.length){box.innerHTML='<p class="empty">Your bag is waiting for something sweet.</p>';document.getElementById('total').textContent='$0';return}box.innerHTML=entries.map(([id,q])=>`<div class="cart-row"><img src="${products[id].img}" alt=""><div><h4>${products[id].name}</h4><div class="qty"><button onclick="changeQty('${id}',-1)">−</button><span>${q}</span><button onclick="changeQty('${id}',1)">+</button></div></div><strong>$${products[id].price*q}</strong></div>`).join('');document.getElementById('total').textContent='$'+entries.reduce((s,[id,q])=>s+products[id].price*q,0)}
-    function openBag(){document.getElementById('drawer').classList.add('open');document.body.classList.add('locked')}
-    function closeBag(){document.getElementById('drawer').classList.remove('open');document.body.classList.remove('locked')}
-    function startCheckout(){const entries=Object.entries(cart);if(!entries.length){alert('Add a cookie to your bag first.');return}const ref='GH-'+Math.random().toString(36).slice(2,7).toUpperCase();const pickup=document.getElementById('pickup').value;const total=entries.reduce((s,[id,q])=>s+products[id].price*q,0);const lines=entries.map(([id,q])=>`${q} × ${products[id].name} — $${products[id].price*q}`).join('\n');document.getElementById('orderRef').textContent=ref;document.getElementById('pickupSummary').textContent=pickup;document.getElementById('emailOrder').href=`mailto:gourmandhouse@gmail.com?subject=${encodeURIComponent('Cookie order '+ref)}&body=${encodeURIComponent('Hi Gourmand House,\n\nI would like to place this order:\n\n'+lines+'\n\nTotal: $'+total+'\nPickup: '+pickup+'\nOrder reference: '+ref+'\n\nI will send the e-Transfer to gourmandhouse@gmail.com with '+ref+' in the message.\n\nMy name:\nMy phone number:\n')}`;document.getElementById('paymentCard').classList.add('show')}
-    function copyPaymentEmail(){navigator.clipboard.writeText('gourmandhouse@gmail.com');const t=document.getElementById('toast');t.textContent='Payment email copied';t.classList.add('show');setTimeout(()=>{t.classList.remove('show');t.textContent='Added to your bag'},1400)}
-    function signup(e){e.preventDefault();e.target.reset();document.getElementById('success').classList.add('show')}
+    /* ------------------------------------------------------------------
+       DROP CONFIG — the only block you need to edit each week.
+       openDay: 0=Sun 1=Mon 2=Tue 3=Wed 4=Thu 5=Fri 6=Sat
+       ------------------------------------------------------------------ */
+    const DROP = { number: 9, openDay: 4, openHour: 19, closeDay: 6, closeHour: 10, zone: 'America/Toronto' };
+    const products = {
+      chocolate:{name:'Milk / Dark Chocolate Sea Salt', price:6,  stock:36, img:'4AB39ADC-D8EB-4D01-AFA0-32A42EE76074.jpeg'},
+      maple:    {name:'Maple Fudge & Pecan',            price:6,  stock:28, img:'4BE04C85-C862-4E36-8157-039B985A769A.jpeg'},
+      box:      {name:'The Mixed Six',                  price:32, stock:12, img:'FD827772-E18E-41BC-BA83-A822125C1F7E.jpeg'}
+    };
+
+    let cart = {};
+
+    /* --- cart survives a reload, so a half-built order isn't lost --- */
+    function saveCart(){ try{ localStorage.setItem('gh-cart', JSON.stringify(cart)); }catch(e){} }
+    function loadCart(){
+      try{
+        const raw = JSON.parse(localStorage.getItem('gh-cart') || '{}');
+        for(const [id,q] of Object.entries(raw)){
+          if(products[id] && Number.isInteger(q) && q > 0) cart[id] = Math.min(q, products[id].stock);
+        }
+      }catch(e){ cart = {}; }
+    }
+
+    /* --- drop timing, anchored to Toronto regardless of the visitor's clock --- */
+    function torontoNow(){ return new Date(new Date().toLocaleString('en-US',{timeZone:DROP.zone})); }
+    function nextOccurrence(day, hour){
+      const tor = torontoNow(), t = new Date(tor);
+      t.setDate(tor.getDate() + ((day - tor.getDay() + 7) % 7));
+      t.setHours(hour, 0, 0, 0);
+      if(t <= tor) t.setDate(t.getDate() + 7);
+      return t.getTime() - tor.getTime();   // ms from now
+    }
+    function dropIsOpen(){
+      // open between openDay/openHour and the next closeDay/closeHour
+      return nextOccurrence(DROP.closeDay, DROP.closeHour) < nextOccurrence(DROP.openDay, DROP.openHour);
+    }
+    function soldOutEverywhere(){ return Object.keys(products).every(id => remaining(id) <= 0); }
+
+    function tickCountdown(){
+      const open = dropIsOpen();
+      const ms = open ? nextOccurrence(DROP.closeDay, DROP.closeHour) : nextOccurrence(DROP.openDay, DROP.openHour);
+      const s = Math.max(0, Math.floor(ms / 1000));
+      const pad = n => String(n).padStart(2, '0');
+      document.getElementById('cdD').textContent = pad(Math.floor(s / 86400));
+      document.getElementById('cdH').textContent = pad(Math.floor(s % 86400 / 3600));
+      document.getElementById('cdM').textContent = pad(Math.floor(s % 3600 / 60));
+      document.getElementById('cdS').textContent = pad(s % 60);
+      document.getElementById('cdLabel').textContent = open ? 'Ordering closes in' : 'Next drop opens in';
+
+      const sold = soldOutEverywhere();
+      const status = sold ? `Drop ${DROP.number} · sold out`
+                   : open ? `Drop ${DROP.number} · ordering open now`
+                          : `Drop ${DROP.number} · list opens Thursday 7PM ET`;
+      document.getElementById('dropStatus').textContent = status;
+      document.getElementById('statusDot').className = (open && !sold) ? 'dot' : 'dot closed';
+      document.getElementById('dropBadgeText').textContent = sold ? 'Sold out' : open ? 'Ordering open' : 'Opens Thursday 7PM';
+      document.getElementById('dropBadgeDot').className = (open && !sold) ? 'dot' : 'dot closed';
+    }
+
+    /* --- stock is real: you cannot add a 37th of 36 --- */
+    function remaining(id){ return products[id].stock - (cart[id] || 0); }
+
+    function addItem(id){
+      if(remaining(id) <= 0){ flash(`${products[id].name} is sold out for this drop`); return; }
+      cart[id] = (cart[id] || 0) + 1;
+      renderCart();
+      flash('Added to your bag');
+    }
+    function changeQty(id, n){
+      if(n > 0 && remaining(id) <= 0){ flash('That’s everything we have this drop'); return; }
+      cart[id] = (cart[id] || 0) + n;
+      if(cart[id] <= 0) delete cart[id];
+      renderCart();
+    }
+    function cartTotal(){ return Object.entries(cart).reduce((s,[id,q]) => s + products[id].price * q, 0); }
+
+    function renderStock(){
+      for(const id of Object.keys(products)){
+        const left = remaining(id), el = document.getElementById('stock-' + id), btn = document.getElementById('add-' + id);
+        if(el){
+          el.textContent = left <= 0 ? 'Sold out this drop' : left <= 8 ? `Only ${left} left` : `${left} left this drop`;
+          el.className = 'stock' + (left <= 0 ? ' out' : left <= 8 ? ' low' : '');
+        }
+        if(btn){
+          btn.disabled = left <= 0;
+          if(left <= 0 && btn.classList.contains('add')) btn.textContent = 'Sold out';
+        }
+        const photo = btn && btn.closest('.product') && btn.closest('.product').querySelector('.product-photo');
+        if(photo){
+          const existing = photo.querySelector('.sold-out-veil');
+          if(left <= 0 && !existing){
+            const v = document.createElement('div'); v.className = 'sold-out-veil'; v.textContent = 'Sold out'; photo.appendChild(v);
+          } else if(left > 0 && existing){ existing.remove(); }
+        }
+      }
+    }
+
+    function renderCart(){
+      const box = document.getElementById('cartItems'), entries = Object.entries(cart);
+      document.querySelector('.bag-count').textContent = entries.reduce((s,[,q]) => s + q, 0);
+      if(!entries.length){
+        box.innerHTML = '<p class="empty">Your bag is waiting for something sweet.</p>';
+        document.getElementById('total').textContent = '$0';
+      } else {
+        box.innerHTML = entries.map(([id,q]) => `<div class="cart-row"><img src="${products[id].img}" alt="" width="66" height="66" loading="lazy"><div><h4>${products[id].name}</h4><div class="qty"><button onclick="changeQty('${id}',-1)" aria-label="Remove one ${products[id].name}">−</button><span>${q}</span><button onclick="changeQty('${id}',1)" aria-label="Add one ${products[id].name}"${remaining(id) <= 0 ? ' disabled' : ''}>+</button></div></div><strong>$${products[id].price * q}</strong></div>`).join('');
+        document.getElementById('total').textContent = '$' + cartTotal();
+      }
+      renderStock();
+      saveCart();
+      syncPaymentCard();
+    }
+
+    function openBag(){ document.getElementById('drawer').classList.add('open'); document.body.classList.add('locked'); }
+    function closeBag(){ document.getElementById('drawer').classList.remove('open'); document.body.classList.remove('locked'); }
+    document.addEventListener('keydown', e => { if(e.key === 'Escape') closeBag(); });
+
+    let currentRef = null;
+    function startCheckout(){
+      if(!Object.keys(cart).length){ flash('Add a cookie to your bag first'); return; }
+      currentRef = 'GH' + DROP.number + '-' + Math.random().toString(36).slice(2,7).toUpperCase();
+      document.getElementById('paymentCard').classList.add('show');
+      syncPaymentCard();
+    }
+    // The payment card must never outlive the cart it was built from: if the bag changes
+    // after checkout is opened, the e-Transfer total has to change with it.
+    function syncPaymentCard(){
+      const card = document.getElementById('paymentCard');
+      if(!card || !card.classList.contains('show')) return;
+      const entries = Object.entries(cart);
+      if(!entries.length){ card.classList.remove('show'); currentRef = null; return; }
+      const pickup = document.getElementById('pickup').value;
+      const total = cartTotal();
+      const lines = entries.map(([id,q]) => `${q} × ${products[id].name} — $${products[id].price * q}`).join('\n');
+      document.getElementById('currentRef').textContent = currentRef;
+      document.getElementById('pickupSummary').textContent = pickup;
+      document.getElementById('payTotal').textContent = '$' + total;
+      document.getElementById('emailOrder').href = 'mailto:gourmandhouse@gmail.com?subject=' +
+        encodeURIComponent(`Drop ${DROP.number} order ${currentRef}`) + '&body=' +
+        encodeURIComponent(`Hi Gourmand House,\n\nI would like to place this order:\n\n${lines}\n\nTotal: $${total}\nPickup: ${pickup}\nOrder reference: ${currentRef}\n\nI will send the e-Transfer to gourmandhouse@gmail.com with ${currentRef} in the message.\n\nMy name:\nMy phone number:\n`);
+    }
+
+    function copyPaymentEmail(){
+      navigator.clipboard.writeText('gourmandhouse@gmail.com').then(() => flash('Payment email copied'), () => flash('Copy failed — the address is gourmandhouse@gmail.com'));
+    }
+
+    function sendCateringEnquiry(e){
+      e.preventDefault();
+      const v = id => (document.getElementById(id).value || '').trim();
+      const body = `Hi Gourmand House,\n\nI'd like to enquire about catering.\n\nName: ${v('cName')}\nEmail: ${v('cEmail')}\nPhone: ${v('cPhone') || '—'}\nOccasion: ${v('cType')}\nEvent date: ${v('cDate') || 'not set yet'}\nApproximate guests: ${v('cGuests') || 'not sure yet'}\n\nDetails:\n${v('cNotes') || '—'}\n\nThanks!`;
+      window.location.href = 'mailto:gourmandhouse@gmail.com?subject=' +
+        encodeURIComponent(`Catering enquiry — ${v('cType')}${v('cDate') ? ' — ' + v('cDate') : ''}`) +
+        '&body=' + encodeURIComponent(body);
+      flash('Opening your email app…');
+    }
+
+    function signup(e){ e.preventDefault(); e.target.reset(); document.getElementById('success').classList.add('show'); }
+
+    let toastTimer;
+    function flash(msg){
+      const t = document.getElementById('toast');
+      t.textContent = msg; t.classList.add('show');
+      clearTimeout(toastTimer);
+      toastTimer = setTimeout(() => t.classList.remove('show'), 1600);
+    }
+
+    loadCart();
     renderCart();
+    tickCountdown();
+    setInterval(tickCountdown, 1000);
   </script>
 </body>
 </html>
