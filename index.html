@@ -205,7 +205,14 @@
     .order-form{margin-top:22px;display:grid;gap:14px}
     .order-form .field label{color:var(--cocoa)}
     .order-form .field input,.order-form .field select{background:#fff;border:1px solid var(--line);color:var(--espresso)}
-    .order-form .field input:focus,.order-form .field select:focus{border-color:var(--espresso);outline:none}
+    .order-form .field input:focus,.order-form .field select:focus,.order-form .field textarea:focus{border-color:var(--espresso);outline:none}
+    .order-form .field textarea{background:#fff;border:1px solid var(--line);color:var(--espresso);min-height:84px}
+    .order-form .req{color:var(--clay)}
+    .order-form h3{font-size:20px;margin-top:6px}
+    .check{display:grid;grid-template-columns:22px 1fr;gap:10px;align-items:start;font-size:15px;color:var(--cocoa);line-height:1.45;cursor:pointer}
+    .check input{width:20px;height:20px;margin:2px 0 0;accent-color:var(--espresso)}
+    .qty-note{font-size:14px;color:var(--muted);font-style:italic;margin:10px 0 0}
+    .qty button[disabled]{opacity:.35;cursor:not-allowed}
     .total{display:flex;justify-content:space-between;align-items:baseline;font-size:26px;padding:18px 0 4px}
     .total small{font-size:15px;color:var(--muted);font-style:italic}
     .error{color:#9b3b1f;font-size:15px;min-height:1em;margin:0}
@@ -222,7 +229,7 @@
     .copy-line button{border:0;background:none;text-decoration:underline;font-size:15px;flex:none}
     .pay .btn{width:100%;margin-top:10px}
     .pay .note{font-size:14px;color:var(--muted);font-style:italic;margin:6px 0 0}
-    .toast{position:fixed;left:50%;bottom:24px;transform:translate(-50%,20px);background:var(--espresso);color:var(--paper);padding:12px 22px;border-radius:999px;font-size:15px;opacity:0;pointer-events:none;transition:.25s;z-index:60}
+    .toast{position:fixed;left:50%;bottom:24px;width:max-content;max-width:calc(100vw - 32px);text-align:center;transform:translate(-50%,20px);background:var(--espresso);color:var(--paper);padding:12px 22px;border-radius:999px;font-size:15px;opacity:0;pointer-events:none;transition:.25s;z-index:60}
     .toast.show{opacity:1;transform:translate(-50%,0)}
 
     @media (max-width:900px){
@@ -363,7 +370,7 @@
           <p class="label">Ordering</p>
           <h2 class="section-title">How it <em>works</em></h2>
           <ol class="steps">
-            <li><h3>Fill your bag</h3><p>Add your cookies, pick a Saturday pickup time, and place the order. You’ll get an order number.</p></li>
+            <li><h3>Fill your bag</h3><p>Add your cookies, fill in your details, choose a Saturday pickup window, and place the order. You’ll get an order number.</p></li>
             <li><h3>Send the e-Transfer</h3><p>Send the total to <a class="js-email" href="mailto:gourmandhouse@gmail.com">gourmandhouse@gmail.com</a> and put your order number in the message.</p></li>
             <li><h3>Watch for our email</h3><p>Once the payment comes in, we reply to confirm your order and send the pickup address.</p></li>
           </ol>
@@ -474,17 +481,21 @@
         <div id="cartItems"></div>
         <div id="checkout">
           <div class="total"><span>Total</span><span id="total">$0</span></div>
-          <div class="order-form">
-            <div class="field"><label for="pickup">Saturday pickup time</label><select id="pickup"></select></div>
-            <div class="field"><label for="oName">Your name</label><input id="oName" autocomplete="name"></div>
-            <div class="field"><label for="oPhone">Phone number <small>(optional)</small></label><input id="oPhone" type="tel" autocomplete="tel"></div>
+          <form class="order-form" id="orderForm" novalidate>
+            <h3>Your details</h3>
+            <div class="field"><label for="oName">Full name <span class="req">*</span></label><input id="oName" autocomplete="name" required></div>
+            <div class="field"><label for="oEmail">Email address <span class="req">*</span></label><input id="oEmail" type="email" autocomplete="email" required></div>
+            <div class="field"><label for="oPhone">Phone number <span class="req">*</span></label><input id="oPhone" type="tel" autocomplete="tel" required></div>
+            <div class="field"><label for="pickup">Preferred pickup window <span class="req">*</span></label><select id="pickup" required></select></div>
+            <div class="field"><label for="oNotes">Order notes <small>(optional)</small></label><textarea id="oNotes" placeholder="Allergy questions, gift notes, anything we should know"></textarea></div>
+            <label class="check"><input type="checkbox" id="oConfirm" required><span>I understand that my order is confirmed only after payment is received and Gourmand House replies by email. <span class="req">*</span></span></label>
             <p class="error" id="orderError" role="alert"></p>
-            <button class="btn" type="button" id="placeOrder">Place order</button>
-          </div>
+            <button class="btn" type="submit" id="placeOrder">Place order</button>
+          </form>
         </div>
         <div class="pay" id="pay" role="status">
           <h3>Almost done</h3>
-          <dl><dt>Order</dt><dd id="payRef"></dd><dt>Total</dt><dd id="payTotal"></dd><dt>Pickup</dt><dd id="payPickup"></dd></dl>
+          <dl><dt>Order</dt><dd id="payRef"></dd><dt>Name</dt><dd id="payName"></dd><dt>Total</dt><dd id="payTotal"></dd><dt>Pickup</dt><dd id="payPickup"></dd></dl>
           <ol>
             <li><strong>Email us your order.</strong> The button opens your email with everything filled in.
               <a class="btn" id="emailOrder" href="#">Email my order</a>
@@ -507,7 +518,18 @@
       email: 'gourmandhouse@gmail.com',
       orderingOpen: true,            // set to false when the drop sells out or closes
       closedMessage: 'Ordering is closed for this week. Follow @gourmandhouseco for the next drop.',
-      pickupWindows: ['Saturday · 11:00–11:30 AM', 'Saturday · 11:30 AM–12:00 PM', 'Saturday · 12:00–12:30 PM']
+      pickupWindows: ['Saturday · 11:00–11:30 AM', 'Saturday · 11:30 AM–12:00 PM', 'Saturday · 12:00–12:30 PM'],
+      maxPerItem: 6,                 // matches the 0–6 choices on the Google Form
+      // Orders are also sent to the "Gourmand House — Cookie Order Form" Google Form (when it's published).
+      // If you change the pickup windows above, change them in the Google Form too so they match exactly.
+      googleForm: {
+        enabled: true,
+        action: 'https://docs.google.com/forms/d/1zwKKv1jkeE_T6GCbbuscDFh-Qaslfm_8LZhSSRgz1g0/formResponse',
+        fields: { name: 'entry.1538585724', email: 'entry.1968072171', phone: 'entry.1963859349',
+                  chocolate: 'entry.1160252911', maple: 'entry.783354891', box: 'entry.2036708524',
+                  pickup: 'entry.1572275760', notes: 'entry.1882673000', confirm: 'entry.336924418' },
+        confirmText: 'I understand that my order is confirmed only after payment is received and Gourmand House replies by email.'
+      }
     };
     const PRODUCTS = {
       chocolate: { name: 'Milk/Dark Chocolate Sea Salt', price: 6, img: 'assets/milk-dark-chocolate-sea-salt.jpg' },
@@ -542,13 +564,14 @@
 
     document.querySelectorAll('.add').forEach(btn => btn.addEventListener('click', () => {
       const id = btn.dataset.id;
+      if ((cart[id] || 0) >= SHOP.maxPerItem) { toast(`Online orders are limited to ${SHOP.maxPerItem} of each. Email us for more.`); return; }
       cart[id] = (cart[id] || 0) + 1;
       renderCart();
       toast(PRODUCTS[id].name.replace(' (3 of each)', '') + ' added');
     }));
 
     function changeQty(id, n) {
-      cart[id] = (cart[id] || 0) + n;
+      cart[id] = Math.min(SHOP.maxPerItem, (cart[id] || 0) + n);
       if (cart[id] <= 0) delete cart[id];
       renderCart();
     }
@@ -566,10 +589,10 @@
         <div class="cart-row">
           <img src="${PRODUCTS[id].img}" alt="">
           <div><h4>${PRODUCTS[id].name}</h4>
-            <div class="qty"><button type="button" aria-label="Remove one" onclick="changeQty('${id}',-1)">−</button><span>${q}</span><button type="button" aria-label="Add one" onclick="changeQty('${id}',1)">+</button></div>
+            <div class="qty"><button type="button" aria-label="Remove one" onclick="changeQty('${id}',-1)">−</button><span>${q}</span><button type="button" aria-label="Add one" onclick="changeQty('${id}',1)" ${q >= SHOP.maxPerItem ? 'disabled' : ''}>+</button></div>
           </div>
           <strong>${money(PRODUCTS[id].price * q)}</strong>
-        </div>`).join('');
+        </div>`).join('') + `<p class="qty-note">Up to ${SHOP.maxPerItem} of each item per online order. For bigger orders, <a href="#events" onclick="closeBag()">use the events form</a>.</p>`;
       $('total').textContent = money(totals());
     }
 
@@ -593,18 +616,63 @@
       return 'GH-' + mmdd + '-' + Math.random().toString(36).slice(2, 6).toUpperCase();
     }
 
-    $('placeOrder').addEventListener('click', () => {
-      const name = $('oName').value.trim();
-      if (!count()) { $('orderError').textContent = 'Add a cookie to your bag first.'; return; }
-      if (!name) { $('orderError').textContent = 'Please add your name so we know whose order it is.'; $('oName').focus(); return; }
+    function sendToGoogleForm(o) {
+      const g = SHOP.googleForm;
+      if (!g || !g.enabled) return;
+      const f = g.fields, data = new URLSearchParams();
+      data.append(f.name, o.name); data.append(f.email, o.email); data.append(f.phone, o.phone);
+      data.append(f.chocolate, String(cart.chocolate || 0));
+      data.append(f.maple, String(cart.maple || 0));
+      data.append(f.box, String(cart.box || 0));
+      data.append(f.pickup, o.pickup);
+      data.append(f.notes, o.notes ? `${o.notes}\n\nOrder number: ${o.ref}` : `Order number: ${o.ref}`);
+      data.append(f.confirm, g.confirmText);
+      try { fetch(g.action, { method: 'POST', mode: 'no-cors', body: data }).catch(() => {}); } catch (e) {}
+    }
+
+    $('orderForm').addEventListener('submit', e => {
+      e.preventDefault();
+      const err = msg => { $('orderError').textContent = msg; return false; };
+      const name = $('oName').value.trim(), email = $('oEmail').value.trim(), phone = $('oPhone').value.trim();
+      const pickup = $('pickup').value, notes = $('oNotes').value.trim();
+      if (!count()) return err('Add a cookie to your bag first.');
+      if (!name) { $('oName').focus(); return err('Please add your full name.'); }
+      if (!/^\S+@\S+\.\S+$/.test(email)) { $('oEmail').focus(); return err('Please add a valid email address so we can confirm your order.'); }
+      if (phone.replace(/\D/g, '').length < 10) { $('oPhone').focus(); return err('Please add a phone number, including area code.'); }
+      if (!$('oConfirm').checked) { $('oConfirm').focus(); return err('Please tick the box to confirm you understand how orders are confirmed.'); }
       $('orderError').textContent = '';
-      const ref = orderNumber(), total = money(totals()), pickup = $('pickup').value, phone = $('oPhone').value.trim();
-      const lines = Object.entries(cart).map(([id, q]) => `${q} × ${PRODUCTS[id].name} = ${money(PRODUCTS[id].price * q)}`).join('\n');
-      lastOrderText = `Hi Gourmand House,\n\nI'd like to place this order:\n\n${lines}\n\nTotal: ${total}\nPickup: ${pickup}\nOrder number: ${ref}\nName: ${name}${phone ? '\nPhone: ' + phone : ''}\n\nI'm sending the e-Transfer to ${SHOP.email} with ${ref} in the message.\n\nThanks!`;
-      $('emailOrder').href = `mailto:${SHOP.email}?subject=${encodeURIComponent('Cookie order ' + ref)}&body=${encodeURIComponent(lastOrderText)}`;
+
+      const ref = orderNumber(), total = money(totals());
+      const qtyLine = id => `${cart[id] || 0} × ${PRODUCTS[id].name}` + (cart[id] ? ` = ${money(PRODUCTS[id].price * cart[id])}` : '');
+      lastOrderText =
+`Hi Gourmand House,
+
+I'd like to place this order.
+
+Order number: ${ref}
+
+Full name: ${name}
+Email address: ${email}
+Phone number: ${phone}
+
+Cookie quantities:
+${['chocolate', 'maple', 'box'].map(qtyLine).join('\n')}
+Total: ${total}
+
+Preferred pickup window: ${pickup}
+Order notes: ${notes || 'None'}
+
+Order confirmation: ${SHOP.googleForm.confirmText}
+
+I'm sending the e-Transfer to ${SHOP.email} with ${ref} in the message.
+
+Thanks!`;
+      $('emailOrder').href = `mailto:${SHOP.email}?subject=${encodeURIComponent('Cookie order ' + ref + ' – ' + name)}&body=${encodeURIComponent(lastOrderText)}`;
       $('payRef').textContent = ref; $('payRef2').textContent = ref;
+      $('payName').textContent = name;
       $('payTotal').textContent = total; $('payTotal2').textContent = total;
       $('payPickup').textContent = pickup;
+      sendToGoogleForm({ ref, name, email, phone, pickup, notes });
       $('checkout').style.display = 'none';
       $('pay').classList.add('show');
       $('pay').scrollIntoView({ behavior: 'smooth', block: 'start' });
