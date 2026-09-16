@@ -270,7 +270,7 @@
   </style>
 </head>
 <body>
-  <div class="announcement" id="announcement">Now taking orders for Saturday pickup<span class="hide-sm"> · Pay by Interac e-Transfer</span></div>
+  <div class="announcement"><span id="announcement">Now taking orders for Saturday pickup</span><span class="hide-sm" id="announcementPay"> · Pay by Interac e-Transfer</span></div>
 
   <header>
     <div class="wrap header-inner">
@@ -306,7 +306,7 @@
     <div class="status">
       <div class="wrap status-inner">
         <span><i class="dot" id="statusDot"></i><span id="statusText">Ordering is open</span></span>
-        <span>$6 a cookie · Mixed Six $32</span>
+        <span id="statusPrices">$6 a cookie · Mixed Six $32</span>
         <span>Pickup in Toronto, details sent by email</span>
       </div>
     </div>
@@ -322,38 +322,39 @@
         </div>
 
         <div class="products">
-          <article class="product">
+          <article class="product" data-product="chocolate">
             <div class="product-photo"><img src="assets/milk-dark-chocolate-sea-salt.jpg" width="1200" height="900" loading="lazy" alt="Milk and dark chocolate sea salt cookies with large chocolate pieces and salt flakes"></div>
             <div class="product-info">
               <div class="product-top">
-                <h3>Milk/Dark Chocolate Sea Salt</h3>
-                <span class="price">$6</span>
+                <h3 class="p-name">Milk/Dark Chocolate Sea Salt</h3>
+                <span class="price p-price">$6</span>
               </div>
-              <p>Milk chocolate, 70% dark chocolate, sea salt flakes.</p>
+              <p class="p-desc">Milk chocolate, 70% dark chocolate, sea salt flakes.</p>
+              <div class="tags p-tags"></div>
               <div class="product-foot"><button class="btn add" type="button" data-id="chocolate">Add to bag</button></div>
             </div>
           </article>
 
-          <article class="product">
+          <article class="product" data-product="maple">
             <div class="product-photo"><img src="assets/maple-fudge-pecan.jpg" width="1200" height="900" loading="lazy" alt="Maple fudge and pecan cookies on a wooden table"></div>
             <div class="product-info">
               <div class="product-top">
-                <h3>Maple Fudge &amp; Pecan</h3>
-                <span class="price">$6</span>
+                <h3 class="p-name">Maple Fudge &amp; Pecan</h3>
+                <span class="price p-price">$6</span>
               </div>
-              <p>Rich maple fudge, roasted pecans.</p>
-              <div class="tags"><span class="tag">Contains pecans</span></div>
+              <p class="p-desc">Rich maple fudge, roasted pecans.</p>
+              <div class="tags p-tags"><span class="tag">Contains pecans</span></div>
               <div class="product-foot"><button class="btn add" type="button" data-id="maple">Add to bag</button></div>
             </div>
           </article>
         </div>
 
-        <div class="bundle">
+        <div class="bundle" data-product="box">
           <div class="bundle-copy">
             <p class="label">Can’t pick one?</p>
             <h3>The Mixed <em>Six</em></h3>
-            <p>Three of each flavour. It’s $32, so you save $4 compared with buying six on their own.</p>
-            <button class="btn light add" type="button" data-id="box">Add the Mixed Six · $32</button>
+            <p class="p-desc">Three of each flavour. It’s $32, so you save $4 compared with buying six on their own.</p>
+            <button class="btn light add" type="button" data-id="box">Add the Mixed Six · <span class="p-price">$32</span></button>
           </div>
           <div class="bundle-photo"><img src="assets/mixed-six-both-flavours.jpg" width="900" height="1200" loading="lazy" alt="Close-up of both Gourmand House flavours together"></div>
         </div>
@@ -512,16 +513,19 @@
   </div>
   <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
+  <script src="drop-config.js"></script>
   <script>
-    /* ---- Edit these each week ---- */
+    /* Weekly settings live in drop-config.js. The values below are fallbacks if that file is missing. */
+    const DROP = window.DROP || {};
     const SHOP = {
-      email: 'gourmandhouse@gmail.com',
-      orderingOpen: true,            // set to false when the drop sells out or closes
-      closedMessage: 'Ordering is closed for this week. Follow @gourmandhouseco for the next drop.',
-      pickupWindows: ['Saturday · 11:00–11:30 AM', 'Saturday · 11:30 AM–12:00 PM', 'Saturday · 12:00–12:30 PM'],
-      maxPerItem: 6,                 // matches the 0–6 choices on the Google Form
-      // Orders are also sent to the "Gourmand House — Cookie Order Form" Google Form (when it's published).
-      // If you change the pickup windows above, change them in the Google Form too so they match exactly.
+      email: DROP.email || 'gourmandhouse@gmail.com',
+      orderingOpen: DROP.orderingOpen !== false,
+      announcement: DROP.announcement || 'Now taking orders for Saturday pickup',
+      closedMessage: DROP.closedMessage || 'Ordering is closed for this week. Follow @gourmandhouseco for the next drop.',
+      pickupWindows: DROP.pickupWindows || ['Saturday · 11:00–11:30 AM', 'Saturday · 11:30 AM–12:00 PM', 'Saturday · 12:00–12:30 PM'],
+      maxPerItem: DROP.maxPerItem || 6,
+      // Orders are also sent to the "Gourmand House — Cookie Order Form" Google Form.
+      // Pickup windows must match the Google Form's choices exactly.
       googleForm: {
         enabled: true,
         action: 'https://docs.google.com/forms/d/1zwKKv1jkeE_T6GCbbuscDFh-Qaslfm_8LZhSSRgz1g0/formResponse',
@@ -536,7 +540,29 @@
       maple:     { name: 'Maple Fudge & Pecan',          price: 6, img: 'assets/maple-fudge-pecan.jpg' },
       box:       { name: 'The Mixed Six (3 of each)',    price: 32, img: 'assets/mixed-six-both-flavours.jpg' }
     };
-    /* ------------------------------ */
+    const esc = t => String(t).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+    const moneyText = n => '$' + (Number.isInteger(n) ? n : Number(n).toFixed(2));
+    // Apply this week's products from drop-config.js
+    Object.entries(DROP.products || {}).forEach(([id, p]) => {
+      if (!PRODUCTS[id] || !p) return;
+      const price = Number(p.price) || PRODUCTS[id].price;
+      PRODUCTS[id] = { name: id === 'box' ? `${p.name || 'The Mixed Six'} (3 of each)` : (p.name || PRODUCTS[id].name), price, img: p.photo || PRODUCTS[id].img };
+      const el = document.querySelector(`[data-product="${id}"]`);
+      if (!el) return;
+      el.querySelectorAll('.p-price').forEach(x => x.textContent = moneyText(price));
+      const img = el.querySelector('img'); if (p.photo) img.src = p.photo; if (p.photoAlt) img.alt = p.photoAlt;
+      if (id === 'box') {
+        const single = PRODUCTS.chocolate.price * 3 + PRODUCTS.maple.price * 3;
+        const save = single - price;
+        el.querySelector('.p-desc').textContent = `${p.description || 'Three of each flavour.'} It’s ${moneyText(price)}` + (save > 0 ? `, so you save ${moneyText(save)} compared with buying six on their own.` : '.');
+      } else {
+        if (p.name) el.querySelector('.p-name').textContent = p.name;
+        if (p.description) el.querySelector('.p-desc').textContent = p.description;
+        el.querySelector('.p-tags').innerHTML = p.tag ? `<span class="tag">${esc(p.tag)}</span>` : '';
+      }
+    });
+    { const low = Math.min(PRODUCTS.chocolate.price, PRODUCTS.maple.price), high = Math.max(PRODUCTS.chocolate.price, PRODUCTS.maple.price);
+      document.getElementById('statusPrices').textContent = `${low === high ? moneyText(low) : moneyText(low) + '–' + moneyText(high)} a cookie · Mixed Six ${moneyText(PRODUCTS.box.price)}`; }
 
     const $ = id => document.getElementById(id);
     let cart = {};
@@ -547,10 +573,11 @@
     $('year').textContent = new Date().getFullYear();
     $('pickup').innerHTML = SHOP.pickupWindows.map(w => `<option>${w}</option>`).join('');
 
+    $('announcement').textContent = SHOP.announcement;
     if (!SHOP.orderingOpen) {
       $('statusDot').classList.add('closed');
       $('statusText').textContent = 'Ordering is closed this week';
-      $('announcement').textContent = SHOP.closedMessage;
+      $('announcement').textContent = SHOP.closedMessage; $('announcementPay').remove();
       document.querySelectorAll('.add').forEach(b => { b.disabled = true; b.textContent = 'Closed this week'; });
     }
 
