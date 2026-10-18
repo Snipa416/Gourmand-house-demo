@@ -1,37 +1,31 @@
 /*
-  GOURMAND HOUSE — THIS WEEK'S DROP
+  GOURMAND HOUSE — OCTOBER 23 PREVIEW
   ---------------------------------
-  This is the only file you need to edit for a normal weekly update.
-  On GitHub: open this file, click the pencil icon, make your changes, then "Commit changes".
-  The live site updates by itself within a minute or two.
+  Ordering remains closed until the Square storefront and pickup details are ready.
+  The October 23 opening date is an announcement, not an automatic switch.
 
   Rules so nothing breaks:
   - Keep the quotes ' ' around text and the commas at the end of lines.
-  - Don't rename chocolate / maple / box. They're linked to the Google Form.
+  - Don't rename chocolate / maple / box. They're used by the preview page.
   - New photo? Upload it to the assets folder first, then put its file name here.
 */
 
 window.DROP = {
 
-  // Set to false when the drop sells out or ordering closes.
-  orderingOpen: true,
+  // Kept false while the Square checkout is being prepared.
+  orderingOpen: false,
 
   // Banner at the very top of the site.
-  announcement: 'Now taking orders for Saturday pickup',
-  closedMessage: 'Ordering is closed for this week. Follow @gourmandhouseco for the next drop.',
+  announcement: 'Orders open Friday, October 23',
+  closedMessage: 'Orders open Friday, October 23 · Pickup details coming soon',
 
-  // Pickup times shown in the bag.
-  // IMPORTANT: these must match the choices in the Google Form exactly, letter for letter.
-  pickupWindows: [
-    'Saturday · 11:00–11:30 AM',
-    'Saturday · 11:30 AM–12:00 PM',
-    'Saturday · 12:00–12:30 PM'
-  ],
+  // Pickup details have not been chosen for the October 23 launch.
+  pickupWindows: [],
 
-  // Where orders, e-Transfers and event requests go.
+  // Contact address for event requests and customer questions.
   email: 'gourmandhouse@gmail.com',
 
-  // Most of each item one online order can include (the Google Form allows 0–6).
+  // Historical cart limit; online quantity limits will be set in Square.
   maxPerItem: 6,
 
   products: {
@@ -60,3 +54,5 @@ window.DROP = {
     }
   }
 };
+
+
