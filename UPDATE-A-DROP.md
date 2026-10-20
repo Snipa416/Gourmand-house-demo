@@ -1,39 +1,57 @@
-# Updating the website for a new drop
+# Updating the Gourmand House website
 
-Everything below is done on github.com. No software needed. Changes go live in about 1–2 minutes.
+The website is published from the `main` branch of this repository through GitHub Pages. It is currently a **menu preview**, not an active online store.
 
-## Change prices, descriptions, pickup times, or open/close ordering
+## Important: ordering is not live
 
-1. Go to the repo and open **drop-config.js**.
-2. Click the **pencil icon** (Edit this file).
-3. Change what you need:
-   - `orderingOpen: true` or `false`. Use `false` when the drop sells out. The buttons switch off and the top banner changes.
-   - `announcement`: the banner text at the top.
-   - `pickupWindows`: the pickup times. **Change the same times in the Google Form too**, or form responses will fail.
-   - `products`: names, prices, descriptions, and tags for each cookie and the Mixed Six.
-4. Scroll down, click **Commit changes**, and choose **Commit directly to the main branch**.
-5. Wait a minute, then refresh the website to check.
+- `drop-config.js` has `orderingOpen: false`.
+- `index.html` independently keeps the old email/e-Transfer cart disabled while the Square checkout is being prepared.
+- Changing `orderingOpen` to `true` in `drop-config.js` **will not activate ordering**. This is intentional, to prevent a misleading or incomplete checkout.
+- The former Google Form submission pathway is disabled. Do not rely on the old order instructions or assume a new order has been received.
+- October 23, 2026 is the **target launch date**, subject to payment and pickup being ready.
 
-## Swap a product photo
+## Update the cookie menu
 
-1. Open the **assets** folder, click **Add file → Upload files**, and upload the new photo.
-   - Use a simple name with no spaces, like `maple-fudge-pecan-october.jpg`.
-   - Keep photos under about 400 KB (export at around 1200 px wide) so the site stays fast.
-2. Open **drop-config.js** and change that product's `photo` to `assets/your-new-file.jpg`.
-3. Commit.
+1. Open `drop-config.js` in GitHub and click the pencil icon.
+2. Under `products`, update cookie names, descriptions, prices, allergen tags, and photo paths as needed.
+3. Commit the changes to `main`.
+4. Check the live preview at https://snipa416.github.io/Gourmand-house-demo/.
 
-## Before you commit, check
+Keep the `chocolate`, `maple`, and `box` product keys until the ordering integration has been updated for any new products.
 
-- Every line of text still has its quotes `' '` and ends with a comma.
-- You didn't rename `chocolate`, `maple`, or `box`. Those names are linked to the Google Form.
+## Change a photo
 
-If the page ever looks broken after a change, open the repo's **Commits** page, click the last change, and use **Revert**, or ask Claude to fix it.
+1. In the `assets` folder, upload an optimized image using **Add file → Upload files**.
+2. In `drop-config.js`, update the relevant product's `photo` field to its new path, such as `assets/new-cookie-photo.jpg`.
+3. Commit and refresh the website.
 
-## Adding a new flavour
+## Before accepting orders
 
-Adding a third flavour needs changes to the page layout and a new row in the Google Form, so ask Claude to do it.
+1. Confirm the real payment provider and set up a functioning Square storefront or checkout, including the payment methods customers will see.
+2. Confirm and publish the exact pickup date, pickup location, and pickup windows. Do not accept orders without these.
+3. Match products, available stock, prices, any taxes, and pickup information in Square to the website.
+4. Test the full ordering and confirmation experience on desktop and mobile before activating any order buttons.
+5. Check all links, event enquiry email, cookie images, and allergen details.
+6. Only then replace the disabled preview buttons with the real, tested checkout links and announce that ordering is open.
 
-## Orders
+**Do not simply unhide the old email/e-Transfer cart.** It was deliberately retired pending the new checkout.
 
-- Orders arrive two ways: the customer's email to you, and a response in the **Gourmand House — Cookie Order Form** (Google Forms → Responses). Match each order to its e-Transfer using the order number (for example `GH-0918-AB12`).
-- Delete any responses named **TEST ORDER** that were made while setting up.
+## Connecting a purchased custom domain
+
+**Do not add a `CNAME` file or change GitHub Pages domain settings until you own the domain and can update its DNS.**
+
+Once you have purchased `gourmandhouse.ca`:
+
+1. In GitHub, open the repository's **Settings → Pages → Custom domain**. Enter `gourmandhouse.ca` and save.
+2. At the domain registrar, create these apex/root DNS records (`@`) for GitHub Pages:
+   - A: `185.199.108.153`
+   - A: `185.199.109.153`
+   - A: `185.199.110.153`
+   - A: `185.199.111.153`
+3. Create a `www` CNAME record pointing to `snipa416.github.io` (not to the repository's subpath).
+4. Remove conflicting default/parking records if appropriate, and allow time for DNS propagation.
+5. Enable **Enforce HTTPS** in the GitHub Pages settings once the certificate is ready.
+6. Update the website's Open Graph image and URL, as well as its structured-data `url` and `image` values, from the GitHub Pages address to the new domain. These changes should only be made after the domain is connected.
+7. Test both `https://gourmandhouse.ca` and `https://www.gourmandhouse.ca` and confirm the desired redirect.
+
+GitHub documentation: https://docs.github.com/en/pages/configuring-a-custom-domain-for-your-github-pages-site/managing-a-custom-domain-for-your-github-pages-site
