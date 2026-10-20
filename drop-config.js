@@ -2,7 +2,7 @@
   GOURMAND HOUSE — OCTOBER 23 PREVIEW
   ---------------------------------
   Ordering remains closed until the Square storefront and pickup details are ready.
-  The October 23 opening date is an announcement, not an automatic switch.
+  The October 23 date is a target, not an automatic switch or a guaranteed opening.
 
   Rules so nothing breaks:
   - Keep the quotes ' ' around text and the commas at the end of lines.
@@ -16,8 +16,8 @@ window.DROP = {
   orderingOpen: false,
 
   // Banner at the very top of the site.
-  announcement: 'Orders open Friday, October 23',
-  closedMessage: 'Orders open Friday, October 23 · Pickup details coming soon',
+  announcement: 'Target order opening: Friday, October 23',
+  closedMessage: 'Orders are not open yet · Target launch October 23',
 
   // Pickup details have not been chosen for the October 23 launch.
   pickupWindows: [],
