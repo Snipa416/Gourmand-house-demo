@@ -16,12 +16,12 @@ window.DROP = {
   },
   prices: { one: 6, three: 21, six: 32 },
   // A public, sanitized stock endpoint. Never put a Square access token here.
-  inventoryEndpoint: '',
+  inventoryEndpoint: 'https://gourmandhouse-stock.gourmandhouse.workers.dev/stock',
   checkoutLinks: {
-    chocolate: '',
-    maple: '',
+    chocolate: 'https://gourmandhouseco.square.site/s/order?item=DRMWBLZZCRJMIKTQ5ZEKVW5Z',
+    maple: 'https://gourmandhouseco.square.site/s/order?item=LLZ3FSIYXEDRWQ66HRPZLQ3C',
     butter: 'https://gourmandhouseco.square.site/s/order?item=53I4JJ34VBZESJE44U2ZQXVO',
-    three: '',
+    three: 'https://gourmandhouseco.square.site/s/order?item=TSF7D45E26FOKSCCIAAKHKHI',
     box: ''
   }
 };
