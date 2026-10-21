@@ -22,7 +22,7 @@ window.DROP = {
     maple: 'https://gourmandhouseco.square.site/s/order?item=LLZ3FSIYXEDRWQ66HRPZLQ3C',
     butter: 'https://gourmandhouseco.square.site/s/order?item=53I4JJ34VBZESJE44U2ZQXVO',
     three: 'https://gourmandhouseco.square.site/s/order?item=TSF7D45E26FOKSCCIAAKHKHI',
-    box: ''
+    box: 'https://gourmandhouseco.square.site/s/order?item=F2WGFDLCLJZNH4SE24JYXA2L'
   }
 };
 
