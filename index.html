@@ -4,19 +4,24 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Gourmand House | Small-batch cookies in Toronto</title>
-  <meta name="description" content="Small-batch cookies baked in Toronto. Orders are planned to open October 23 for pickup at Jean Augustine Centre on October 31, 5–9:30 p.m. Explore the cookies and book us for events or pop-ups.">
+  <meta name="description" content="Handmade, gourmet-quality cookies baked in small batches in Toronto. Pickup October 31 at Jean Augustine Centre, 5–9:30 p.m.">
   <meta name="theme-color" content="#24140e">
   <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png">
   <link rel="icon" type="image/png" sizes="64x64" href="assets/favicon-64.png">
   <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
   <meta property="og:type" content="website">
   <meta property="og:title" content="Gourmand House | Small-batch cookies in Toronto">
-  <meta property="og:description" content="Gourmand House is preparing its next cookie drop. Three cookie flavours. Orders planned October 23; pickup October 31 at Jean Augustine Centre, 5–9:30 p.m.">
-  <meta property="og:image" content="https://gourmandhouse.ca/assets/og-cover.jpg">
+  <meta property="og:description" content="Handmade, gourmet-quality cookies baked in small batches in Toronto.">
+  <meta property="og:image" content="https://gourmandhouse.ca/assets/logo-seal-200.png">
+  <meta property="og:image:width" content="200">
+  <meta property="og:image:height" content="200">
+  <meta property="og:image:alt" content="Gourmand House logo">
+  <meta property="og:site_name" content="Gourmand House">
   <meta property="og:url" content="https://gourmandhouse.ca/">
-  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:image" content="https://gourmandhouse.ca/assets/logo-seal-200.png">
   <script type="application/ld+json">
-  {"@context":"https://schema.org","@type":"Bakery","name":"Gourmand House","url":"https://gourmandhouse.ca/","image":"https://gourmandhouse.ca/assets/og-cover.jpg","email":"gourmandhouse@gmail.com","address":{"@type":"PostalAddress","addressLocality":"Toronto","addressRegion":"ON","addressCountry":"CA"},"sameAs":["https://www.instagram.com/gourmandhouseco/"]}
+  {"@context":"https://schema.org","@type":"Bakery","name":"Gourmand House","url":"https://gourmandhouse.ca/","image":"https://gourmandhouse.ca/assets/logo-seal-200.png","email":"gourmandhouse@gmail.com","address":{"@type":"PostalAddress","addressLocality":"Toronto","addressRegion":"ON","addressCountry":"CA"},"sameAs":["https://www.instagram.com/gourmandhouseco/"]}
   </script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -58,89 +63,91 @@
     /* Announcement + header */
     .announcement{background:var(--espresso);color:var(--cream);text-align:center;font-size:14px;padding:9px 16px;font-style:italic}
     header{position:sticky;top:0;z-index:20;background:rgba(251,246,236,.96);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
-    .header-inner{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;height:88px}
-    nav{display:flex;gap:28px}
-    nav a{text-decoration:none;font-size:16px;position:relative}
-    nav a:after{content:"";position:absolute;left:0;right:100%;bottom:-3px;height:1px;background:currentColor;transition:right .25s}
-    nav a:hover:after{right:0}
+    .header-inner{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;height:84px}
+    .hdr-left{display:flex;align-items:center}
+    nav.desk-nav{display:flex;gap:28px}
+    nav.desk-nav a{text-decoration:none;font-size:16px;position:relative}
+    nav.desk-nav a:after{content:"";position:absolute;left:0;right:100%;bottom:-3px;height:1px;background:currentColor;transition:right .25s}
+    nav.desk-nav a:hover:after{right:0}
     .brand{display:block;line-height:0}
-    .brand img{width:72px;height:72px}
+    .brand img{width:68px;height:68px}
     .header-actions{justify-self:end;display:flex;align-items:center;gap:18px}
     .header-actions .ig{font-size:16px;text-decoration:none}
-    .bag-btn{display:inline-flex;align-items:center;gap:10px;border:1px solid var(--espresso);background:transparent;border-radius:999px;padding:9px 16px;font-size:16px}
-    .bag-count{display:inline-grid;place-items:center;min-width:24px;height:24px;padding:0 6px;border-radius:999px;background:var(--espresso);color:var(--paper);font-size:13px}
+    .menu-btn{display:none;width:44px;height:44px;margin-left:-10px;border:0;background:transparent;padding:0;position:relative}
+    .menu-btn span{position:absolute;left:11px;right:11px;height:1.5px;background:var(--espresso);transition:transform .3s,opacity .2s}
+    .menu-btn span:nth-child(1){top:15px}.menu-btn span:nth-child(2){top:21px}.menu-btn span:nth-child(3){top:27px}
+
+    /* Slide-in menu */
+    .menu-drawer{position:fixed;inset:0;z-index:50;pointer-events:none}
+    .menu-drawer.open{pointer-events:auto}
+    .menu-overlay{position:absolute;inset:0;background:rgba(22,10,5,.5);opacity:0;transition:opacity .3s}
+    .menu-drawer.open .menu-overlay{opacity:1}
+    .menu-panel{position:absolute;left:0;top:0;height:100%;width:min(360px,86vw);background:var(--espresso);color:var(--cream);transform:translateX(-102%);visibility:hidden;transition:transform .35s ease,visibility 0s .35s;display:flex;flex-direction:column;padding:20px 28px 28px}
+    .menu-drawer.open .menu-panel{transform:none;visibility:visible;transition:transform .35s ease}
+    .menu-close{align-self:flex-end;border:0;background:transparent;color:var(--cream);font-size:36px;line-height:1;padding:0 4px;margin-right:-6px}
+    .menu-panel nav{display:flex;flex-direction:column;margin-top:18px}
+    .menu-panel nav a{text-decoration:none;font-size:26px;padding:16px 0;border-bottom:1px solid var(--line-light);display:flex;justify-content:space-between;align-items:center}
+    .menu-panel nav a:after{content:"›";color:var(--sand);font-size:28px}
+    .menu-foot{margin-top:auto;display:flex;flex-direction:column;gap:10px;font-size:16px;color:#d4bfaa}
+    .menu-foot a{text-decoration:none}
 
     /* Hero */
-    .hero{display:grid;grid-template-columns:1.05fr .95fr;min-height:calc(100svh - 124px)}
-    .hero-copy{display:flex;flex-direction:column;justify-content:center;padding:clamp(48px,7vw,96px) var(--gutter) clamp(48px,7vw,96px) max(var(--gutter),calc((100vw - var(--wrap))/2 + var(--gutter)))}
-    .hero h1{font-size:clamp(54px,7.2vw,112px);line-height:.94;letter-spacing:-.035em;font-weight:500}
+    .hero{display:grid;grid-template-columns:1fr 1fr}
+    .hero-copy{display:flex;flex-direction:column;justify-content:center;padding:clamp(48px,7vw,88px) var(--gutter) clamp(48px,7vw,88px) max(var(--gutter),calc((100vw - var(--wrap))/2 + var(--gutter)))}
+    .hero h1{font-size:clamp(46px,6vw,88px);line-height:1;letter-spacing:-.03em;font-weight:500}
     .hero h1 em{display:block;font-weight:500}
-    .hero p.intro{font-size:clamp(18px,1.6vw,21px);max-width:470px;color:var(--cocoa);margin:28px 0 34px}
-    .hero-actions{display:flex;flex-wrap:wrap;gap:12px}
-    .hero-photo{position:relative;overflow:hidden;background:var(--sand)}
+    .hero p.intro{font-size:clamp(17px,1.5vw,20px);max-width:440px;color:var(--cocoa);margin:22px 0 30px}
+    .hero-photo{position:relative;overflow:hidden;background:var(--sand);min-height:460px}
     .hero-photo img{position:absolute;inset:0;width:100%;height:100%!important;object-fit:cover;object-position:center 60%}
-    .bag-btn[hidden]{display:none}
+    .link-arrow{margin-left:6px;font-size:16px}
 
     /* Status strip */
     .status{border-bottom:1px solid var(--line)}
-    .status-inner{display:flex;flex-wrap:wrap;justify-content:space-between;gap:10px 28px;padding:18px var(--gutter);font-size:16px}
+    .status-inner{display:flex;flex-wrap:wrap;justify-content:space-between;gap:10px 28px;padding:16px var(--gutter);font-size:15px}
     .status-inner span{display:flex;align-items:center;gap:10px}
     .dot{width:9px;height:9px;border-radius:50%;background:#4f7a45;box-shadow:0 0 0 4px rgba(79,122,69,.15);flex:none}
     .dot.closed{background:var(--clay);box-shadow:0 0 0 4px rgba(176,100,63,.15)}
 
-    /* Drop */
-    .drop-head{display:flex;justify-content:space-between;align-items:end;gap:32px;margin-bottom:48px}
+    /* Our cookies blurb */
+    .story-grid{display:grid;grid-template-columns:1.1fr .9fr;gap:clamp(32px,6vw,80px);align-items:center}
+    .story-copy p{color:var(--cocoa);max-width:520px;margin:20px 0 0}
+    .points{list-style:none;padding:0;margin:28px 0 0;display:grid;grid-template-columns:repeat(3,1fr);gap:18px;max-width:560px}
+    .points li{border-top:1px solid var(--line);padding-top:12px;font-size:15px;color:var(--muted);line-height:1.45}
+    .points b{display:block;font-weight:500;font-size:18px;color:var(--espresso);margin-bottom:2px}
+    .story-photo img{width:100%;aspect-ratio:4/3;object-fit:cover}
+
+    /* Menu */
+    .drop-head{display:flex;justify-content:space-between;align-items:end;gap:32px;margin-bottom:40px}
     .drop-head .lede{margin:0;max-width:400px}
     .products{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:24px}
     .product{background:#fffaf1;border:1px solid var(--line);display:flex;flex-direction:column}
     .product-photo{aspect-ratio:4/3;overflow:hidden;background:var(--sand)}
-    .product-photo img{width:100%;height:100%!important;object-fit:cover;transition:transform .8s ease}
-    .product:hover .product-photo img{transform:scale(1.03)}
-    .product-info{padding:28px;display:flex;flex-direction:column;flex:1}
+    .product-photo img{width:100%;height:100%!important;object-fit:cover}
+    .product-info{padding:24px;display:flex;flex-direction:column;flex:1}
     .product-top{display:flex;justify-content:space-between;align-items:start;gap:20px}
-    .product h3{font-size:clamp(26px,2.4vw,32px);line-height:1.1}
-    .price{font-size:28px;white-space:nowrap}
+    .product h3{font-size:clamp(24px,2.2vw,30px);line-height:1.1}
+    .price{font-size:26px;white-space:nowrap}
     .product p{margin:10px 0 0;color:var(--muted)}
-    .tags{display:flex;gap:8px;flex-wrap:wrap;margin-top:16px}
+    .tags{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px}
     .tag{font-size:13px;border:1px solid var(--line);border-radius:999px;padding:3px 12px;color:var(--cocoa);font-style:italic}
-    .product-foot{margin-top:auto;padding-top:24px;display:flex;justify-content:flex-end}
-    .bundle{margin-top:24px;display:grid;grid-template-columns:1.1fr .9fr;background:var(--espresso);color:var(--cream)}
-    .bundle-copy{padding:clamp(36px,6vw,80px);display:flex;flex-direction:column;justify-content:center;align-items:flex-start}
-    .bundle-copy .label{color:var(--sand)}
-    .bundle h3{font-size:clamp(44px,5.4vw,76px);line-height:1}
-    .bundle h3 em{color:var(--sand)}
-    .bundle p{color:#dcc8b4;max-width:420px;margin:18px 0 30px}
-    .bundle-photo{min-height:360px;position:relative;overflow:hidden}
-    .bundle-photo img{position:absolute;inset:0;width:100%;height:100%!important;object-fit:cover}
-
-    /* How it works */
-    .how{border-top:1px solid var(--line)}
-    .how-grid{display:grid;grid-template-columns:.85fr 1.15fr;gap:clamp(40px,7vw,100px);align-items:center}
-    .how-photo img{width:100%;aspect-ratio:4/5;object-fit:cover}
-    .how-photo figcaption{font-style:italic;color:var(--muted);font-size:15px;margin-top:12px}
-    .steps{list-style:none;padding:0;margin:40px 0 0;counter-reset:step}
-    .steps li{counter-increment:step;display:grid;grid-template-columns:64px 1fr;gap:8px 20px;padding:26px 0;border-top:1px solid var(--line)}
-    .steps li:last-child{border-bottom:1px solid var(--line)}
-    .steps li:before{content:counter(step);font-size:44px;line-height:1;font-style:italic;color:var(--clay);grid-row:span 2}
-    .steps h3{font-size:24px}
-    .steps p{margin:0;color:var(--muted)}
-
-    /* About / ingredients */
-    .about-grid{display:grid;grid-template-columns:1fr 1fr;gap:clamp(40px,7vw,100px);align-items:center}
-    .about-photos{display:grid;grid-template-columns:1.35fr 1fr;gap:16px;align-items:end}
-    .about-photos img{width:100%;object-fit:cover}
-    .about-photos img:first-child{aspect-ratio:3/4}
-    .about-photos img:last-child{aspect-ratio:3/4;margin-bottom:-48px}
-    .about-copy p{color:var(--cocoa);max-width:500px}
-    .about-copy .section-title{margin-bottom:24px}
+    .product-foot{margin-top:auto;padding-top:22px;display:flex;justify-content:flex-end}
+    .packs{margin-top:24px;display:grid;grid-template-columns:1fr 1fr;gap:24px}
+    .pack{background:var(--espresso);color:var(--cream);padding:clamp(26px,3.4vw,40px);display:flex;flex-direction:column;align-items:flex-start}
+    .pack .label{color:var(--sand);margin-bottom:10px}
+    .pack h3{font-size:clamp(30px,3.4vw,44px);line-height:1.05}
+    .pack h3 em{color:var(--sand)}
+    .pack p{color:#dcc8b4;margin:12px 0 24px}
+    .pack .btn{margin-top:auto}
 
     /* Events */
     .events{background:var(--espresso);color:var(--cream)}
     .events .label{color:var(--sand)}
     .events .section-title em{color:var(--sand)}
-    .events-grid{display:grid;grid-template-columns:1fr 1fr;gap:clamp(40px,6vw,90px);align-items:start}
+    .events-inner{max-width:760px}
     .events .lede{color:#d4bfaa;max-width:560px}
-    .booking{margin-top:40px;display:grid;grid-template-columns:1fr 1fr;gap:18px 20px}
+    .event-types{list-style:none;padding:0;margin:24px 0 0;display:flex;flex-wrap:wrap;gap:10px}
+    .event-types li{border:1px solid var(--line-light);border-radius:999px;padding:5px 14px;font-size:15px;font-style:italic;color:#e6d4c1}
+    .booking{margin-top:36px;display:grid;grid-template-columns:1fr 1fr;gap:18px 20px}
     .field{display:flex;flex-direction:column;gap:7px}
     .field.full{grid-column:1/-1}
     .field label{font-size:14px;color:#d4bfaa}
@@ -155,118 +162,53 @@
     .form-note{grid-column:1/-1;display:none;border:1px solid var(--line-light);padding:16px 18px;color:#e6d4c1;font-size:15px}
     .form-note.show{display:block}
     .form-note button{background:none;border:0;color:var(--cream);text-decoration:underline;padding:0;font-size:15px}
-    .events-media{display:grid;grid-template-columns:3fr 2fr;gap:14px;align-items:end;position:sticky;top:120px}
-    .events-media img,.events-media video{width:100%;aspect-ratio:9/16;object-fit:cover;background:#3a261d}
-    .events-media figcaption{grid-column:1/-1;font-style:italic;color:#b9a291;font-size:15px}
-    .event-types{list-style:none;padding:0;margin:26px 0 0;display:flex;flex-wrap:wrap;gap:10px}
-    .event-types li{border:1px solid var(--line-light);border-radius:999px;padding:5px 14px;font-size:15px;font-style:italic;color:#e6d4c1}
 
     /* FAQ */
     .faq-grid{display:grid;grid-template-columns:.8fr 1.2fr;gap:clamp(40px,6vw,90px)}
     details{border-top:1px solid var(--line)}
     details:last-child{border-bottom:1px solid var(--line)}
-    summary{list-style:none;cursor:pointer;display:flex;justify-content:space-between;align-items:center;gap:20px;padding:22px 0;font-size:clamp(20px,2vw,24px)}
+    summary{list-style:none;cursor:pointer;display:flex;justify-content:space-between;align-items:center;gap:20px;padding:20px 0;font-size:clamp(19px,2vw,23px)}
     summary::-webkit-details-marker{display:none}
     summary:after{content:"+";font-size:30px;line-height:1;color:var(--clay);transition:transform .25s}
     details[open] summary:after{transform:rotate(45deg)}
-    details p{margin:0 0 24px;color:var(--muted);max-width:640px}
-
-    /* Follow */
-    .follow{text-align:center;padding:clamp(64px,9vw,110px) 0;border-top:1px solid var(--line)}
-    .follow img{width:112px;height:112px;margin:0 auto 24px}
-    .follow h2{font-size:clamp(34px,4.4vw,56px);line-height:1.05}
-    .follow p{color:var(--cocoa);margin:14px auto 28px;max-width:460px}
+    details p{margin:0 0 22px;color:var(--muted);max-width:640px}
 
     /* Footer */
-    footer{background:var(--espresso);color:var(--cream);padding:64px 0 28px}
-    .footer-grid{display:grid;grid-template-columns:1.4fr 1fr 1fr 1fr;gap:40px}
-    .footer-grid img{width:120px;height:120px}
-    .footer-col h4{font-size:14px;letter-spacing:.16em;text-transform:uppercase;color:var(--sand);margin-bottom:14px;font-weight:600}
-    .footer-col a{display:block;text-decoration:none;color:#e1cfbd;margin:8px 0;overflow-wrap:anywhere}
-    .footer-col a:hover{color:var(--paper);text-decoration:underline}
-    .fine{margin-top:56px;padding-top:22px;border-top:1px solid var(--line-light);display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px 24px;font-size:14px;color:#b9a291;font-style:italic}
+    footer{background:var(--espresso);color:var(--cream);padding:48px 0 26px}
+    .footer-row{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:24px}
+    .footer-row img{width:84px;height:84px}
+    .footer-links{display:flex;flex-wrap:wrap;gap:10px 28px}
+    .footer-links a{text-decoration:none;color:#e1cfbd}
+    .footer-links a:hover{color:var(--paper);text-decoration:underline}
+    .fine{margin-top:36px;padding-top:22px;border-top:1px solid var(--line-light);display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px 24px;font-size:14px;color:#b9a291;font-style:italic}
 
-    /* Bag drawer */
-    .drawer{position:fixed;inset:0;z-index:40;pointer-events:none}
-    .drawer.open{pointer-events:auto}
-    .overlay{position:absolute;inset:0;background:rgba(22,10,5,.5);opacity:0;transition:opacity .25s}
-    .drawer.open .overlay{opacity:1}
-    .panel{position:absolute;right:0;top:0;height:100%;width:min(480px,100%);background:var(--paper);transform:translateX(105%);visibility:hidden;transition:transform .35s ease,visibility 0s .35s;display:flex;flex-direction:column}
-    .drawer.open .panel{transform:none;visibility:visible;transition:transform .35s ease;box-shadow:-20px 0 60px rgba(36,20,14,.18)}
-    .drawer-head{display:flex;align-items:center;justify-content:space-between;padding:22px 26px;border-bottom:1px solid var(--line)}
-    .drawer-head h2{font-size:32px}
-    .close{border:0;background:transparent;font-size:34px;line-height:1;padding:0 4px}
-    .drawer-body{flex:1;overflow:auto;padding:6px 26px 26px}
-    .empty{text-align:center;color:var(--muted);padding:56px 0 20px}
-    .empty img{width:88px;height:88px;margin:0 auto 18px;opacity:.9}
-    .cart-row{display:grid;grid-template-columns:64px 1fr auto;gap:14px;align-items:center;padding:16px 0;border-bottom:1px solid var(--line)}
-    .cart-row img{width:64px;height:64px;object-fit:cover}
-    .cart-row h4{font-size:18px;line-height:1.2;margin-bottom:6px}
-    .qty{display:flex;align-items:center;gap:12px}
-    .qty button{width:30px;height:30px;border-radius:50%;border:1px solid var(--line);background:transparent;font-size:17px;line-height:1}
-    .order-form{margin-top:22px;display:grid;gap:14px}
-    .order-form .field label{color:var(--cocoa)}
-    .order-form .field input,.order-form .field select{background:#fff;border:1px solid var(--line);color:var(--espresso)}
-    .order-form .field input:focus,.order-form .field select:focus,.order-form .field textarea:focus{border-color:var(--espresso);outline:none}
-    .order-form .field textarea{background:#fff;border:1px solid var(--line);color:var(--espresso);min-height:84px}
-    .order-form .req{color:var(--clay)}
-    .order-form h3{font-size:20px;margin-top:6px}
-    .check{display:grid;grid-template-columns:22px 1fr;gap:10px;align-items:start;font-size:15px;color:var(--cocoa);line-height:1.45;cursor:pointer}
-    .check input{width:20px;height:20px;margin:2px 0 0;accent-color:var(--espresso)}
-    .qty-note{font-size:14px;color:var(--muted);font-style:italic;margin:10px 0 0}
-    .qty button[disabled]{opacity:.35;cursor:not-allowed}
-    .total{display:flex;justify-content:space-between;align-items:baseline;font-size:26px;padding:18px 0 4px}
-    .total small{font-size:15px;color:var(--muted);font-style:italic}
-    .error{color:#9b3b1f;font-size:15px;min-height:1em;margin:0}
-    .pay{display:none;margin-top:22px;background:var(--cream);border:1px solid var(--line);padding:22px}
-    .pay.show{display:block}
-    .pay h3{font-size:26px;margin-bottom:6px}
-    .pay dl{display:grid;grid-template-columns:auto 1fr;gap:4px 14px;margin:14px 0;font-size:16px}
-    .pay dt{color:var(--muted)}
-    .pay dd{margin:0}
-    .pay ol{padding-left:20px;margin:16px 0 0}
-    .pay li{margin-bottom:16px}
-    .copy-line{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:4px 10px;background:var(--paper);border:1px solid var(--line);padding:10px 12px;margin-top:8px;font-size:15px}
-    .nowrap{white-space:nowrap}
-    .copy-line button{border:0;background:none;text-decoration:underline;font-size:15px;flex:none}
-    .pay .btn{width:100%;margin-top:10px}
-    .pay .note{font-size:14px;color:var(--muted);font-style:italic;margin:6px 0 0}
     .toast{position:fixed;left:50%;bottom:24px;width:max-content;max-width:calc(100vw - 32px);text-align:center;transform:translate(-50%,20px);background:var(--espresso);color:var(--paper);padding:12px 22px;border-radius:999px;font-size:15px;opacity:0;pointer-events:none;transition:.25s;z-index:60}
     .toast.show{opacity:1;transform:translate(-50%,0)}
 
     @media (max-width:900px){
-      nav{display:none}
-      .header-inner{grid-template-columns:auto 1fr;height:74px}
-      .brand img{width:58px;height:58px}
-      .header-actions{gap:14px}
-      .hero{grid-template-columns:1fr;min-height:0}
-      .hero-photo{height:min(54vh,440px);min-height:280px}
-      .hero-copy{padding:36px var(--gutter) 42px}
-      .drop-head{display:block}.drop-head .lede{margin-top:16px}
-      .products{grid-template-columns:1fr}
-      .bundle{grid-template-columns:1fr}
-      .bundle-photo{order:-1;min-height:300px}
-      .how-grid,.about-grid,.events-grid,.faq-grid{grid-template-columns:1fr}
-      .events-media{position:static}
-      .how-photo img{aspect-ratio:4/3}
-      .about-photos img:last-child{margin-bottom:0}
-      .footer-grid{grid-template-columns:1fr 1fr}
-      .footer-grid>div:first-child{grid-column:1/-1}
+      nav.desk-nav{display:none}
+      .menu-btn{display:block}
+      .header-inner{height:72px}
+      .brand img{width:56px;height:56px}
+      .hero{grid-template-columns:1fr}
+      .hero-photo{min-height:0;height:min(52vh,420px)}
+      .hero-copy{padding:36px var(--gutter) 40px}
+      .story-grid,.faq-grid{grid-template-columns:1fr}
+      .drop-head{display:block}.drop-head .lede{margin-top:14px}
+      .products,.packs{grid-template-columns:1fr}
+      .events-inner{max-width:none}
     }
     @media (max-width:560px){
       .hide-sm{display:none}
-      .hero-copy{padding:24px var(--gutter) 32px}
-      .hero h1{font-size:clamp(46px,13vw,54px)}
-      .hero p.intro{font-size:17px;margin:18px 0 22px}
-      .pay{padding:18px 16px}
-      .pay ol{padding-left:18px}
-      body{font-size:16px}
       .header-actions .ig{display:none}
+      .hero-copy{padding:26px var(--gutter) 32px}
+      .hero h1{font-size:clamp(42px,12vw,52px)}
+      body{font-size:16px}
       .booking{grid-template-columns:1fr}
+      .points{grid-template-columns:1fr;gap:12px}
       .status-inner{flex-direction:column}
-      .product-info{padding:22px}
-      .steps li{grid-template-columns:44px 1fr}
-      .steps li:before{font-size:36px}
+      .product-info{padding:20px}
+      .footer-row{flex-direction:column;align-items:flex-start}
     }
     @media (prefers-reduced-motion:reduce){
       html{scroll-behavior:auto}
@@ -279,27 +221,47 @@
 
   <header>
     <div class="wrap header-inner">
-      <nav aria-label="Main">
-        <a href="#drop">Cookies</a>
-        <a href="#events">Events &amp; pop-ups</a>
-        <a href="#faq">FAQ</a>
-      </nav>
-      <a class="brand" href="#top" aria-label="Gourmand House home"><img src="assets/logo-seal-200.png" width="72" height="72" alt="Gourmand House"></a>
+      <div class="hdr-left">
+        <button class="menu-btn" id="menuBtn" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="menuDrawer"><span></span><span></span><span></span></button>
+        <nav class="desk-nav" aria-label="Main">
+          <a href="#drop">Cookies</a>
+          <a href="#story">Our story</a>
+          <a href="#events">Events &amp; pop-ups</a>
+          <a href="#faq">FAQ</a>
+        </nav>
+      </div>
+      <a class="brand" href="#top" aria-label="Gourmand House home"><img src="assets/logo-seal-200.png" width="68" height="68" alt="Gourmand House"></a>
       <div class="header-actions">
         <a class="ig" href="https://www.instagram.com/gourmandhouseco/" target="_blank" rel="noopener">Instagram</a>
       </div>
     </div>
   </header>
 
+  <div class="menu-drawer" id="menuDrawer" aria-hidden="true">
+    <div class="menu-overlay" data-close-menu></div>
+    <aside class="menu-panel" role="dialog" aria-modal="true" aria-label="Menu">
+      <button class="menu-close" type="button" aria-label="Close menu" data-close-menu>&times;</button>
+      <nav aria-label="Menu">
+        <a href="#drop">Cookies</a>
+        <a href="#story">Our story</a>
+        <a href="#events">Events &amp; pop-ups</a>
+        <a href="#faq">FAQ</a>
+      </nav>
+      <div class="menu-foot">
+        <a href="https://www.instagram.com/gourmandhouseco/" target="_blank" rel="noopener">Instagram · @gourmandhouseco</a>
+        <a class="js-email" href="mailto:gourmandhouse@gmail.com">gourmandhouse@gmail.com</a>
+      </div>
+    </aside>
+  </div>
+
   <main id="top">
     <section class="hero">
       <div class="hero-copy stripes">
-        <p class="label">Small-batch cookies · Toronto</p>
+        <p class="label">Handmade cookies · Toronto</p>
         <h1>Cookies worth <em>coming home to.</em></h1>
-        <p class="intro">Three flavours, baked in small batches and sealed one by one. Orders are planned to open Friday, October 23. Pickup is Saturday, October 31, from 5–9:30 p.m.</p>
+        <p class="intro">Three flavours, made by hand in small batches and sealed one by one. Pickup is Saturday, October 31, from 5–9:30 p.m.</p>
         <div class="hero-actions">
-          <a class="btn" href="#drop">Preview the cookies</a>
-          <a class="btn ghost" href="#events">Book us for an event</a>
+          <a class="btn" href="#drop">See the cookies</a>
         </div>
       </div>
       <div class="hero-photo">
@@ -316,14 +278,33 @@
       </div>
     </div>
 
+    <section class="section" id="story">
+      <div class="wrap story-grid">
+        <div class="story-copy">
+          <p class="label">Our cookies</p>
+          <h2 class="section-title">Handmade, <em>gourmet quality.</em></h2>
+          <p>Every Gourmand House cookie is made by hand, in small batches, right here in Toronto. We bake with gourmet-quality ingredients — milk and 70% dark chocolate cut into chunks, roasted pecans, maple fudge and sea salt flakes — and we don’t cut corners on any of it.</p>
+          <p>Each cookie is sealed in its own bag with our logo, so it’s fresh, easy to carry, and ready to share or give as a gift.</p>
+          <ul class="points">
+            <li><b>Made by hand</b>Shaped and baked in small batches.</li>
+            <li><b>Gourmet ingredients</b>Only the best quality goes in.</li>
+            <li><b>Sealed one by one</b>Fresh and gift-ready.</li>
+          </ul>
+        </div>
+        <figure class="story-photo" style="margin:0">
+          <img src="assets/ingredients.jpg" width="900" height="1200" loading="lazy" alt="Bowls of chopped milk chocolate, dark chocolate, pecans and maple fudge cubes">
+        </figure>
+      </div>
+    </section>
+
     <section class="section" id="drop">
       <div class="wrap">
         <div class="drop-head">
           <div>
             <p class="label">The menu</p>
-            <h2 class="section-title">The next <em>drop</em></h2>
+            <h2 class="section-title">The <em>cookies</em></h2>
           </div>
-          <p class="lede">Chocolate Sea Salt, Maple Fudge &amp; Pecan, and Butter Fudge. Choose your three-cookie flavours, or leave the Mixed Six to the baker.</p>
+          <p class="lede">Pick a single cookie, choose your own three, or leave a box of six to the baker.</p>
         </div>
 
         <div class="products">
@@ -363,63 +344,26 @@
           </article>
         </div>
 
-        <div class="bundle" data-product="box">
-          <div class="bundle-copy">
-            <p class="label">Baker’s choice · $32</p>
-            <h3>The Mixed <em>Six</em></h3>
-            <p class="p-desc">Six cookies chosen by the baker from our three flavours. $32 per box.</p>
-            <button class="btn light add" type="button" data-id="box" disabled>Ordering soon</button>
-          </div>
-          <div class="bundle-photo"><img src="assets/mixed-six-both-flavours.jpg" width="900" height="1200" loading="lazy" alt="A close-up of Gourmand House cookies"></div>
-        </div>
-        <div class="bundle" data-product="three">
-          <div class="bundle-copy">
+        <div class="packs">
+          <div class="pack" data-product="three">
             <p class="label">Your flavour choices · $21</p>
             <h3>Choose your <em>three</em></h3>
-            <p class="p-desc">Choose three cookies from Chocolate Sea Salt, Maple Fudge &amp; Pecan, and Butter Fudge. $21 per pack.</p>
+            <p class="p-desc">Pick any three from Chocolate Sea Salt, Maple Fudge &amp; Pecan, and Butter Fudge.</p>
             <button class="btn light add" type="button" data-id="three" disabled>Ordering soon</button>
           </div>
-          <div class="bundle-photo"><img src="assets/packed-for-pickup.jpg" width="900" height="1200" loading="lazy" alt="Individually sealed Gourmand House cookies prepared for pickup"></div>
-        </div>
-      </div>
-    </section>
-
-    <section class="section how" id="how">
-      <div class="wrap how-grid">
-        <figure class="how-photo" style="margin:0">
-          <img src="assets/packed-for-pickup.jpg" width="900" height="1200" loading="lazy" alt="Rows of individually sealed Gourmand House cookies laid out on a table">
-          <figcaption>Orders sealed and laid out before pickup.</figcaption>
-        </figure>
-        <div>
-          <p class="label">Ordering</p>
-          <h2 class="section-title">How it <em>works</em></h2>
-          <ol class="steps">
-            <li><h3>Browse the menu</h3><p>See the flavours and prices while we prepare the next drop.</p></li>
-            <li><h3>Order when the drop goes live</h3><p>Once checkout is ready, select your cookies and review the available payment options before placing an order.</p></li>
-            <li><h3>Pick up your cookies</h3><p>Saturday, October 31, 5–9:30 p.m., at Jean Augustine Centre for Young Women’s Empowerment, 101 Portland Street, Etobicoke, ON M8Y 1B1. Bring your order confirmation.</p></li>
-          </ol>
-        </div>
-      </div>
-    </section>
-
-    <section class="section stripes" id="about">
-      <div class="wrap about-grid">
-        <div class="about-photos">
-          <img src="assets/ingredients.jpg" width="900" height="1200" loading="lazy" alt="Bowls of chopped milk chocolate, dark chocolate, pecans and maple fudge cubes">
-          <img src="assets/cookie-stack.jpg" width="750" height="1000" loading="lazy" alt="A tall stack of Gourmand House cookies">
-        </div>
-        <div class="about-copy">
-          <p class="label">The prep</p>
-          <h2 class="section-title">What goes <em>in</em></h2>
-          <p>That’s the prep for one bake: milk chocolate and 70% dark chocolate cut into chunks, roasted pecans, and maple fudge cut into cubes.</p>
-          <p>Every cookie goes into its own clear bag with our seal on the front, so it’s easy to carry, share, or give as a gift.</p>
+          <div class="pack" data-product="box">
+            <p class="label">Baker’s choice · $32</p>
+            <h3>The Mixed <em>Six</em></h3>
+            <p class="p-desc">Six cookies chosen by the baker from our three flavours.</p>
+            <button class="btn light add" type="button" data-id="box" disabled>Ordering soon</button>
+          </div>
         </div>
       </div>
     </section>
 
     <section class="section events" id="events">
-      <div class="wrap events-grid">
-        <div>
+      <div class="wrap">
+        <div class="events-inner">
           <p class="label">Events &amp; pop-ups</p>
           <h2 class="section-title">Book us for <em>your event</em></h2>
           <p class="lede">Planning a market, a birthday, an office day or a community event? We can bring a pop-up table or bake a larger order for your guests. Fill in the details below and we’ll draft an email for you to send.</p>
@@ -450,11 +394,6 @@
           </form>
         </div>
 
-        <figure class="events-media" style="margin:0">
-          <img src="assets/popup-counter.jpg" width="675" height="1200" loading="lazy" alt="Gourmand House pop-up counter with sealed cookies, the menu card and the Instagram sign">
-          <video src="assets/popup-sealed-cookie.mp4" poster="assets/popup-sealed-cookie-poster.jpg" muted loop playsinline autoplay preload="none" aria-label="Short clip of sealed cookies at a pop-up"></video>
-          <figcaption>Our pop-up counter, menu card and all.</figcaption>
-        </figure>
       </div>
     </section>
 
@@ -475,25 +414,22 @@
       </div>
     </section>
 
-    <section class="follow stripes">
-      <div class="wrap">
-        <img src="assets/logo-seal-200.png" width="112" height="112" alt="" loading="lazy">
-        <h2>Follow along on <em>Instagram</em></h2>
-        <p>New drops, pop-up dates and what’s coming out of the oven.</p>
-        <a class="btn" href="https://www.instagram.com/gourmandhouseco/" target="_blank" rel="noopener">@gourmandhouseco</a>
-      </div>
-    </section>
   </main>
 
   <footer>
     <div class="wrap">
-      <div class="footer-grid">
-        <div><img src="assets/logo-seal-200.png" width="120" height="120" alt="Gourmand House" loading="lazy"></div>
-        <div class="footer-col"><h4>Cookies</h4><a href="#drop">The next drop</a><a href="#how">How ordering works</a><a href="#allergens" onclick="document.getElementById('allergens').open=true">Allergens</a></div>
-        <div class="footer-col"><h4>Events</h4><a href="#events">Book an event or pop-up</a><a class="js-email" href="mailto:gourmandhouse@gmail.com">gourmandhouse@gmail.com</a></div>
-        <div class="footer-col"><h4>Follow</h4><a href="https://www.instagram.com/gourmandhouseco/" target="_blank" rel="noopener">Instagram</a><a href="#faq">FAQ</a></div>
+      <div class="footer-row">
+        <img src="assets/logo-seal-200.png" width="84" height="84" alt="Gourmand House" loading="lazy">
+        <div class="footer-links">
+          <a href="#drop">Cookies</a>
+          <a href="#story">Our story</a>
+          <a href="#events">Events</a>
+          <a href="#faq">FAQ</a>
+          <a href="https://www.instagram.com/gourmandhouseco/" target="_blank" rel="noopener">Instagram</a>
+          <a class="js-email" href="mailto:gourmandhouse@gmail.com">gourmandhouse@gmail.com</a>
+        </div>
       </div>
-      <div class="fine"><span>© <span id="year">2026</span> Gourmand House · Toronto</span><span>Next cookie drop coming soon.</span></div>
+      <div class="fine"><span>© <span id="year">2026</span> Gourmand House · Toronto</span><span>Handmade in small batches.</span></div>
     </div>
   </footer>
 
@@ -536,6 +472,19 @@
       element: $('stockCount'),
       onAvailability: available => { hasStock = available; updateOrdering(); }
     });
+    const menuDrawer = $('menuDrawer'), menuBtn = $('menuBtn');
+    function setMenu(open) {
+      menuDrawer.classList.toggle('open', open);
+      menuDrawer.setAttribute('aria-hidden', String(!open));
+      menuBtn.setAttribute('aria-expanded', String(open));
+      document.body.classList.toggle('locked', open);
+      if (open) menuDrawer.querySelector('.menu-close').focus(); else menuBtn.focus({preventScroll:true});
+    }
+    menuBtn.addEventListener('click', () => setMenu(true));
+    menuDrawer.querySelectorAll('[data-close-menu]').forEach(el => el.addEventListener('click', () => setMenu(false)));
+    menuDrawer.querySelectorAll('nav a').forEach(a => a.addEventListener('click', () => setMenu(false)));
+    document.addEventListener('keydown', e => { if (e.key === 'Escape' && menuDrawer.classList.contains('open')) setMenu(false); });
+    matchMedia('(min-width:901px)').addEventListener('change', e => { if (e.matches && menuDrawer.classList.contains('open')) setMenu(false); });
     function toast(msg) {
       const t = $('toast'); t.textContent = msg; t.classList.add('show');
       clearTimeout(toast.timer); toast.timer = setTimeout(() => t.classList.remove('show'), 1600);
@@ -563,4 +512,3 @@
   </script>
 </body>
 </html>
-
