@@ -554,7 +554,7 @@
       $('alertsLabel').textContent = soldOut ? 'Sold out' : 'Drop alerts';
       $('alertsTitle').textContent = soldOut ? 'Missed this one? Be first for the next.' : (isOpen() ? 'Get a heads-up for the next drop' : 'Get a heads-up when orders open');
       $('alertsText').textContent = soldOut ? 'Every drop is limited. Leave your email (and a number for a text) and you’ll hear about the next one before it’s public.' : 'Leave your email (and a number if you’d like a text) and we’ll tell you the moment the next drop is live. Nothing else, we promise.';
-      $('countdown').hidden = !(countdownText() && DROP.orderingOpen !== true && !soldOut);
+      $('countdown').hidden = !(countdownText() && !isOpen() && !soldOut);
     }
     function countdownText() {
       if (!DROP.opensAt) return '';
