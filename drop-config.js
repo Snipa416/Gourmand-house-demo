@@ -1,7 +1,8 @@
 /* Update this file for each drop. Keep ordering closed until checkout and shared stock are verified. */
 window.DROP = {
   orderingOpen: false,
-  checkoutVerified: false,
+  checkoutVerified: true,
+  autoOpen: true,
   dropLabel: 'Drop 01',
   opensAt: '2026-10-23T19:00:00-04:00',
   opensLabel: 'Friday, October 23 at 7:00 p.m.',
