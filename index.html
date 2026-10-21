@@ -535,12 +535,13 @@
     const capacity = DROP.capacity || 200;
     let hasStock = false, soldOut = false, unlocked = false;
     const EA = DROP.earlyAccess || {};
+    function isOpen() { return DROP.orderingOpen === true || (DROP.autoOpen === true && !!DROP.opensAt && Date.now() >= new Date(DROP.opensAt).getTime()); }
     function earlyOk() { return unlocked && EA.open === true; }
     function updateOrdering() {
-      const open = DROP.orderingOpen === true || earlyOk();
+      const open = isOpen() || earlyOk();
       const ready = open && DROP.checkoutVerified === true && hasStock;
       $('statusDot').classList.toggle('closed', !ready);
-      $('statusText').textContent = soldOut ? 'Sold out' : (ready ? (DROP.orderingOpen === true ? 'Ordering open' : 'Early access open') : 'Ordering not open yet');
+      $('statusText').textContent = soldOut ? 'Sold out' : (ready ? (isOpen() ? 'Ordering open' : 'Early access open') : 'Ordering not open yet');
       document.querySelectorAll('.add').forEach(button => {
         const url = urls[button.dataset.id];
         const allowed = ready && typeof url === 'string' && url.startsWith('https://gourmandhouseco.square.site/');
@@ -551,7 +552,7 @@
       if (soldOut) $('announcement').textContent = 'This drop is sold out · Join the list for the next one';
       else if (ready) $('announcement').textContent = DROP.announcement || 'Orders open · Pickup October 31, 5–9:30 p.m.';
       $('alertsLabel').textContent = soldOut ? 'Sold out' : 'Drop alerts';
-      $('alertsTitle').textContent = soldOut ? 'Missed this one? Be first for the next.' : (DROP.orderingOpen === true ? 'Get a heads-up for the next drop' : 'Get a heads-up when orders open');
+      $('alertsTitle').textContent = soldOut ? 'Missed this one? Be first for the next.' : (isOpen() ? 'Get a heads-up for the next drop' : 'Get a heads-up when orders open');
       $('alertsText').textContent = soldOut ? 'Every drop is limited. Leave your email (and a number for a text) and you’ll hear about the next one before it’s public.' : 'Leave your email (and a number if you’d like a text) and we’ll tell you the moment the next drop is live. Nothing else, we promise.';
       $('countdown').hidden = !(countdownText() && DROP.orderingOpen !== true && !soldOut);
     }
@@ -565,7 +566,7 @@
       return 'Orders open ' + (DROP.opensLabel || '') + ' · <b>' + (d ? d + 'd ' : '') + pad(hh) + 'h ' + pad(mm) + 'm ' + pad(ss) + 's</b>';
     }
     function tickCountdown() { const t = countdownText(); if (t) $('countdown').innerHTML = t; }
-    tickCountdown(); setInterval(tickCountdown, 1000);
+    tickCountdown(); setInterval(function () { tickCountdown(); updateOrdering(); }, 1000);
     updateOrdering();
     if (EA.code) {
       $('earlyBox').hidden = false;
