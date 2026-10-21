@@ -1,20 +1,28 @@
 # Gourmand House
 
-Website for Gourmand House, small-batch cookies in Toronto.
-Live at https://snipa416.github.io/Gourmand-house-demo/
+Static website hosted by GitHub Pages at https://gourmandhouse.ca/. Square hosts the payment checkout at https://gourmandhouseco.square.site/.
 
-It's a single static page (`index.html`) served by GitHub Pages. No build step.
+## October 31 pickup
 
-## Weekly updates
+- Orders are planned to open Friday, October 23, 2026; ordering stays disabled until checkout and shared inventory are verified.
+- Pickup: Saturday, October 31, 2026, 5–9:30 p.m., Jean Augustine Centre for Young Women's Empowerment, 101 Portland Street, Etobicoke, ON M8Y 1B1.
+- Flavours: Chocolate Sea Salt, Maple Fudge & Pecan, Butter Fudge.
+- Prices: one cookie $6; three customer-chosen cookies $21; six baker's-choice cookies $32.
+- Maximum batch capacity: 200 cookies across singles and packs together.
 
-Edit **`drop-config.js`**. It holds ordering open/closed, the banner, pickup windows, email, and product names, prices, descriptions and photos. Step-by-step instructions are in [UPDATE-A-DROP.md](UPDATE-A-DROP.md).
+## Current payment verification
 
-## How orders work
+Square reports its payment processor connected. A one-cookie cart reached the secure $6 card payment page with the correct pickup details. The owner chose to skip a real charge, so payment authorization, receipt delivery and paid-order inventory deductions have NOT been verified.
 
-There's no payment system on the site. When someone places an order, they get an order number and a button that opens a pre-filled email to Gourmand House, plus e-Transfer instructions. Event and pop-up requests work the same way through the booking form.
+The GitHub website remains a menu preview. Its retired email/e-Transfer cart is removed. The existing event-enquiry email form remains available.
 
-The order form asks the same questions as the "Gourmand House — Cookie Order Form" Google Form (full name, email, phone, cookie quantities, pickup window, notes, and the confirmation checkbox). Each order is also sent to that Google Form in the background, so responses collect there too. For that to work, the Google Form has to be published and accepting responses, and its pickup window choices must match `pickupWindows` in `drop-config.js` exactly. To turn it off, set `googleForm.enabled` to `false` in `index.html`.
+## Remaining launch work
 
-## Photos
+1. Resolve Chocolate and Maple inventory visibility in Square; check that all singles are purchasable from the Jean Augustine pickup location.
+2. Configure the $21 three-pack with exactly three customer-selected flavours and the $32 six-pack as baker's choice.
+3. Enforce the shared 200-cookie supply across all products. Independent pack inventory must not create additional cookie capacity.
+4. Deploy and authorize the read-only stock service described in `stock-service/README.md`, test it against Square, and set `inventoryEndpoint` in `drop-config.js`.
+5. Enter verified Square item links, then test mobile and desktop checkout and the count after a confirmed test order.
+6. Set `checkoutVerified` and `orderingOpen` to true only after launch checks pass and the owner is ready to accept orders. No automatic opening time has been configured.
 
-All images live in `assets/`, resized for fast loading.
+Never put a Square access token in frontend files or a public repository. The stock counter must show unavailable when it cannot retrieve a fresh count. A display counter alone does not enforce checkout capacity.

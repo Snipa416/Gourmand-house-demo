@@ -4,14 +4,14 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Gourmand House | Small-batch cookies in Toronto</title>
-  <meta name="description" content="Small-batch cookies baked in Toronto. Our next order opening is planned for October 23, pending checkout and pickup confirmation. Explore the cookies and book us for events or pop-ups.">
+  <meta name="description" content="Small-batch cookies baked in Toronto. Orders are planned to open October 23 for pickup at Jean Augustine Centre on October 31, 5–9:30 p.m. Explore the cookies and book us for events or pop-ups.">
   <meta name="theme-color" content="#24140e">
   <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png">
   <link rel="icon" type="image/png" sizes="64x64" href="assets/favicon-64.png">
   <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
   <meta property="og:type" content="website">
   <meta property="og:title" content="Gourmand House | Small-batch cookies in Toronto">
-  <meta property="og:description" content="Gourmand House is preparing its next cookie drop. The October 23 opening is planned, pending checkout and pickup confirmation.">
+  <meta property="og:description" content="Gourmand House is preparing its next cookie drop. Three cookie flavours. Orders planned October 23; pickup October 31 at Jean Augustine Centre, 5–9:30 p.m.">
   <meta property="og:image" content="https://gourmandhouse.ca/assets/og-cover.jpg">
   <meta property="og:url" content="https://gourmandhouse.ca/">
   <meta name="twitter:card" content="summary_large_image">
@@ -91,7 +91,7 @@
     /* Drop */
     .drop-head{display:flex;justify-content:space-between;align-items:end;gap:32px;margin-bottom:48px}
     .drop-head .lede{margin:0;max-width:400px}
-    .products{display:grid;grid-template-columns:1fr 1fr;gap:24px}
+    .products{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:24px}
     .product{background:#fffaf1;border:1px solid var(--line);display:flex;flex-direction:column}
     .product-photo{aspect-ratio:4/3;overflow:hidden;background:var(--sand)}
     .product-photo img{width:100%;height:100%!important;object-fit:cover;transition:transform .8s ease}
@@ -287,7 +287,6 @@
       <a class="brand" href="#top" aria-label="Gourmand House home"><img src="assets/logo-seal-200.png" width="72" height="72" alt="Gourmand House"></a>
       <div class="header-actions">
         <a class="ig" href="https://www.instagram.com/gourmandhouseco/" target="_blank" rel="noopener">Instagram</a>
-        <button class="bag-btn" type="button" onclick="openBag()" aria-label="Open your bag" hidden>Bag <span class="bag-count" id="bagCount">0</span></button>
       </div>
     </div>
   </header>
@@ -297,7 +296,7 @@
       <div class="hero-copy stripes">
         <p class="label">Small-batch cookies · Toronto</p>
         <h1>Cookies worth <em>coming home to.</em></h1>
-        <p class="intro">Two flavours, baked in small batches and sealed one by one. We’re aiming to open orders Friday, October 23, once checkout and pickup details are confirmed.</p>
+        <p class="intro">Three flavours, baked in small batches and sealed one by one. Orders are planned to open Friday, October 23. Pickup is Saturday, October 31, from 5–9:30 p.m.</p>
         <div class="hero-actions">
           <a class="btn" href="#drop">Preview the cookies</a>
           <a class="btn ghost" href="#events">Book us for an event</a>
@@ -311,8 +310,9 @@
     <div class="status">
       <div class="wrap status-inner">
         <span><i class="dot closed" id="statusDot"></i><span id="statusText">Ordering not open yet</span></span>
-        <span id="statusPrices">$6 a cookie · Mixed Six $32</span>
-        <span>Pickup details coming soon</span>
+        <span id="statusPrices">1 for $6 · 3 for $21 · 6 for $32</span>
+        <span>Oct 31 · 5–9:30 p.m. · 101 Portland Street</span>
+        <span id="stockCount" role="status" aria-live="polite">200-cookie maximum</span>
       </div>
     </div>
 
@@ -323,7 +323,7 @@
             <p class="label">The menu</p>
             <h2 class="section-title">The next <em>drop</em></h2>
           </div>
-          <p class="lede">Take a look at the menu. We’re aiming for Friday, October 23. Checkout and pickup details will be confirmed before orders open.</p>
+          <p class="lede">Chocolate Sea Salt, Maple Fudge &amp; Pecan, and Butter Fudge. Choose your three-cookie flavours, or leave the Mixed Six to the baker.</p>
         </div>
 
         <div class="products">
@@ -352,16 +352,34 @@
               <div class="product-foot"><button class="btn add" type="button" data-id="maple" disabled>Ordering soon</button></div>
             </div>
           </article>
+          <article class="product" data-product="butter">
+            <div class="product-photo" style="display:grid;place-items:center;background:var(--cream)"><img src="assets/logo-seal-200.png" width="200" height="200" loading="lazy" style="width:160px;height:160px!important;object-fit:contain" alt="Gourmand House seal"></div>
+            <div class="product-info">
+              <div class="product-top"><h3 class="p-name">Butter Fudge</h3><span class="price p-price">$6</span></div>
+              <p class="p-desc">Butter fudge cookie.</p>
+              <div class="tags p-tags"><span class="tag">May contain tree nuts</span></div>
+              <div class="product-foot"><button class="btn add" type="button" data-id="butter" disabled>Ordering soon</button></div>
+            </div>
+          </article>
         </div>
 
         <div class="bundle" data-product="box">
           <div class="bundle-copy">
-            <p class="label">Can’t pick one?</p>
+            <p class="label">Baker’s choice · $32</p>
             <h3>The Mixed <em>Six</em></h3>
-            <p class="p-desc">Three of each flavour. It’s $32, so you save $4 compared with buying six on their own.</p>
+            <p class="p-desc">Six cookies chosen by the baker from our three flavours. $32 per box.</p>
             <button class="btn light add" type="button" data-id="box" disabled>Ordering soon</button>
           </div>
-          <div class="bundle-photo"><img src="assets/mixed-six-both-flavours.jpg" width="900" height="1200" loading="lazy" alt="Close-up of both Gourmand House flavours together"></div>
+          <div class="bundle-photo"><img src="assets/mixed-six-both-flavours.jpg" width="900" height="1200" loading="lazy" alt="A close-up of Gourmand House cookies"></div>
+        </div>
+        <div class="bundle" data-product="three">
+          <div class="bundle-copy">
+            <p class="label">Your flavour choices · $21</p>
+            <h3>Choose your <em>three</em></h3>
+            <p class="p-desc">Choose three cookies from Chocolate Sea Salt, Maple Fudge &amp; Pecan, and Butter Fudge. $21 per pack.</p>
+            <button class="btn light add" type="button" data-id="three" disabled>Ordering soon</button>
+          </div>
+          <div class="bundle-photo"><img src="assets/packed-for-pickup.jpg" width="900" height="1200" loading="lazy" alt="Individually sealed Gourmand House cookies prepared for pickup"></div>
         </div>
       </div>
     </section>
@@ -378,7 +396,7 @@
           <ol class="steps">
             <li><h3>Browse the menu</h3><p>See the flavours and prices while we prepare the next drop.</p></li>
             <li><h3>Order when the drop goes live</h3><p>Once checkout is ready, select your cookies and review the available payment options before placing an order.</p></li>
-            <li><h3>Pick up your cookies</h3><p>We’ll confirm the pickup date, location, and windows before taking orders.</p></li>
+            <li><h3>Pick up your cookies</h3><p>Saturday, October 31, 5–9:30 p.m., at Jean Augustine Centre for Young Women’s Empowerment, 101 Portland Street, Etobicoke, ON M8Y 1B1. Bring your order confirmation.</p></li>
           </ol>
         </div>
       </div>
@@ -450,8 +468,8 @@
         <div>
           <details open><summary>How do I pay?</summary><p>We’re setting up online checkout for our next drop. Orders and payments are not being accepted through this website yet. We’ll show the payment options once checkout is ready.</p></details>
           <details><summary>When is my order confirmed?</summary><p>Ordering is not open yet. When checkout goes live, we’ll make the confirmation steps clear before you place an order.</p></details>
-          <details><summary>Where is pickup?</summary><p>We’ll share the pickup date, location, and available windows before we begin accepting orders.</p></details>
-          <details id="allergens"><summary>What about allergens?</summary><p>Our cookies contain wheat, milk and eggs. Maple Fudge &amp; Pecan contains pecans, and both flavours are made in the same kitchen, so any of our cookies may contain tree nuts. If you have an allergy, email us before you order.</p></details>
+          <details><summary>Where is pickup?</summary><p>Pickup is Saturday, October 31, from 5–9:30 p.m., at Jean Augustine Centre for Young Women’s Empowerment, 101 Portland Street, Etobicoke, ON M8Y 1B1. Bring your order confirmation.</p></details>
+          <details id="allergens"><summary>What about allergens?</summary><p>Our cookies contain wheat, milk and eggs. Maple Fudge &amp; Pecan contains pecans, and all three flavours are made in the same kitchen, so any of our cookies may contain tree nuts. If you have an allergy, email us before you order.</p></details>
           <details><summary>Can I order a big batch?</summary><p>Yes. Use the <a href="#events">events form</a> or email us with the date and how many cookies you need.</p></details>
         </div>
       </div>
@@ -479,251 +497,54 @@
     </div>
   </footer>
 
-  <div class="drawer" id="drawer" aria-hidden="true">
-    <div class="overlay" onclick="closeBag()"></div>
-    <aside class="panel" role="dialog" aria-modal="true" aria-labelledby="bagTitle">
-      <div class="drawer-head"><h2 id="bagTitle">Your bag</h2><button class="close" type="button" onclick="closeBag()" aria-label="Close bag">×</button></div>
-      <div class="drawer-body">
-        <div id="cartItems"></div>
-        <div id="checkout">
-          <div class="total"><span>Total</span><span id="total">$0</span></div>
-          <form class="order-form" id="orderForm" novalidate>
-            <h3>Your details</h3>
-            <div class="field"><label for="oName">Full name <span class="req">*</span></label><input id="oName" autocomplete="name" required></div>
-            <div class="field"><label for="oEmail">Email address <span class="req">*</span></label><input id="oEmail" type="email" autocomplete="email" required></div>
-            <div class="field"><label for="oPhone">Phone number <span class="req">*</span></label><input id="oPhone" type="tel" autocomplete="tel" required></div>
-            <div class="field"><label for="pickup">Preferred pickup window <span class="req">*</span></label><select id="pickup" required></select></div>
-            <div class="field"><label for="oNotes">Order notes <small>(optional)</small></label><textarea id="oNotes" placeholder="Allergy questions, gift notes, anything we should know"></textarea></div>
-            <label class="check"><input type="checkbox" id="oConfirm" required><span>I understand that my order is confirmed only after payment is received and Gourmand House replies by email. <span class="req">*</span></span></label>
-            <p class="error" id="orderError" role="alert"></p>
-            <button class="btn" type="submit" id="placeOrder">Place order</button>
-          </form>
-        </div>
-        <div class="pay" id="pay" role="status">
-          <h3>Almost done</h3>
-          <dl><dt>Order</dt><dd id="payRef"></dd><dt>Name</dt><dd id="payName"></dd><dt>Total</dt><dd id="payTotal"></dd><dt>Pickup</dt><dd id="payPickup"></dd></dl>
-          <ol>
-            <li><strong>Email us your order.</strong> The button opens your email with everything filled in.
-              <a class="btn" id="emailOrder" href="#">Email my order</a>
-              <p class="note">Nothing opened? <button type="button" id="copyOrder" style="border:0;background:none;text-decoration:underline;padding:0;font-style:italic;color:inherit">Copy the order details</button> and send them to us.</p>
-            </li>
-            <li><strong>Send the e-Transfer</strong> for <span id="payTotal2"></span> with <span id="payRef2" class="nowrap"></span> in the message.
-              <div class="copy-line"><span class="js-email-text">gourmandhouse@gmail.com</span><button type="button" id="copyEmail">Copy</button></div>
-            </li>
-          </ol>
-          <p class="note">Your order is confirmed once we receive payment and reply by email.</p>
-        </div>
-      </div>
-    </aside>
-  </div>
   <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
-  <script src="drop-config.js?v=20261023"></script>
+  <script src="drop-config.js?v=20261023-2"></script>
+  <script src="stock-counter.js?v=20261023-1"></script>
   <script>
-    /* Weekly settings live in drop-config.js. The values below are fallbacks if that file is missing. */
     const DROP = window.DROP || {};
-    const SHOP = {
-      email: DROP.email || 'gourmandhouse@gmail.com',
-      // Keep the old email checkout inaccessible until the Square storefront is verified.
-      orderingOpen: false,
-      announcement: DROP.announcement || 'Target order opening: Friday, October 23',
-      closedMessage: DROP.closedMessage || 'Orders are not open yet · Target launch October 23',
-      pickupWindows: DROP.pickupWindows || [],
-      maxPerItem: DROP.maxPerItem || 6,
-      // Orders are also sent to the "Gourmand House — Cookie Order Form" Google Form.
-      // Pickup windows must match the Google Form's choices exactly.
-      googleForm: {
-        enabled: false,
-        action: 'https://docs.google.com/forms/d/1zwKKv1jkeE_T6GCbbuscDFh-Qaslfm_8LZhSSRgz1g0/formResponse',
-        fields: { name: 'entry.1538585724', email: 'entry.1968072171', phone: 'entry.1963859349',
-                  chocolate: 'entry.1160252911', maple: 'entry.783354891', box: 'entry.2036708524',
-                  pickup: 'entry.1572275760', notes: 'entry.1882673000', confirm: 'entry.336924418' },
-        confirmText: 'I understand that my order is confirmed only after payment is received and Gourmand House replies by email.'
-      }
-    };
-    const PRODUCTS = {
-      chocolate: { name: 'Milk/Dark Chocolate Sea Salt', price: 6, img: 'assets/milk-dark-chocolate-sea-salt.jpg' },
-      maple:     { name: 'Maple Fudge & Pecan',          price: 6, img: 'assets/maple-fudge-pecan.jpg' },
-      box:       { name: 'The Mixed Six (3 of each)',    price: 32, img: 'assets/mixed-six-both-flavours.jpg' }
-    };
-    const esc = t => String(t).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
-    const moneyText = n => '$' + (Number.isInteger(n) ? n : Number(n).toFixed(2));
-    // Apply this week's products from drop-config.js
-    Object.entries(DROP.products || {}).forEach(([id, p]) => {
-      if (!PRODUCTS[id] || !p) return;
-      const price = Number(p.price) || PRODUCTS[id].price;
-      PRODUCTS[id] = { name: id === 'box' ? `${p.name || 'The Mixed Six'} (3 of each)` : (p.name || PRODUCTS[id].name), price, img: p.photo || PRODUCTS[id].img };
-      const el = document.querySelector(`[data-product="${id}"]`);
-      if (!el) return;
-      el.querySelectorAll('.p-price').forEach(x => x.textContent = moneyText(price));
-      const img = el.querySelector('img'); if (p.photo) img.src = p.photo; if (p.photoAlt) img.alt = p.photoAlt;
-      if (id === 'box') {
-        const single = PRODUCTS.chocolate.price * 3 + PRODUCTS.maple.price * 3;
-        const save = single - price;
-        el.querySelector('.p-desc').textContent = `${p.description || 'Three of each flavour.'} It’s ${moneyText(price)}` + (save > 0 ? `, so you save ${moneyText(save)} compared with buying six on their own.` : '.');
-      } else {
-        if (p.name) el.querySelector('.p-name').textContent = p.name;
-        if (p.description) el.querySelector('.p-desc').textContent = p.description;
-        el.querySelector('.p-tags').innerHTML = p.tag ? `<span class="tag">${esc(p.tag)}</span>` : '';
-      }
-    });
-    { const low = Math.min(PRODUCTS.chocolate.price, PRODUCTS.maple.price), high = Math.max(PRODUCTS.chocolate.price, PRODUCTS.maple.price);
-      document.getElementById('statusPrices').textContent = `${low === high ? moneyText(low) : moneyText(low) + '–' + moneyText(high)} a cookie · Mixed Six ${moneyText(PRODUCTS.box.price)}`; }
-
+    const SHOP = { email: DROP.email || 'gourmandhouse@gmail.com' };
     const $ = id => document.getElementById(id);
-    let cart = {};
-    let lastOrderText = '', lastBookingText = '';
-
-    document.querySelectorAll('.js-email').forEach(a => { a.href = 'mailto:' + SHOP.email; if (a.textContent.includes('@')) a.textContent = SHOP.email; });
-    document.querySelectorAll('.js-email-text').forEach(s => s.textContent = SHOP.email);
+    let lastBookingText = '';
+    document.querySelectorAll('.js-email').forEach(a => {
+      a.href = 'mailto:' + SHOP.email;
+      if (a.textContent.includes('@')) a.textContent = SHOP.email;
+    });
     $('year').textContent = new Date().getFullYear();
-    $('pickup').innerHTML = SHOP.pickupWindows.map(w => `<option>${w}</option>`).join('');
-
-    $('announcement').textContent = SHOP.announcement;
-    if (!SHOP.orderingOpen) {
-      $('statusDot').classList.add('closed');
-      $('statusText').textContent = 'Ordering not open yet';
-      $('announcement').textContent = SHOP.closedMessage; $('announcementPay').remove();
-      document.querySelector('.bag-btn').hidden = true;
-      document.querySelectorAll('.add').forEach(b => { b.disabled = true; b.textContent = 'Ordering soon'; });
+    $('announcement').textContent = DROP.closedMessage || 'Orders are not open yet · Target launch October 23';
+    document.querySelectorAll('.bag-btn').forEach(button => button.remove());
+    $('announcementPay')?.remove();
+    const urls = DROP.checkoutLinks || {};
+    let hasStock = false;
+    function updateOrdering() {
+      const ready = DROP.orderingOpen === true && DROP.checkoutVerified === true && hasStock;
+      $('statusDot').classList.toggle('closed', !ready);
+      $('statusText').textContent = ready ? 'Ordering open' : 'Ordering not open yet';
+      document.querySelectorAll('.add').forEach(button => {
+        const url = urls[button.dataset.id];
+        const allowed = ready && typeof url === 'string' && url.startsWith('https://gourmandhouseco.square.site/');
+        button.disabled = !allowed;
+        button.textContent = allowed ? 'Order on Square' : 'Ordering soon';
+        button.onclick = allowed ? () => { window.location.href = url; } : null;
+      });
+      if (ready) $('announcement').textContent = DROP.announcement || 'Orders open · Pickup October 31, 5–9:30 p.m.';
     }
-
+    updateOrdering();
+    window.startStockCounter({
+      endpoint: DROP.inventoryEndpoint,
+      capacity: 200,
+      element: $('stockCount'),
+      onAvailability: available => { hasStock = available; updateOrdering(); }
+    });
     function toast(msg) {
       const t = $('toast'); t.textContent = msg; t.classList.add('show');
       clearTimeout(toast.timer); toast.timer = setTimeout(() => t.classList.remove('show'), 1600);
     }
-    function money(n) { return '$' + n; }
-    function totals() { return Object.entries(cart).reduce((s, [id, q]) => s + PRODUCTS[id].price * q, 0); }
-    function count() { return Object.values(cart).reduce((s, q) => s + q, 0); }
-
-    document.querySelectorAll('.add').forEach(btn => btn.addEventListener('click', () => {
-      const id = btn.dataset.id;
-      if ((cart[id] || 0) >= SHOP.maxPerItem) { toast(`Online orders are limited to ${SHOP.maxPerItem} of each. Email us for more.`); return; }
-      cart[id] = (cart[id] || 0) + 1;
-      renderCart();
-      toast(PRODUCTS[id].name.replace(' (3 of each)', '') + ' added');
-    }));
-
-    function changeQty(id, n) {
-      cart[id] = Math.min(SHOP.maxPerItem, (cart[id] || 0) + n);
-      if (cart[id] <= 0) delete cart[id];
-      renderCart();
-    }
-
-    function renderCart() {
-      const entries = Object.entries(cart);
-      $('bagCount').textContent = count();
-      $('pay').classList.remove('show');
-      $('checkout').style.display = entries.length ? 'block' : 'none';
-      if (!entries.length) {
-        $('cartItems').innerHTML = `<div class="empty"><img src="assets/logo-seal-200.png" alt=""><p>Your bag is empty.</p><a class="btn ghost" href="#drop" onclick="closeBag()">See the menu</a></div>`;
-        return;
-      }
-      $('cartItems').innerHTML = entries.map(([id, q]) => `
-        <div class="cart-row">
-          <img src="${PRODUCTS[id].img}" alt="">
-          <div><h4>${PRODUCTS[id].name}</h4>
-            <div class="qty"><button type="button" aria-label="Remove one" onclick="changeQty('${id}',-1)">−</button><span>${q}</span><button type="button" aria-label="Add one" onclick="changeQty('${id}',1)" ${q >= SHOP.maxPerItem ? 'disabled' : ''}>+</button></div>
-          </div>
-          <strong>${money(PRODUCTS[id].price * q)}</strong>
-        </div>`).join('') + `<p class="qty-note">Up to ${SHOP.maxPerItem} of each item per online order. For bigger orders, <a href="#events" onclick="closeBag()">use the events form</a>.</p>`;
-      $('total').textContent = money(totals());
-    }
-
-    let lastFocus = null;
-    function openBag() {
-      lastFocus = document.activeElement;
-      $('drawer').classList.add('open'); $('drawer').setAttribute('aria-hidden', 'false');
-      document.body.classList.add('locked');
-      setTimeout(() => $('drawer').querySelector('.close').focus(), 50);
-    }
-    function closeBag() {
-      $('drawer').classList.remove('open'); $('drawer').setAttribute('aria-hidden', 'true');
-      document.body.classList.remove('locked');
-      if (lastFocus) lastFocus.focus();
-    }
-    document.addEventListener('keydown', e => { if (e.key === 'Escape' && $('drawer').classList.contains('open')) closeBag(); });
-
-    function orderNumber() {
-      const d = new Date();
-      const mmdd = String(d.getMonth() + 1).padStart(2, '0') + String(d.getDate()).padStart(2, '0');
-      return 'GH-' + mmdd + '-' + Math.random().toString(36).slice(2, 6).toUpperCase();
-    }
-
-    function sendToGoogleForm(o) {
-      const g = SHOP.googleForm;
-      if (!g || !g.enabled) return;
-      const f = g.fields, data = new URLSearchParams();
-      data.append(f.name, o.name); data.append(f.email, o.email); data.append(f.phone, o.phone);
-      data.append(f.chocolate, String(cart.chocolate || 0));
-      data.append(f.maple, String(cart.maple || 0));
-      data.append(f.box, String(cart.box || 0));
-      data.append(f.pickup, o.pickup);
-      data.append(f.notes, o.notes ? `${o.notes}\n\nOrder number: ${o.ref}` : `Order number: ${o.ref}`);
-      data.append(f.confirm, g.confirmText);
-      try { fetch(g.action, { method: 'POST', mode: 'no-cors', body: data }).catch(() => {}); } catch (e) {}
-    }
-
-    $('orderForm').addEventListener('submit', e => {
-      e.preventDefault();
-      const err = msg => { $('orderError').textContent = msg; return false; };
-      const name = $('oName').value.trim(), email = $('oEmail').value.trim(), phone = $('oPhone').value.trim();
-      const pickup = $('pickup').value, notes = $('oNotes').value.trim();
-      if (!count()) return err('Add a cookie to your bag first.');
-      if (!name) { $('oName').focus(); return err('Please add your full name.'); }
-      if (!/^\S+@\S+\.\S+$/.test(email)) { $('oEmail').focus(); return err('Please add a valid email address so we can confirm your order.'); }
-      if (phone.replace(/\D/g, '').length < 10) { $('oPhone').focus(); return err('Please add a phone number, including area code.'); }
-      if (!$('oConfirm').checked) { $('oConfirm').focus(); return err('Please tick the box to confirm you understand how orders are confirmed.'); }
-      $('orderError').textContent = '';
-
-      const ref = orderNumber(), total = money(totals());
-      const qtyLine = id => `${cart[id] || 0} × ${PRODUCTS[id].name}` + (cart[id] ? ` = ${money(PRODUCTS[id].price * cart[id])}` : '');
-      lastOrderText =
-`Hi Gourmand House,
-
-I'd like to place this order.
-
-Order number: ${ref}
-
-Full name: ${name}
-Email address: ${email}
-Phone number: ${phone}
-
-Cookie quantities:
-${['chocolate', 'maple', 'box'].map(qtyLine).join('\n')}
-Total: ${total}
-
-Preferred pickup window: ${pickup}
-Order notes: ${notes || 'None'}
-
-Order confirmation: ${SHOP.googleForm.confirmText}
-
-I'm sending the e-Transfer to ${SHOP.email} with ${ref} in the message.
-
-Thanks!`;
-      $('emailOrder').href = `mailto:${SHOP.email}?subject=${encodeURIComponent('Cookie order ' + ref + ' – ' + name)}&body=${encodeURIComponent(lastOrderText)}`;
-      $('payRef').textContent = ref; $('payRef2').textContent = ref;
-      $('payName').textContent = name;
-      $('payTotal').textContent = total; $('payTotal2').textContent = total;
-      $('payPickup').textContent = pickup;
-      sendToGoogleForm({ ref, name, email, phone, pickup, notes });
-      $('checkout').style.display = 'none';
-      $('pay').classList.add('show');
-      $('pay').scrollIntoView({ behavior: 'smooth', block: 'start' });
-    });
-
     async function copyText(text, msg) {
-      try { await navigator.clipboard.writeText(text); }
-      catch (e) {
-        const ta = document.createElement('textarea'); ta.value = text; ta.style.position = 'fixed'; ta.style.opacity = '0';
-        document.body.appendChild(ta); ta.select(); try { document.execCommand('copy'); } catch (_) {} ta.remove();
-      }
-      toast(msg);
+      try { await navigator.clipboard.writeText(text); toast(msg); }
+      catch { toast('Please copy the details from your email draft.'); }
     }
-    $('copyEmail').addEventListener('click', () => copyText(SHOP.email, 'Email address copied'));
-    $('copyOrder').addEventListener('click', () => copyText(lastOrderText, 'Order details copied'));
     $('copyBooking').addEventListener('click', () => copyText(lastBookingText, 'Booking request copied'));
-
     $('bookingForm').addEventListener('submit', e => {
       e.preventDefault();
       const f = e.target, name = f.name.value.trim(), email = f.email.value.trim();
@@ -739,9 +560,7 @@ Thanks!`;
       $('bookingNote').classList.add('show');
     });
 
-    renderCart();
   </script>
 </body>
 </html>
-
 

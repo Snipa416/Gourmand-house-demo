@@ -1,0 +1,11 @@
+name = "gourmandhouse-stock"
+main = "worker.mjs"
+compatibility_date = "2026-10-20"
+workers_dev = true
+
+[vars]
+SQUARE_LOCATION_ID = "LNTS2TVWXB76E"
+DROP_START = "2026-10-20T04:00:00Z"
+DROP_END = "2026-11-01T04:00:00Z"
+
+# Store SQUARE_ACCESS_TOKEN as a Worker secret, never in this file.
