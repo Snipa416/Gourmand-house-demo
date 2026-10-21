@@ -1,9 +1,10 @@
 /* Only display a verified, fresh count returned by the stock service. */
 (function () {
-  window.startStockCounter = function ({ endpoint, capacity, element, onAvailability }) {
-    onAvailability(false);
+  window.startStockCounter = function ({ endpoint, capacity, reserved = 0, element, onAvailability }) {
+    onAvailability(false, false);
+    const total = Math.max(0, capacity - reserved);
     if (!endpoint) {
-      element.textContent = capacity + '-cookie maximum';
+      element.textContent = total + '-cookie maximum';
       return;
     }
     let refreshing = false;
@@ -18,14 +19,15 @@
         if (data.capacity !== capacity || !Number.isInteger(data.remaining) ||
             data.remaining < 0 || data.remaining > capacity || !Number.isFinite(age) ||
             age < -60000 || age > 120000) throw new Error('Invalid stock response');
-        element.textContent = data.remaining === 0 ? 'This drop is sold out' :
-          data.remaining + ' of ' + capacity + ' cookies left';
+        const left = Math.max(0, data.remaining - reserved);
+        element.textContent = left === 0 ? 'This drop is sold out' :
+          left + ' of ' + total + ' cookies left';
         element.title = 'Confirmed paid orders · Updated ' + new Date(data.updatedAt).toLocaleTimeString();
-        onAvailability(data.remaining > 0);
+        onAvailability(left > 0, left === 0);
       } catch {
         element.textContent = 'Remaining stock temporarily unavailable';
         element.removeAttribute('title');
-        onAvailability(false);
+        onAvailability(false, false);
       } finally { refreshing = false; }
     }
     refresh();
@@ -33,4 +35,3 @@
     document.addEventListener('visibilitychange', () => { if (!document.hidden) refresh(); });
   };
 })();
-
