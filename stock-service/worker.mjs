@@ -2,7 +2,7 @@ const CAPACITY = 200;
 const ITEMS = new Map([
   ['milk/dark chocolate sea salt', 1], ['chocolate sea salt', 1],
   ['maple fudge & pecan', 1], ['butter fudge', 1],
-  ['choose your three', 3], ['three-cookie pack', 3],
+  ['choose your three', 3], ['three-cookie pack', 3], ['choose your six', 6],
   ['the mixed six', 6], ['mixed six', 6]
 ]);
 let cached;
@@ -87,6 +87,7 @@ const PRODUCTS = {
   maple: { name: 'Maple Fudge & Pecan', cents: 600, cookies: 1 },
   butter: { name: 'Butter Fudge', cents: 600, cookies: 1 },
   three: { name: 'Choose your three', cents: 2100, cookies: 3, flavours: 3 },
+  sixpick: { name: 'Choose your six', cents: 3200, cookies: 6, flavours: 6 },
   box: { name: 'The Mixed Six', cents: 3200, cookies: 6 }
 };
 const FLAVOURS = { chocolate: 'Milk/Dark Chocolate Sea Salt', maple: 'Maple Fudge & Pecan', butter: 'Butter Fudge' };
@@ -108,7 +109,7 @@ export function buildCart(input) {
     if (product.flavours) {
       const picks = raw.flavours;
       if (!Array.isArray(picks) || picks.length !== product.flavours || !picks.every(f => Object.hasOwn(FLAVOURS, f))) {
-        throw new Error('Please choose all three flavours for your pack.');
+        throw new Error('Please choose a flavour for every cookie in your pack.');
       }
       note = picks.map(f => FLAVOURS[f]).join(' + ');
     }
