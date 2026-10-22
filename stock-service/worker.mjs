@@ -86,7 +86,7 @@ const PRODUCTS = {
   chocolate: { name: 'Milk/Dark Chocolate Sea Salt', cents: 600, cookies: 1 },
   maple: { name: 'Maple Fudge & Pecan', cents: 600, cookies: 1 },
   butter: { name: 'Butter Fudge', cents: 600, cookies: 1 },
-  three: { name: 'Choose your three', cents: 2100, cookies: 3, flavours: 3 },
+  three: { name: 'Choose your three', cents: 1700, cookies: 3, flavours: 3 },
   sixpick: { name: 'Choose your six', cents: 3200, cookies: 6, flavours: 6 },
   box: { name: 'The Mixed Six', cents: 3200, cookies: 6 }
 };
