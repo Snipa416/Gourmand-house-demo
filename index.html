@@ -588,7 +588,7 @@
       const street = (P.address || '').split(',')[0];
       $('statusPickup').textContent = [short, P.timeLabel, street].filter(Boolean).join(' · ');
     }
-    if (DROP.prices) $('statusPrices').textContent = '1 for $' + DROP.prices.one + ' · 3 for $' + DROP.prices.three + ' · 6 for 
+    if (DROP.prices) $('statusPrices').textContent = '1 for $' + DROP.prices.one + ' · 3 for $' + DROP.prices.three + ' · 6 for $' + DROP.prices.six + ' · + 13% HST';
     const capacity = DROP.capacity || 200;
     let hasStock = false, soldOut = false, unlocked = false, cartReady = false;
     const cart = [];
