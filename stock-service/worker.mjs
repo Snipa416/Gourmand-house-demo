@@ -95,6 +95,14 @@ const MAX_COOKIES_PER_ORDER = 24;   // change here to raise or lower the per-ord
 const HST_PERCENT = '13';           // change here if the tax rate changes
 const PICKUP_TEXT = 'Pickup Saturday, October 31, 2026, 5-9:30 p.m. at Jean Augustine Centre for Young Women’s Empowerment, 101 Portland Street, Etobicoke.';
 const PICKUP_AT = '2026-10-31T17:00:00-04:00';
+// Hourly pickup slots: key is the start hour (24h), value is [label, start time].
+const SLOTS = {
+  '17': ['5:00-6:00 p.m.', '2026-10-31T17:00:00-04:00'],
+  '18': ['6:00-7:00 p.m.', '2026-10-31T18:00:00-04:00'],
+  '19': ['7:00-8:00 p.m.', '2026-10-31T19:00:00-04:00'],
+  '20': ['8:00-9:00 p.m.', '2026-10-31T20:00:00-04:00'],
+  '21': ['9:00-9:30 p.m.', '2026-10-31T21:00:00-04:00']
+};
 const RETURN_URL = 'https://gourmandhouse.ca/?ordered=1';
 
 export function buildCart(input) {
@@ -121,10 +129,18 @@ export function buildCart(input) {
     });
   }
   if (cookies > MAX_COOKIES_PER_ORDER) throw new Error('Orders are limited to ' + MAX_COOKIES_PER_ORDER + ' cookies. Please remove a few items.');
-  return { lines, cookies };
+  let slot = null;
+  if (input.pickupSlot !== undefined) {
+    if (typeof input.pickupSlot !== 'string' || !Object.hasOwn(SLOTS, input.pickupSlot)) throw new Error('Please choose a pickup time.');
+    slot = input.pickupSlot;
+  }
+  return { lines, cookies, slot };
 }
 
-function paymentLinkBody(env, lines, withPickup) {
+function paymentLinkBody(env, lines, withPickup, slot) {
+  const when = slot ? SLOTS[slot] : null;
+  const pickupAt = when ? when[1] : PICKUP_AT;
+  const pickupText = when ? PICKUP_TEXT.replace('5-9:30 p.m.', when[0]) : PICKUP_TEXT;
   const order = {
     location_id: env.SQUARE_LOCATION_ID,
     line_items: lines
@@ -134,27 +150,27 @@ function paymentLinkBody(env, lines, withPickup) {
   if (withPickup) {
     order.fulfillments = [{
       type: 'PICKUP', state: 'PROPOSED',
-      pickup_details: { recipient: { display_name: 'Website order' }, schedule_type: 'SCHEDULED', pickup_at: PICKUP_AT, note: PICKUP_TEXT }
+      pickup_details: { recipient: { display_name: 'Website order' }, schedule_type: 'SCHEDULED', pickup_at: pickupAt, note: pickupText }
     }];
   }
   return {
     idempotency_key: crypto.randomUUID(),
     order,
     checkout_options: { redirect_url: RETURN_URL, ask_for_shipping_address: false, allow_tipping: false, enable_coupon: false },
-    payment_note: PICKUP_TEXT
+    payment_note: pickupText
   };
 }
 
 async function createCheckout(env, input) {
-  const { lines, cookies } = buildCart(input);
+  const { lines, cookies, slot } = buildCart(input);
   const stock = await readStock(env);
   if (cookies > stock.remaining) {
     const err = new Error(stock.remaining === 0 ? 'Sorry, this drop is sold out.' : 'Only ' + stock.remaining + ' cookies are left. Please reduce your cart.');
     err.status = 409; throw err;
   }
   let result;
-  try { result = await square('online-checkout/payment-links', env, paymentLinkBody(env, lines, true)); }
-  catch { result = await square('online-checkout/payment-links', env, paymentLinkBody(env, lines, false)); }
+  try { result = await square('online-checkout/payment-links', env, paymentLinkBody(env, lines, true, slot)); }
+  catch { result = await square('online-checkout/payment-links', env, paymentLinkBody(env, lines, false, slot)); }
   const url = result.payment_link?.url;
   if (typeof url !== 'string' || !url.startsWith('https://')) throw new Error('No checkout link');
   return url;
