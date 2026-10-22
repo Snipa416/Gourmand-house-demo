@@ -482,6 +482,7 @@
           <details><summary>Where is pickup?</summary><p>Pickup is <span data-fill="dateLabel">Saturday, October 31</span>, from <span data-fill="timeLabel">5–9:30 p.m.</span>, at <span data-fill="venue">Jean Augustine Centre for Young Women’s Empowerment</span>, <span data-fill="address">101 Portland Street, Etobicoke, ON M8Y 1B1</span>. Bring your order confirmation.</p></details>
           <details><summary>What’s the pickup policy?</summary><p>Pickup is only during the pickup window, <span data-fill="dateLabel">Saturday, October 31</span>, <span data-fill="timeLabel">5–9:30 p.m.</span> Bring your order confirmation or the name on the order. A friend can pick up for you if they have your confirmation. We can’t hold orders after the window closes, so if you’re running late, email us before it ends.</p></details>
           <details id="allergens"><summary>What about allergens?</summary><p>Our cookies contain wheat, milk and eggs. Maple Fudge &amp; Pecan contains pecans, and all three flavours are made in the same kitchen, so any of our cookies may contain tree nuts. If you have an allergy, email us before you order.</p></details>
+          <details><summary>Is tax included?</summary><p>No. Prices are before tax. 13% HST is added at checkout, so a $6 cookie is $6.78 in total.</p></details>
           <details><summary>When do orders open, and how many are there?</summary><p>Each drop is limited. The live count at the top of the menu shows how many cookies are left. When a drop sells out, leave your email in the drop-alert box and you’ll hear about the next one first.</p></details>
           <details><summary>Can I order a big batch?</summary><p>Yes. Use the <a href="#events">events form</a> or email us with the date and how many cookies you need.</p></details>
         </div>
@@ -531,7 +532,147 @@
       const street = (P.address || '').split(',')[0];
       $('statusPickup').textContent = [short, P.timeLabel, street].filter(Boolean).join(' · ');
     }
-    if (DROP.prices) $('statusPrices').textContent = '1 for $' + DROP.prices.one + ' · 3 for $' + DROP.prices.three + ' · 6 for $' + DROP.prices.six;
+    if (DROP.prices) $('statusPrices').textContent = '1 for $' + DROP.prices.one + ' · 3 for $' + DROP.prices.three + ' · 6 for 
+    const capacity = DROP.capacity || 200;
+    let hasStock = false, soldOut = false, unlocked = false;
+    const EA = DROP.earlyAccess || {};
+    function isOpen() { return DROP.orderingOpen === true || (DROP.autoOpen === true && !!DROP.opensAt && Date.now() >= new Date(DROP.opensAt).getTime()); }
+    function earlyOk() { return unlocked && EA.open === true; }
+    function updateOrdering() {
+      const open = isOpen() || earlyOk();
+      const ready = open && DROP.checkoutVerified === true && hasStock;
+      $('statusDot').classList.toggle('closed', !ready);
+      $('statusText').textContent = soldOut ? 'Sold out' : (ready ? (isOpen() ? 'Ordering open' : 'Early access open') : 'Ordering not open yet');
+      document.querySelectorAll('.add').forEach(button => {
+        const url = urls[button.dataset.id];
+        const allowed = ready && typeof url === 'string' && url.startsWith('https://gourmandhouseco.square.site/');
+        button.disabled = !allowed;
+        button.textContent = allowed ? 'Order on Square' : (soldOut ? 'Sold out' : 'Ordering soon');
+        button.onclick = allowed ? () => { window.location.href = url; } : null;
+      });
+      if (soldOut) $('announcement').textContent = 'This drop is sold out · Join the list for the next one';
+      else if (ready) $('announcement').textContent = DROP.announcement || 'Orders open · Pickup October 31, 5–9:30 p.m.';
+      $('alertsLabel').textContent = soldOut ? 'Sold out' : 'Drop alerts';
+      $('alertsTitle').textContent = soldOut ? 'Missed this one? Be first for the next.' : (isOpen() ? 'Get a heads-up for the next drop' : 'Get a heads-up when orders open');
+      $('alertsText').textContent = soldOut ? 'Every drop is limited. Leave your email (and a number for a text) and you’ll hear about the next one before it’s public.' : 'Leave your email (and a number if you’d like a text) and we’ll tell you the moment the next drop is live. Nothing else, we promise.';
+      $('countdown').hidden = !(countdownText() && !isOpen() && !soldOut);
+    }
+    function countdownText() {
+      if (!DROP.opensAt) return '';
+      const ms = new Date(DROP.opensAt).getTime() - Date.now();
+      if (isNaN(ms)) return '';
+      if (ms <= 0) return 'Orders are opening any moment now.';
+      const s = Math.floor(ms / 1000), d = Math.floor(s / 86400), hh = Math.floor(s % 86400 / 3600), mm = Math.floor(s % 3600 / 60), ss = s % 60;
+      const pad = n => String(n).padStart(2, '0');
+      return 'Orders open ' + (DROP.opensLabel || '') + ' · <b>' + (d ? d + 'd ' : '') + pad(hh) + 'h ' + pad(mm) + 'm ' + pad(ss) + 's</b>';
+    }
+    function tickCountdown() { const t = countdownText(); if (t) $('countdown').innerHTML = t; }
+    tickCountdown(); setInterval(function () { tickCountdown(); updateOrdering(); }, 1000);
+    updateOrdering();
+    if (EA.code) {
+      $('earlyBox').hidden = false;
+      $('earlyBtn').addEventListener('click', () => {
+        const ok = $('earlyCode').value.trim().toLowerCase() === String(EA.code).toLowerCase();
+        if (!ok) { $('earlyMsg').textContent = 'That code didn’t match. Check it and try again.'; return; }
+        unlocked = true;
+        $('earlyMsg').textContent = EA.open === true ? 'Unlocked. You can order now.' : 'Code accepted. Early access opens ' + (EA.opensLabel || 'soon') + '.';
+        updateOrdering();
+      });
+    }
+    window.startStockCounter({
+      endpoint: DROP.inventoryEndpoint,
+      capacity: capacity,
+      reserved: DROP.reserved || 0,
+      element: $('stockCount'),
+      onAvailability: (available, out) => { hasStock = available; soldOut = !!out; updateOrdering(); }
+    });
+    if (Array.isArray(DROP.upcoming) && DROP.upcoming.length) {
+      const ul = $('upcomingList');
+      DROP.upcoming.forEach(u => {
+        const li = document.createElement('li');
+        const d = document.createElement('span'); d.className = 'u-date'; d.textContent = u.date || '';
+        const w = document.createElement('div');
+        const t = document.createElement(u.href ? 'a' : 'span'); t.className = 'u-title'; t.textContent = u.title || '';
+        if (u.href) t.href = u.href;
+        const p = document.createElement('span'); p.className = 'u-place'; p.textContent = u.place || '';
+        w.appendChild(t); w.appendChild(p); li.appendChild(d); li.appendChild(w); ul.appendChild(li);
+      });
+      $('upcoming').hidden = false;
+    }
+    function postForm(url, data) {
+      const body = new URLSearchParams();
+      Object.keys(data).forEach(k => { if (data[k] !== undefined && data[k] !== '') body.append(k, data[k]); });
+      return fetch(url, { method: 'POST', mode: 'no-cors', headers: { 'Content-Type': 'application/x-www-form-urlencoded' }, body: body.toString() });
+    }
+    $('alertsForm').addEventListener('submit', e => {
+      e.preventDefault();
+      const email = $('aEmail').value.trim(), phone = $('aPhone').value.trim(), msg = $('alertsMsg');
+      msg.className = 'msg';
+      if ($('aHp').value) { msg.textContent = 'Thanks, you’re on the list.'; return; }
+      if (!/^\S+@\S+\.\S+$/.test(email)) { msg.className = 'msg err'; msg.textContent = 'Please enter a valid email.'; $('aEmail').focus(); return; }
+      const F = (DROP.forms || {}).alerts;
+      if (!F) { msg.className = 'msg err'; msg.textContent = 'Signup is unavailable right now. Email us instead.'; return; }
+      const data = {}; data[F.email] = email; if (phone) data[F.phone] = phone;
+      $('alertsBtn').disabled = true; msg.textContent = 'Adding you…';
+      postForm(F.action, data).then(() => {
+        msg.textContent = 'You’re on the list. We’ll be in touch when the next drop is live.';
+        $('alertsForm').reset();
+      }).catch(() => {
+        msg.className = 'msg err'; msg.textContent = 'Something went wrong. Please try again or email us.';
+      }).finally(() => { $('alertsBtn').disabled = false; });
+    });
+    const menuDrawer = $('menuDrawer'), menuBtn = $('menuBtn');
+    function setMenu(open) {
+      menuDrawer.classList.toggle('open', open);
+      menuDrawer.setAttribute('aria-hidden', String(!open));
+      menuBtn.setAttribute('aria-expanded', String(open));
+      document.body.classList.toggle('locked', open);
+      if (open) menuDrawer.querySelector('.menu-close').focus(); else menuBtn.focus({preventScroll:true});
+    }
+    menuBtn.addEventListener('click', () => setMenu(true));
+    menuDrawer.querySelectorAll('[data-close-menu]').forEach(el => el.addEventListener('click', () => setMenu(false)));
+    menuDrawer.querySelectorAll('nav a').forEach(a => a.addEventListener('click', () => setMenu(false)));
+    document.addEventListener('keydown', e => { if (e.key === 'Escape' && menuDrawer.classList.contains('open')) setMenu(false); });
+    matchMedia('(min-width:901px)').addEventListener('change', e => { if (e.matches && menuDrawer.classList.contains('open')) setMenu(false); });
+    function toast(msg) {
+      const t = $('toast'); t.textContent = msg; t.classList.add('show');
+      clearTimeout(toast.timer); toast.timer = setTimeout(() => t.classList.remove('show'), 1600);
+    }
+    async function copyText(text, msg) {
+      try { await navigator.clipboard.writeText(text); toast(msg); }
+      catch { toast('Please copy the details from your email draft.'); }
+    }
+    $('bookingForm').addEventListener('submit', e => {
+      e.preventDefault();
+      const f = e.target, name = f.name.value.trim(), email = f.email.value.trim(), note = $('bookingNote');
+      if (!name || !/^\S+@\S+\.\S+$/.test(email)) {
+        $('bookingError').textContent = 'Please add your name and a valid email so we can reply.';
+        (name ? f.email : f.name).focus(); return;
+      }
+      $('bookingError').textContent = '';
+      const date = f.date.value ? new Date(f.date.value + 'T12:00').toLocaleDateString('en-CA', { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric' }) : 'Not set yet';
+      const F = (DROP.forms || {}).events;
+      const fallback = () => {
+        const text = 'Hi Gourmand House,\n\nI’d like to book you for an event.\n\nName: ' + name + '\nEmail: ' + email + '\nType of event: ' + f.type.value + '\nDate: ' + date + '\nApprox. cookies: ' + (f.count.value.trim() || 'Not sure yet') + '\nLocation: ' + (f.place.value.trim() || 'TBD') + '\n\n' + (f.message.value.trim() ? f.message.value.trim() + '\n\n' : '') + 'Thanks!';
+        window.location.href = 'mailto:' + SHOP.email + '?subject=' + encodeURIComponent('Event booking request: ' + f.type.value) + '&body=' + encodeURIComponent(text);
+        note.textContent = 'We couldn’t send that automatically, so your email app should open instead. Just press send.';
+        note.classList.add('show');
+      };
+      if (!F) { fallback(); return; }
+      const data = {}; data[F.email] = email; data[F.name] = name; data[F.type] = f.type.value;
+      if (f.date.value) { data[F.date] = f.date.value; const p = f.date.value.split('-'); data[F.date + '_year'] = p[0]; data[F.date + '_month'] = String(+p[1]); data[F.date + '_day'] = String(+p[2]); }
+      data[F.count] = f.count.value.trim(); data[F.place] = f.place.value.trim(); data[F.message] = f.message.value.trim();
+      const btn = f.querySelector('button[type=submit]'); btn.disabled = true; btn.textContent = 'Sending…';
+      postForm(F.action, data).then(() => {
+        note.textContent = 'Thank you! Your request is in. We’ll reply to ' + email + ' soon.';
+        note.classList.add('show'); f.reset();
+      }).catch(fallback).finally(() => { btn.disabled = false; btn.textContent = 'Send request'; });
+    });
+
+  </script>
+</body>
+</html>
+ + DROP.prices.six + ' · + 13% HST';
     const capacity = DROP.capacity || 200;
     let hasStock = false, soldOut = false, unlocked = false;
     const EA = DROP.earlyAccess || {};
