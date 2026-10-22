@@ -234,6 +234,7 @@
     .cart-foot .btn{width:100%;justify-content:center}
     .cart-slot{margin:0 0 12px}
     .cart-slot label{display:block;font-size:14px;font-weight:600;margin:0 0 6px}
+    .cart-where{margin:8px 0 0;font-size:14px;line-height:1.4;color:var(--muted)}
     .cart-slot select{width:100%;padding:11px 12px;font:inherit;font-size:16px;border:1px solid var(--line);border-radius:8px;background:#fff;color:inherit}
     .cart-msg{min-height:1.3em;margin:0 0 10px;font-size:15px;color:#a3341c}
     .cart-empty{padding:30px 0;color:var(--muted)}
@@ -361,7 +362,7 @@
       <div class="wrap status-inner">
         <span><i class="dot closed" id="statusDot"></i><span id="statusText">Ordering not open yet</span></span>
         <span id="statusPrices">1 for $6 · 3 for $21 · 6 for $32</span>
-        <span id="statusPickup">Oct 31 · 5–9:30 p.m. · 101 Portland Street</span>
+        <span id="statusPickup">Oct 31 · 5–9:30 p.m. · Jean Augustine Centre, 101 Portland Street</span>
         <span id="stockCount" role="status" aria-live="polite">200-cookie maximum</span>
       </div>
     </div>
@@ -573,7 +574,7 @@
     <div class="cart-lines" id="cartLines"></div>
     <div class="cart-foot">
       <div class="cart-sum"><span>Subtotal</span><span id="cSub">$0.00</span><span hidden id="cTax"></span><span hidden id="cTot"></span></div>
-      <div class="cart-slot"><label for="pickSlot">Pickup time · Saturday, Oct 31</label><select id="pickSlot"><option value="">Choose your pickup hour</option><option value="17">5:00 – 6:00 p.m.</option><option value="18">6:00 – 7:00 p.m.</option><option value="19">7:00 – 8:00 p.m.</option><option value="20">8:00 – 9:00 p.m.</option><option value="21">9:00 – 9:30 p.m.</option></select></div>
+      <div class="cart-slot"><label for="pickSlot">Pickup time · Saturday, Oct 31</label><select id="pickSlot"><option value="">Choose your pickup hour</option><option value="17">5:00 – 6:00 p.m.</option><option value="18">6:00 – 7:00 p.m.</option><option value="19">7:00 – 8:00 p.m.</option><option value="20">8:00 – 9:00 p.m.</option><option value="21">9:00 – 9:30 p.m.</option></select><p class="cart-where"><strong>Pickup location:</strong> Jean Augustine Centre for Young Women&rsquo;s Empowerment, 101 Portland Street, Etobicoke, ON M8Y 1B1</p></div>
       <p class="cart-msg" id="cartMsg" role="alert"></p>
       <button class="btn" type="button" id="cartGo">Checkout with Square</button>
     </div>
