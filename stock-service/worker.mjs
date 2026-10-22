@@ -127,8 +127,9 @@ export function buildCart(input) {
 function paymentLinkBody(env, lines, withPickup) {
   const order = {
     location_id: env.SQUARE_LOCATION_ID,
-    line_items: lines,
-    taxes: [{ uid: 'hst', name: 'HST', percentage: HST_PERCENT, scope: 'ORDER' }]
+    line_items: lines
+    // No tax line: Gourmand House is not registered for GST/HST. To charge it later, add
+    // taxes: [{ uid: 'hst', name: 'HST', percentage: HST_PERCENT, scope: 'ORDER' }]
   };
   if (withPickup) {
     order.fulfillments = [{
