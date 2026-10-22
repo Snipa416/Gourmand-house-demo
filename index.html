@@ -232,6 +232,9 @@
     .cart-sum{display:grid;grid-template-columns:1fr auto;gap:6px 12px;font-size:16px;margin-bottom:14px}
     .cart-sum .tot{font-size:20px;font-weight:600}
     .cart-foot .btn{width:100%;justify-content:center}
+    .cart-slot{margin:0 0 12px}
+    .cart-slot label{display:block;font-size:14px;font-weight:600;margin:0 0 6px}
+    .cart-slot select{width:100%;padding:11px 12px;font:inherit;font-size:16px;border:1px solid var(--line);border-radius:8px;background:#fff;color:inherit}
     .cart-msg{min-height:1.3em;margin:0 0 10px;font-size:15px;color:#a3341c}
     .cart-empty{padding:30px 0;color:var(--muted)}
     .pick{position:fixed;inset:0;z-index:70;display:none;align-items:center;justify-content:center;background:rgba(36,20,14,.55);padding:16px}
@@ -407,7 +410,7 @@
           </article>
 
           <article class="product" data-product="maple">
-            <div class="product-photo cut"><img src="assets/cookie-maple-pecan.png" width="680" height="673" loading="lazy" alt="A maple fudge and pecan cookie"></div>
+            <div class="product-photo"><img src="assets/maple-fudge-pecan-photo.jpg" width="1200" height="900" loading="lazy" alt="Close-up of maple fudge and pecan cookies"></div>
             <div class="product-info">
               <div class="product-top">
                 <h3 class="p-name">Maple Fudge &amp; Pecan</h3>
@@ -419,7 +422,7 @@
             </div>
           </article>
           <article class="product" data-product="butter">
-            <div class="product-photo cut"><img src="assets/cookie-butter-fudge.png" width="678" height="568" loading="lazy" alt="Two butter fudge cookies"></div>
+            <div class="product-photo cut"><img src="assets/cookie-butter-fudge-v2.png" width="680" height="652" loading="lazy" alt="A butter fudge cookie"></div>
             <div class="product-info">
               <div class="product-top"><h3 class="p-name">Butter Fudge</h3><span class="price p-price">$6</span></div>
               <p class="p-desc">Butter fudge cookie.</p>
@@ -570,6 +573,7 @@
     <div class="cart-lines" id="cartLines"></div>
     <div class="cart-foot">
       <div class="cart-sum"><span>Subtotal</span><span id="cSub">$0.00</span><span hidden id="cTax"></span><span hidden id="cTot"></span></div>
+      <div class="cart-slot"><label for="pickSlot">Pickup time · Saturday, Oct 31</label><select id="pickSlot"><option value="">Choose your pickup hour</option><option value="17">5:00 – 6:00 p.m.</option><option value="18">6:00 – 7:00 p.m.</option><option value="19">7:00 – 8:00 p.m.</option><option value="20">8:00 – 9:00 p.m.</option><option value="21">9:00 – 9:30 p.m.</option></select></div>
       <p class="cart-msg" id="cartMsg" role="alert"></p>
       <button class="btn" type="button" id="cartGo">Checkout with Square</button>
     </div>
@@ -789,12 +793,16 @@
     $('cartClose').addEventListener('click', () => setPanel(false));
     $('cartOverlay').addEventListener('click', () => setPanel(false));
     document.addEventListener('keydown', e => { if (e.key === 'Escape') { setPanel(false); $('pickModal').classList.remove('open'); } });
+    try { const sv = sessionStorage.getItem('gh-slot'); if (sv) $('pickSlot').value = sv; } catch (e) {}
+    $('pickSlot').addEventListener('change', () => { try { sessionStorage.setItem('gh-slot', $('pickSlot').value); } catch (e) {} });
     $('cartGo').addEventListener('click', async () => {
       const msg = $('cartMsg'), btn = $('cartGo'); msg.textContent = '';
       if (!cart.length) return;
+      const slotSel = $('pickSlot');
+      if (!slotSel.value) { msg.textContent = 'Please choose a pickup time.'; slotSel.focus(); return; }
       btn.disabled = true; btn.textContent = 'Opening Square…';
       try {
-        const res = await fetch(CART_API, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ items: cart.map(l => ({ id: l.id, qty: l.qty, ...(l.flavours ? { flavours: l.flavours } : {}) })) }) });
+        const res = await fetch(CART_API, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ pickupSlot: slotSel.value, items: cart.map(l => ({ id: l.id, qty: l.qty, ...(l.flavours ? { flavours: l.flavours } : {}) })) }) });
         const data = await res.json().catch(() => ({}));
         if (res.ok && data.url && /^https:\/\//.test(data.url)) { window.location.href = data.url; return; }
         msg.textContent = data.error || 'Checkout is unavailable right now. Please try again in a moment.';
