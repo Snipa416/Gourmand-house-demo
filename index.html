@@ -131,6 +131,8 @@
     .product{background:#fffaf1;border:1px solid var(--line);display:flex;flex-direction:column}
     .product-photo{aspect-ratio:4/3;overflow:hidden;background:var(--sand)}
     .product-photo img{width:100%;height:100%!important;object-fit:cover}
+    .product-photo.cut{background:var(--cream);display:grid;place-items:center}
+    .product-photo.cut img{width:auto;height:auto!important;max-width:84%;max-height:84%;object-fit:contain}
     .product-info{padding:24px;display:flex;flex-direction:column;flex:1}
     .product-top{display:flex;justify-content:space-between;align-items:start;gap:20px}
     .product h3{font-size:clamp(24px,2.2vw,30px);line-height:1.1}
@@ -348,7 +350,7 @@
         </div>
       </div>
       <div class="hero-photo">
-        <img src="assets/hero-sealed-cookie-over-trays.jpg" width="1050" height="1400" alt="A hand holding a Gourmand House cookie sealed with the round logo sticker, over trays of freshly baked cookies" fetchpriority="high">
+        <img src="assets/hero-sealed-cookie-over-trays.jpg?v=20261022" width="1050" height="1400" alt="A hand holding a Gourmand House cookie sealed with the round logo sticker, over trays of freshly baked cookies" fetchpriority="high">
       </div>
     </section>
 
@@ -392,7 +394,7 @@
 
         <div class="products">
           <article class="product" data-product="chocolate">
-            <div class="product-photo"><img src="assets/milk-dark-chocolate-sea-salt.jpg" width="1200" height="900" loading="lazy" alt="Milk and dark chocolate sea salt cookies with large chocolate pieces and salt flakes"></div>
+            <div class="product-photo cut"><img src="assets/cookie-milk-dark.png" width="680" height="628" loading="lazy" alt="Two milk and dark chocolate sea salt cookies with large chocolate pieces and salt flakes"></div>
             <div class="product-info">
               <div class="product-top">
                 <h3 class="p-name">Milk/Dark Chocolate Sea Salt</h3>
@@ -405,7 +407,7 @@
           </article>
 
           <article class="product" data-product="maple">
-            <div class="product-photo"><img src="assets/maple-fudge-pecan.jpg" width="1200" height="900" loading="lazy" alt="Maple fudge and pecan cookies on a wooden table"></div>
+            <div class="product-photo cut"><img src="assets/cookie-maple-pecan.png" width="680" height="673" loading="lazy" alt="A maple fudge and pecan cookie"></div>
             <div class="product-info">
               <div class="product-top">
                 <h3 class="p-name">Maple Fudge &amp; Pecan</h3>
@@ -417,7 +419,7 @@
             </div>
           </article>
           <article class="product" data-product="butter">
-            <div class="product-photo" style="display:grid;place-items:center;background:var(--cream)"><img src="assets/logo-seal-200.png" width="200" height="200" loading="lazy" style="width:160px;height:160px!important;object-fit:contain" alt="Gourmand House seal"></div>
+            <div class="product-photo cut"><img src="assets/cookie-butter-fudge.png" width="678" height="568" loading="lazy" alt="Two butter fudge cookies"></div>
             <div class="product-info">
               <div class="product-top"><h3 class="p-name">Butter Fudge</h3><span class="price p-price">$6</span></div>
               <p class="p-desc">Butter fudge cookie.</p>
