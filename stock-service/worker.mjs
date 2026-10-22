@@ -179,6 +179,9 @@ export default {
       // GET tells the website the cart is available. POST creates a Square checkout link.
       if (request.method === 'GET') return new Response('{"ready":true}', { headers });
       if (!origin || !allowed.has(origin)) return new Response('{}', { status: 403, headers });
+      // Orders are refused until the drop window opens (DROP_START) and after it closes (DROP_END).
+      if (Date.now() < Date.parse(env.DROP_START)) return new Response('{"error":"Ordering has not opened yet."}', { status: 403, headers });
+      if (Date.now() >= Date.parse(env.DROP_END)) return new Response('{"error":"Ordering for this drop has closed."}', { status: 403, headers });
       try {
         const text = await request.text();
         if (text.length > 4000) return new Response('{"error":"Request too large"}', { status: 413, headers });
