@@ -104,6 +104,7 @@
     /* Status strip */
     .status{border-bottom:1px solid var(--line)}
     .status-inner{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:12px 36px;padding:22px var(--gutter);font-size:clamp(17px,1.5vw,20px)}
+    #statusPrices{font-size:1.1em}
     #statusText,#stockCount{font-size:1.2em;font-weight:600;letter-spacing:.01em}
     #stockCount{color:var(--clay)}
     .status .dot{width:13px;height:13px}
@@ -133,14 +134,14 @@
     .product-info{padding:24px;display:flex;flex-direction:column;flex:1}
     .product-top{display:flex;justify-content:space-between;align-items:start;gap:20px}
     .product h3{font-size:clamp(24px,2.2vw,30px);line-height:1.1}
-    .price{font-size:26px;white-space:nowrap}
+    .price{font-size:30px;white-space:nowrap}
     .product p{margin:10px 0 0;color:var(--muted)}
     .tags{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px}
     .tag{font-size:13px;border:1px solid var(--line);border-radius:999px;padding:3px 12px;color:var(--cocoa);font-style:italic}
     .product-foot{margin-top:auto;padding-top:22px;display:flex;justify-content:flex-end}
     .packs{margin-top:24px;display:grid;grid-template-columns:repeat(auto-fit,minmax(290px,1fr));gap:24px}
     .pack{background:var(--espresso);color:var(--cream);padding:clamp(26px,3.4vw,40px);display:flex;flex-direction:column;align-items:flex-start}
-    .pack .label{color:var(--sand);margin-bottom:10px}
+    .pack .label{color:var(--sand);margin-bottom:10px;font-size:15px}
     .pack h3{font-size:clamp(30px,3.4vw,44px);line-height:1.05}
     .pack h3 em{color:var(--sand)}
     .pack p{color:#dcc8b4;margin:12px 0 24px}
@@ -781,259 +782,6 @@
       const picks = [...document.querySelectorAll('.pick-sel')].map(s => s.value);
       if (picks.some(p => !p)) { $('pickErr').textContent = 'Please choose a flavour for every cookie.'; return; }
       $('pickModal').classList.remove('open'); addToCart(pickId, picks);
-    });
-    $('cartOpen').addEventListener('click', () => setPanel(true));
-    $('cartClose').addEventListener('click', () => setPanel(false));
-    $('cartOverlay').addEventListener('click', () => setPanel(false));
-    document.addEventListener('keydown', e => { if (e.key === 'Escape') { setPanel(false); $('pickModal').classList.remove('open'); } });
-    $('cartGo').addEventListener('click', async () => {
-      const msg = $('cartMsg'), btn = $('cartGo'); msg.textContent = '';
-      if (!cart.length) return;
-      btn.disabled = true; btn.textContent = 'Opening Square…';
-      try {
-        const res = await fetch(CART_API, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ items: cart.map(l => ({ id: l.id, qty: l.qty, ...(l.flavours ? { flavours: l.flavours } : {}) })) }) });
-        const data = await res.json().catch(() => ({}));
-        if (res.ok && data.url && /^https:\/\//.test(data.url)) { window.location.href = data.url; return; }
-        msg.textContent = data.error || 'Checkout is unavailable right now. Please try again in a moment.';
-      } catch (e) {
-        msg.textContent = 'Couldn’t reach checkout. Check your connection and try again.';
-      }
-      btn.disabled = false; btn.textContent = 'Checkout with Square';
-    });
-    loadCart(); renderCart();
-    if (/[?&]ordered=1/.test(location.search)) {
-      cart.length = 0; saveCart(); renderCart();
-      toast('Thank you! Your order is in. Check your email for the receipt.');
-      try { history.replaceState(null, '', location.pathname + location.hash); } catch (e) {}
-    }
-    if (CART_API.startsWith('https://')) {
-      fetch(CART_API, { cache: 'no-store' }).then(r => r.ok ? r.json() : null).then(d => {
-        if (d && d.ready === true && DROP.prices) { cartReady = true; renderCart(); updateOrdering(); }
-      }).catch(() => {});
-    }
-    const menuDrawer = $('menuDrawer'), menuBtn = $('menuBtn');
-    function setMenu(open) {
-      menuDrawer.classList.toggle('open', open);
-      menuDrawer.setAttribute('aria-hidden', String(!open));
-      menuBtn.setAttribute('aria-expanded', String(open));
-      document.body.classList.toggle('locked', open);
-      if (open) menuDrawer.querySelector('.menu-close').focus(); else menuBtn.focus({preventScroll:true});
-    }
-    menuBtn.addEventListener('click', () => setMenu(true));
-    menuDrawer.querySelectorAll('[data-close-menu]').forEach(el => el.addEventListener('click', () => setMenu(false)));
-    menuDrawer.querySelectorAll('nav a').forEach(a => a.addEventListener('click', () => setMenu(false)));
-    document.addEventListener('keydown', e => { if (e.key === 'Escape' && menuDrawer.classList.contains('open')) setMenu(false); });
-    matchMedia('(min-width:901px)').addEventListener('change', e => { if (e.matches && menuDrawer.classList.contains('open')) setMenu(false); });
-    function toast(msg) {
-      const t = $('toast'); t.textContent = msg; t.classList.add('show');
-      clearTimeout(toast.timer); toast.timer = setTimeout(() => t.classList.remove('show'), 1600);
-    }
-    async function copyText(text, msg) {
-      try { await navigator.clipboard.writeText(text); toast(msg); }
-      catch { toast('Please copy the details from your email draft.'); }
-    }
-    $('bookingForm').addEventListener('submit', e => {
-      e.preventDefault();
-      const f = e.target, name = f.name.value.trim(), email = f.email.value.trim(), note = $('bookingNote');
-      if (!name || !/^\S+@\S+\.\S+$/.test(email)) {
-        $('bookingError').textContent = 'Please add your name and a valid email so we can reply.';
-        (name ? f.email : f.name).focus(); return;
-      }
-      $('bookingError').textContent = '';
-      const date = f.date.value ? new Date(f.date.value + 'T12:00').toLocaleDateString('en-CA', { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric' }) : 'Not set yet';
-      const F = (DROP.forms || {}).events;
-      const fallback = () => {
-        const text = 'Hi Gourmand House,\n\nI’d like to book you for an event.\n\nName: ' + name + '\nEmail: ' + email + '\nType of event: ' + f.type.value + '\nDate: ' + date + '\nApprox. cookies: ' + (f.count.value.trim() || 'Not sure yet') + '\nLocation: ' + (f.place.value.trim() || 'TBD') + '\n\n' + (f.message.value.trim() ? f.message.value.trim() + '\n\n' : '') + 'Thanks!';
-        window.location.href = 'mailto:' + SHOP.email + '?subject=' + encodeURIComponent('Event booking request: ' + f.type.value) + '&body=' + encodeURIComponent(text);
-        note.textContent = 'We couldn’t send that automatically, so your email app should open instead. Just press send.';
-        note.classList.add('show');
-      };
-      if (!F) { fallback(); return; }
-      const data = {}; data[F.email] = email; data[F.name] = name; data[F.type] = f.type.value;
-      if (f.date.value) { data[F.date] = f.date.value; const p = f.date.value.split('-'); data[F.date + '_year'] = p[0]; data[F.date + '_month'] = String(+p[1]); data[F.date + '_day'] = String(+p[2]); }
-      data[F.count] = f.count.value.trim(); data[F.place] = f.place.value.trim(); data[F.message] = f.message.value.trim();
-      const btn = f.querySelector('button[type=submit]'); btn.disabled = true; btn.textContent = 'Sending…';
-      postForm(F.action, data).then(() => {
-        note.textContent = 'Thank you! Your request is in. We’ll reply to ' + email + ' soon.';
-        note.classList.add('show'); f.reset();
-      }).catch(fallback).finally(() => { btn.disabled = false; btn.textContent = 'Send request'; });
-    });
-
-  </script>
-</body>
-</html>
- + DROP.prices.six + ' · + 13% HST';
-    const capacity = DROP.capacity || 200;
-    let hasStock = false, soldOut = false, unlocked = false, cartReady = false;
-    const cart = [];
-    const EA = DROP.earlyAccess || {};
-    function isOpen() { return DROP.orderingOpen === true || (DROP.autoOpen === true && !!DROP.opensAt && Date.now() >= new Date(DROP.opensAt).getTime()); }
-    function earlyOk() { return unlocked && EA.open === true; }
-    function updateOrdering() {
-      const open = isOpen() || earlyOk();
-      const ready = open && DROP.checkoutVerified === true && hasStock;
-      $('statusDot').classList.toggle('closed', !ready);
-      $('statusText').textContent = soldOut ? 'Sold out' : (ready ? (isOpen() ? 'Ordering open' : 'Early access open') : 'Ordering not open yet');
-      document.querySelectorAll('.add').forEach(button => {
-        const url = urls[button.dataset.id];
-        const allowed = cartReady ? ready : (ready && typeof url === 'string' && url.startsWith('https://gourmandhouseco.square.site/'));
-        button.disabled = !allowed;
-        button.textContent = allowed ? (cartReady ? (button.dataset.id === 'three' ? 'Choose flavours' : 'Add to cart') : 'Order on Square') : (soldOut ? 'Sold out' : 'Ordering soon');
-        button.onclick = allowed ? (cartReady ? () => addToCart(button.dataset.id) : () => { window.location.href = url; }) : null;
-      });
-      if (soldOut) $('announcement').textContent = 'This drop is sold out · Join the list for the next one';
-      else if (ready) $('announcement').textContent = DROP.announcement || 'Orders open · Pickup October 31, 5–9:30 p.m.';
-      $('alertsLabel').textContent = soldOut ? 'Sold out' : 'Drop alerts';
-      $('alertsTitle').textContent = soldOut ? 'Missed this one? Be first for the next.' : (isOpen() ? 'Get a heads-up for the next drop' : 'Get a heads-up when orders open');
-      $('alertsText').textContent = soldOut ? 'Every drop is limited. Leave your email (and a number for a text) and you’ll hear about the next one before it’s public.' : 'Leave your email (and a number if you’d like a text) and we’ll tell you the moment the next drop is live. Nothing else, we promise.';
-      $('countdown').hidden = !(countdownText() && !isOpen() && !soldOut);
-    }
-    function countdownText() {
-      if (!DROP.opensAt) return '';
-      const ms = new Date(DROP.opensAt).getTime() - Date.now();
-      if (isNaN(ms)) return '';
-      if (ms <= 0) return 'Orders are opening any moment now.';
-      const s = Math.floor(ms / 1000), d = Math.floor(s / 86400), hh = Math.floor(s % 86400 / 3600), mm = Math.floor(s % 3600 / 60), ss = s % 60;
-      const pad = n => String(n).padStart(2, '0');
-      return 'Orders open ' + (DROP.opensLabel || '') + ' · <b>' + (d ? d + 'd ' : '') + pad(hh) + 'h ' + pad(mm) + 'm ' + pad(ss) + 's</b>';
-    }
-    function tickCountdown() { const t = countdownText(); if (t) $('countdown').innerHTML = t; }
-    tickCountdown(); setInterval(function () { tickCountdown(); updateOrdering(); }, 1000);
-    updateOrdering();
-    if (EA.code) {
-      $('earlyBox').hidden = false;
-      $('earlyBtn').addEventListener('click', () => {
-        const ok = $('earlyCode').value.trim().toLowerCase() === String(EA.code).toLowerCase();
-        if (!ok) { $('earlyMsg').textContent = 'That code didn’t match. Check it and try again.'; return; }
-        unlocked = true;
-        $('earlyMsg').textContent = EA.open === true ? 'Unlocked. You can order now.' : 'Code accepted. Early access opens ' + (EA.opensLabel || 'soon') + '.';
-        updateOrdering();
-      });
-    }
-    window.startStockCounter({
-      endpoint: DROP.inventoryEndpoint,
-      capacity: capacity,
-      reserved: DROP.reserved || 0,
-      element: $('stockCount'),
-      onAvailability: (available, out) => { hasStock = available; soldOut = !!out; updateOrdering(); }
-    });
-    if (Array.isArray(DROP.upcoming) && DROP.upcoming.length) {
-      const ul = $('upcomingList');
-      DROP.upcoming.forEach(u => {
-        const li = document.createElement('li');
-        const d = document.createElement('span'); d.className = 'u-date'; d.textContent = u.date || '';
-        const w = document.createElement('div');
-        const t = document.createElement(u.href ? 'a' : 'span'); t.className = 'u-title'; t.textContent = u.title || '';
-        if (u.href) t.href = u.href;
-        const p = document.createElement('span'); p.className = 'u-place'; p.textContent = u.place || '';
-        w.appendChild(t); w.appendChild(p); li.appendChild(d); li.appendChild(w); ul.appendChild(li);
-      });
-      $('upcoming').hidden = false;
-    }
-    function postForm(url, data) {
-      const body = new URLSearchParams();
-      Object.keys(data).forEach(k => { if (data[k] !== undefined && data[k] !== '') body.append(k, data[k]); });
-      return fetch(url, { method: 'POST', mode: 'no-cors', headers: { 'Content-Type': 'application/x-www-form-urlencoded' }, body: body.toString() });
-    }
-    $('alertsForm').addEventListener('submit', e => {
-      e.preventDefault();
-      const email = $('aEmail').value.trim(), phone = $('aPhone').value.trim(), msg = $('alertsMsg');
-      msg.className = 'msg';
-      if ($('aHp').value) { msg.textContent = 'Thanks, you’re on the list.'; return; }
-      if (!/^\S+@\S+\.\S+$/.test(email)) { msg.className = 'msg err'; msg.textContent = 'Please enter a valid email.'; $('aEmail').focus(); return; }
-      const F = (DROP.forms || {}).alerts;
-      if (!F) { msg.className = 'msg err'; msg.textContent = 'Signup is unavailable right now. Email us instead.'; return; }
-      const data = {}; data[F.email] = email; if (phone) data[F.phone] = phone;
-      $('alertsBtn').disabled = true; msg.textContent = 'Adding you…';
-      postForm(F.action, data).then(() => {
-        msg.textContent = 'You’re on the list. We’ll be in touch when the next drop is live.';
-        $('alertsForm').reset();
-      }).catch(() => {
-        msg.className = 'msg err'; msg.textContent = 'Something went wrong. Please try again or email us.';
-      }).finally(() => { $('alertsBtn').disabled = false; });
-    });
-    /* ---------- Cart (checks out through Square via the stock service) ---------- */
-    const CART_API = (DROP.inventoryEndpoint || '').replace(/\/stock$/, '/checkout');
-    const PRICE = { chocolate: () => DROP.prices.one, maple: () => DROP.prices.one, butter: () => DROP.prices.one, three: () => DROP.prices.three, box: () => DROP.prices.six };
-    const NAMES = { chocolate: 'Milk/Dark Chocolate Sea Salt', maple: 'Maple Fudge & Pecan', butter: 'Butter Fudge', three: 'Choose your three', box: 'The Mixed Six' };
-    const COOKIES = { chocolate: 1, maple: 1, butter: 1, three: 3, box: 6 };
-    const MAX_COOKIES = DROP.maxPerOrder || 24;
-    const money = n => '$' + n.toFixed(2);
-    const cartCookies = () => cart.reduce((n, l) => n + COOKIES[l.id] * l.qty, 0);
-    const cartSub = () => cart.reduce((n, l) => n + PRICE[l.id]() * l.qty, 0);
-    function saveCart() { try { sessionStorage.setItem('gh-cart', JSON.stringify(cart)); } catch (e) {} }
-    function loadCart() {
-      try {
-        const saved = JSON.parse(sessionStorage.getItem('gh-cart') || '[]');
-        if (Array.isArray(saved)) saved.forEach(l => { if (NAMES[l.id] && Number.isInteger(l.qty) && l.qty > 0) cart.push({ id: l.id, qty: l.qty, flavours: l.flavours }); });
-      } catch (e) {}
-    }
-    function setPanel(open) {
-      $('cartPanel').classList.toggle('open', open);
-      $('cartOverlay').classList.toggle('open', open);
-      $('cartPanel').setAttribute('aria-hidden', String(!open));
-      document.body.classList.toggle('locked', open);
-      if (open) renderCart();
-    }
-    function renderCart() {
-      const n = cartCookies(), sub = cartSub(), tax = Math.round(sub * 13) / 100;
-      $('cartBar').classList.toggle('show', cartReady && cart.length > 0 && !$('cartPanel').classList.contains('open'));
-      $('cartBarText').textContent = n + (n === 1 ? ' cookie' : ' cookies') + ' · ' + money(sub);
-      $('cSub').textContent = money(sub); $('cTax').textContent = money(tax); $('cTot').textContent = money(sub + tax);
-      const box = $('cartLines'); box.textContent = '';
-      if (!cart.length) { const e = document.createElement('p'); e.className = 'cart-empty'; e.textContent = 'Your cart is empty.'; box.appendChild(e); }
-      cart.forEach((l, i) => {
-        const row = document.createElement('div'); row.className = 'cart-line';
-        const left = document.createElement('div');
-        const b = document.createElement('b'); b.textContent = NAMES[l.id]; left.appendChild(b);
-        if (l.flavours) { const s = document.createElement('small'); s.textContent = l.flavours.map(f => NAMES[f]).join(', '); left.appendChild(s); }
-        const q = document.createElement('div'); q.className = 'qty';
-        if (!l.flavours) {
-          const minus = document.createElement('button'); minus.type = 'button'; minus.textContent = '−'; minus.setAttribute('aria-label', 'Remove one');
-          minus.onclick = () => changeQty(i, -1);
-          const num = document.createElement('span'); num.textContent = l.qty;
-          const plus = document.createElement('button'); plus.type = 'button'; plus.textContent = '+'; plus.setAttribute('aria-label', 'Add one');
-          plus.onclick = () => changeQty(i, 1);
-          q.append(minus, num, plus);
-        }
-        const rm = document.createElement('button'); rm.type = 'button'; rm.className = 'rm'; rm.textContent = 'Remove';
-        rm.onclick = () => { cart.splice(i, 1); saveCart(); renderCart(); };
-        q.appendChild(rm); left.appendChild(q);
-        const price = document.createElement('div'); price.className = 'lp'; price.textContent = money(PRICE[l.id]() * l.qty);
-        row.append(left, price); box.appendChild(row);
-      });
-      $('cartGo').disabled = !cart.length;
-    }
-    function tooMany(extra) {
-      if (cartCookies() + extra > MAX_COOKIES) { toast('Orders are limited to ' + MAX_COOKIES + ' cookies.'); return true; }
-      return false;
-    }
-    function changeQty(i, d) {
-      const l = cart[i]; if (!l) return;
-      if (d > 0 && tooMany(COOKIES[l.id])) return;
-      l.qty += d; if (l.qty <= 0) cart.splice(i, 1);
-      saveCart(); renderCart();
-    }
-    function addToCart(id, flavours) {
-      if (tooMany(COOKIES[id])) return;
-      if (id === 'three' && !flavours) { openPick(); return; }
-      const existing = !flavours && cart.find(l => l.id === id && !l.flavours);
-      if (existing) existing.qty += 1; else cart.push({ id, qty: 1, ...(flavours ? { flavours } : {}) });
-      saveCart(); renderCart(); toast('Added to your cart');
-    }
-    function openPick() {
-      ['pick0', 'pick1', 'pick2'].forEach((id, i) => {
-        const s = $(id); s.textContent = '';
-        const first = document.createElement('option'); first.value = ''; first.textContent = 'Cookie ' + (i + 1) + ': choose a flavour'; s.appendChild(first);
-        ['chocolate', 'maple', 'butter'].forEach(k => { const o = document.createElement('option'); o.value = k; o.textContent = NAMES[k]; s.appendChild(o); });
-      });
-      $('pickErr').textContent = ''; $('pickModal').classList.add('open'); $('pick0').focus();
-    }
-    $('pickCancel').addEventListener('click', () => $('pickModal').classList.remove('open'));
-    $('pickAdd').addEventListener('click', () => {
-      const picks = ['pick0', 'pick1', 'pick2'].map(id => $(id).value);
-      if (picks.some(p => !p)) { $('pickErr').textContent = 'Please choose a flavour for all three cookies.'; return; }
-      $('pickModal').classList.remove('open'); addToCart('three', picks);
     });
     $('cartOpen').addEventListener('click', () => setPanel(true));
     $('cartClose').addEventListener('click', () => setPanel(false));
