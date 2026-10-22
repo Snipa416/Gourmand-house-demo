@@ -55,7 +55,7 @@ async function square(path, env, body) {
 
 async function readStock(env) {
   const now = new Date().toISOString();
-  const end = new Date(Math.min(Date.now(), Date.parse(env.DROP_END))).toISOString();
+  const end = new Date(Math.max(Date.parse(env.DROP_START), Math.min(Date.now(), Date.parse(env.DROP_END)))).toISOString();
   const orders = [], payments = [];
   let cursor;
   for (let page = 0; page < 10; page++) {
