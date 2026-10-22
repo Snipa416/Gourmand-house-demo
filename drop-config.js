@@ -1,6 +1,6 @@
 /* Update this file for each drop. Keep ordering closed until checkout and shared stock are verified. */
 window.DROP = {
-  orderingOpen: true,
+  orderingOpen: false,
   checkoutVerified: true,
   autoOpen: true,
   dropLabel: 'Drop 01',
