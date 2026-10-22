@@ -45,7 +45,7 @@ window.DROP = {
     { date: 'Oct 25', title: 'TH3RDSPACE pop-up', place: 'It’s OK* Studios, 468 Queen St W, Toronto' },
     { date: 'Oct 31', title: 'Cookie drop pickup', place: 'Jean Augustine Centre, 101 Portland Street, Etobicoke', href: '#drop' }
   ],
-  prices: { one: 6, three: 21, six: 32 },
+  prices: { one: 6, three: 17, six: 32 },
   // A public, sanitized stock endpoint. Never put a Square access token here.
   inventoryEndpoint: 'https://gourmandhouse-stock.gourmandhouse.workers.dev/stock',
   checkoutLinks: {
