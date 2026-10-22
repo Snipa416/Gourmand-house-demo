@@ -82,6 +82,82 @@ async function readStock(env) {
   return summarize(orders, payments, { location: env.SQUARE_LOCATION_ID, start: env.DROP_START, end: env.DROP_END, now });
 }
 
+const PRODUCTS = {
+  chocolate: { name: 'Milk/Dark Chocolate Sea Salt', cents: 600, cookies: 1 },
+  maple: { name: 'Maple Fudge & Pecan', cents: 600, cookies: 1 },
+  butter: { name: 'Butter Fudge', cents: 600, cookies: 1 },
+  three: { name: 'Choose your three', cents: 2100, cookies: 3, flavours: 3 },
+  box: { name: 'The Mixed Six', cents: 3200, cookies: 6 }
+};
+const FLAVOURS = { chocolate: 'Milk/Dark Chocolate Sea Salt', maple: 'Maple Fudge & Pecan', butter: 'Butter Fudge' };
+const MAX_COOKIES_PER_ORDER = 24;   // change here to raise or lower the per-order limit
+const HST_PERCENT = '13';           // change here if the tax rate changes
+const PICKUP_TEXT = 'Pickup Saturday, October 31, 2026, 5-9:30 p.m. at Jean Augustine Centre for Young Women’s Empowerment, 101 Portland Street, Etobicoke.';
+const PICKUP_AT = '2026-10-31T17:00:00-04:00';
+const RETURN_URL = 'https://gourmandhouse.ca/?ordered=1';
+
+export function buildCart(input) {
+  if (!input || !Array.isArray(input.items) || !input.items.length || input.items.length > 20) throw new Error('Your cart is empty.');
+  const lines = [];
+  let cookies = 0;
+  for (const raw of input.items) {
+    const product = Object.hasOwn(PRODUCTS, raw?.id) ? PRODUCTS[raw.id] : null;
+    const quantity = raw?.qty;
+    if (!product || !Number.isInteger(quantity) || quantity < 1 || quantity > MAX_COOKIES_PER_ORDER) throw new Error('One of the items in your cart is not valid.');
+    let note;
+    if (product.flavours) {
+      const picks = raw.flavours;
+      if (!Array.isArray(picks) || picks.length !== product.flavours || !picks.every(f => Object.hasOwn(FLAVOURS, f))) {
+        throw new Error('Please choose all three flavours for your pack.');
+      }
+      note = picks.map(f => FLAVOURS[f]).join(' + ');
+    }
+    cookies += product.cookies * quantity;
+    lines.push({
+      name: product.name, quantity: String(quantity),
+      base_price_money: { amount: product.cents, currency: 'CAD' },
+      ...(note ? { note } : {})
+    });
+  }
+  if (cookies > MAX_COOKIES_PER_ORDER) throw new Error('Orders are limited to ' + MAX_COOKIES_PER_ORDER + ' cookies. Please remove a few items.');
+  return { lines, cookies };
+}
+
+function paymentLinkBody(env, lines, withPickup) {
+  const order = {
+    location_id: env.SQUARE_LOCATION_ID,
+    line_items: lines,
+    taxes: [{ uid: 'hst', name: 'HST', percentage: HST_PERCENT, scope: 'ORDER' }]
+  };
+  if (withPickup) {
+    order.fulfillments = [{
+      type: 'PICKUP', state: 'PROPOSED',
+      pickup_details: { recipient: { display_name: 'Website order' }, schedule_type: 'SCHEDULED', pickup_at: PICKUP_AT, note: PICKUP_TEXT }
+    }];
+  }
+  return {
+    idempotency_key: crypto.randomUUID(),
+    order,
+    checkout_options: { redirect_url: RETURN_URL, ask_for_shipping_address: false, allow_tipping: false, enable_coupon: false },
+    payment_note: PICKUP_TEXT
+  };
+}
+
+async function createCheckout(env, input) {
+  const { lines, cookies } = buildCart(input);
+  const stock = await readStock(env);
+  if (cookies > stock.remaining) {
+    const err = new Error(stock.remaining === 0 ? 'Sorry, this drop is sold out.' : 'Only ' + stock.remaining + ' cookies are left. Please reduce your cart.');
+    err.status = 409; throw err;
+  }
+  let result;
+  try { result = await square('online-checkout/payment-links', env, paymentLinkBody(env, lines, true)); }
+  catch { result = await square('online-checkout/payment-links', env, paymentLinkBody(env, lines, false)); }
+  const url = result.payment_link?.url;
+  if (typeof url !== 'string' || !url.startsWith('https://')) throw new Error('No checkout link');
+  return url;
+}
+
 export default {
   async fetch(request, env) {
     const origin = request.headers.get('Origin');
@@ -89,12 +165,31 @@ export default {
     const headers = { 'Content-Type': 'application/json', 'X-Content-Type-Options': 'nosniff', Vary: 'Origin', 'Cache-Control': 'no-store' };
     if (origin && allowed.has(origin)) headers['Access-Control-Allow-Origin'] = origin;
     if (origin && !allowed.has(origin)) return new Response('{}', { status: 403, headers });
-    if (new URL(request.url).pathname !== '/stock') return new Response('{}', { status: 404, headers });
-    if (request.method === 'OPTIONS') return new Response(null, { status: 204, headers: { ...headers, 'Access-Control-Allow-Methods': 'GET, OPTIONS' } });
-    if (request.method !== 'GET') return new Response('{}', { status: 405, headers });
+    const path = new URL(request.url).pathname;
+    if (path !== '/stock' && path !== '/checkout') return new Response('{}', { status: 404, headers });
+    if (request.method === 'OPTIONS') return new Response(null, { status: 204, headers: { ...headers, 'Access-Control-Allow-Methods': 'GET, POST, OPTIONS', 'Access-Control-Allow-Headers': 'Content-Type' } });
+    if (path === '/stock' && request.method !== 'GET') return new Response('{}', { status: 405, headers });
+    if (path === '/checkout' && request.method !== 'GET' && request.method !== 'POST') return new Response('{}', { status: 405, headers });
     if (!env.SQUARE_ACCESS_TOKEN || !env.SQUARE_LOCATION_ID || !Number.isFinite(Date.parse(env.DROP_START)) ||
         !Number.isFinite(Date.parse(env.DROP_END)) || Date.parse(env.DROP_START) >= Date.parse(env.DROP_END)) {
       return new Response('{"error":"Stock service is not connected"}', { status: 503, headers });
+    }
+    if (path === '/checkout') {
+      // GET tells the website the cart is available. POST creates a Square checkout link.
+      if (request.method === 'GET') return new Response('{"ready":true}', { headers });
+      if (!origin || !allowed.has(origin)) return new Response('{}', { status: 403, headers });
+      try {
+        const text = await request.text();
+        if (text.length > 4000) return new Response('{"error":"Request too large"}', { status: 413, headers });
+        let input;
+        try { input = JSON.parse(text); } catch { return new Response('{"error":"Bad request"}', { status: 400, headers }); }
+        try { buildCart(input); } catch (e) { return new Response(JSON.stringify({ error: e.message }), { status: 400, headers }); }
+        const url = await createCheckout(env, input);
+        return new Response(JSON.stringify({ url }), { headers });
+      } catch (e) {
+        if (e.status === 409) return new Response(JSON.stringify({ error: e.message }), { status: 409, headers });
+        return new Response('{"error":"Checkout is temporarily unavailable. Please try again in a moment."}', { status: 503, headers });
+      }
     }
     try {
       const key = [env.SQUARE_LOCATION_ID, env.DROP_START, env.DROP_END].join(':');
