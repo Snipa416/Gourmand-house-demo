@@ -198,6 +198,42 @@
     @media (max-width:900px){.alerts{grid-template-columns:1fr}.packages{grid-template-columns:1fr}}
     @media (max-width:560px){.upcoming li{grid-template-columns:1fr}}
 
+    /* Cart */
+    .cartbar{position:fixed;left:50%;bottom:16px;transform:translateX(-50%);z-index:40;display:none;align-items:center;gap:14px;background:var(--espresso);color:var(--cream);padding:12px 14px 12px 22px;box-shadow:0 10px 30px rgba(36,20,14,.35);max-width:calc(100vw - 24px)}
+    .cartbar.show{display:flex}
+    .cartbar span{font-size:16px}
+    .cartbar .btn{background:var(--cream);color:var(--espresso);padding:10px 20px}
+    .cart-overlay{position:fixed;inset:0;background:rgba(36,20,14,.5);z-index:60;display:none}
+    .cart-overlay.open{display:block}
+    .cart-panel{position:fixed;top:0;right:0;bottom:0;width:min(440px,100vw);background:var(--paper);z-index:61;transform:translateX(105%);transition:transform .25s ease;display:flex;flex-direction:column}
+    .cart-panel.open{transform:none}
+    .cart-head{display:flex;justify-content:space-between;align-items:center;padding:22px 24px;border-bottom:1px solid var(--line)}
+    .cart-head h2{font-size:28px}
+    .cart-x{background:none;border:0;font-size:30px;line-height:1;padding:0 4px;color:var(--espresso)}
+    .cart-lines{flex:1;overflow:auto;padding:8px 24px}
+    .cart-line{display:grid;grid-template-columns:1fr auto;gap:4px 14px;padding:16px 0;border-bottom:1px solid var(--line)}
+    .cart-line b{font-weight:400;font-size:18px}
+    .cart-line small{display:block;color:var(--muted);font-size:14px;margin-top:2px}
+    .cart-line .lp{font-size:18px;text-align:right}
+    .qty{display:flex;align-items:center;gap:10px;margin-top:8px}
+    .qty button{width:34px;height:34px;border:1px solid var(--line);background:#fffaf1;font-size:18px;color:var(--espresso)}
+    .qty .rm{width:auto;border:0;background:none;text-decoration:underline;font-size:14px;color:var(--muted);padding:0 4px}
+    .cart-foot{padding:18px 24px 24px;border-top:1px solid var(--line);background:#fffaf1}
+    .cart-sum{display:grid;grid-template-columns:1fr auto;gap:6px 12px;font-size:16px;margin-bottom:14px}
+    .cart-sum .tot{font-size:20px;font-weight:600}
+    .cart-foot .btn{width:100%;justify-content:center}
+    .cart-msg{min-height:1.3em;margin:0 0 10px;font-size:15px;color:#a3341c}
+    .cart-empty{padding:30px 0;color:var(--muted)}
+    .pick{position:fixed;inset:0;z-index:70;display:none;align-items:center;justify-content:center;background:rgba(36,20,14,.55);padding:16px}
+    .pick.open{display:flex}
+    .pick-box{background:var(--paper);padding:28px;width:min(420px,100%)}
+    .pick-box h3{font-size:28px;margin-bottom:6px}
+    .pick-box p{margin:0 0 16px;color:var(--muted)}
+    .pick-box select{width:100%;padding:12px;margin-bottom:10px;font-size:16px;border:1px solid var(--line);background:#fffaf1;color:var(--espresso);border-radius:0}
+    .pick-actions{display:flex;gap:10px;margin-top:8px}
+    .pick-actions .btn{flex:1;justify-content:center}
+    .pick-err{color:#a3341c;min-height:1.2em;font-size:15px;margin:0 0 6px}
+
     /* FAQ */
     .faq-grid{display:grid;grid-template-columns:.8fr 1.2fr;gap:clamp(40px,6vw,90px)}
     details{border-top:1px solid var(--line)}
@@ -508,6 +544,26 @@
     </div>
   </footer>
 
+  <div class="cartbar" id="cartBar"><span id="cartBarText"></span><button class="btn" type="button" id="cartOpen">View cart</button></div>
+  <div class="cart-overlay" id="cartOverlay"></div>
+  <aside class="cart-panel" id="cartPanel" aria-hidden="true" aria-label="Your cart">
+    <div class="cart-head"><h2>Your cart</h2><button class="cart-x" type="button" id="cartClose" aria-label="Close cart">&times;</button></div>
+    <div class="cart-lines" id="cartLines"></div>
+    <div class="cart-foot">
+      <div class="cart-sum"><span>Subtotal</span><span id="cSub">$0.00</span><span>HST (13%)</span><span id="cTax">$0.00</span><span class="tot">Total</span><span class="tot" id="cTot">$0.00</span></div>
+      <p class="cart-msg" id="cartMsg" role="alert"></p>
+      <button class="btn" type="button" id="cartGo">Checkout with Square</button>
+    </div>
+  </aside>
+  <div class="pick" id="pickModal" role="dialog" aria-modal="true" aria-label="Choose your three">
+    <div class="pick-box">
+      <h3>Choose your three</h3><p>Pick a flavour for each cookie.</p>
+      <select id="pick0"></select><select id="pick1"></select><select id="pick2"></select>
+      <p class="pick-err" id="pickErr" role="alert"></p>
+      <div class="pick-actions"><button class="btn" type="button" id="pickAdd">Add to cart</button><button class="btn light" type="button" id="pickCancel" style="color:var(--espresso);border-color:var(--line)">Cancel</button></div>
+    </div>
+  </div>
+
   <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
   <script src="drop-config.js?v=20261024-2"></script>
@@ -534,7 +590,8 @@
     }
     if (DROP.prices) $('statusPrices').textContent = '1 for $' + DROP.prices.one + ' · 3 for $' + DROP.prices.three + ' · 6 for 
     const capacity = DROP.capacity || 200;
-    let hasStock = false, soldOut = false, unlocked = false;
+    let hasStock = false, soldOut = false, unlocked = false, cartReady = false;
+    const cart = [];
     const EA = DROP.earlyAccess || {};
     function isOpen() { return DROP.orderingOpen === true || (DROP.autoOpen === true && !!DROP.opensAt && Date.now() >= new Date(DROP.opensAt).getTime()); }
     function earlyOk() { return unlocked && EA.open === true; }
@@ -545,10 +602,10 @@
       $('statusText').textContent = soldOut ? 'Sold out' : (ready ? (isOpen() ? 'Ordering open' : 'Early access open') : 'Ordering not open yet');
       document.querySelectorAll('.add').forEach(button => {
         const url = urls[button.dataset.id];
-        const allowed = ready && typeof url === 'string' && url.startsWith('https://gourmandhouseco.square.site/');
+        const allowed = cartReady ? ready : (ready && typeof url === 'string' && url.startsWith('https://gourmandhouseco.square.site/'));
         button.disabled = !allowed;
-        button.textContent = allowed ? 'Order on Square' : (soldOut ? 'Sold out' : 'Ordering soon');
-        button.onclick = allowed ? () => { window.location.href = url; } : null;
+        button.textContent = allowed ? (cartReady ? (button.dataset.id === 'three' ? 'Choose flavours' : 'Add to cart') : 'Order on Square') : (soldOut ? 'Sold out' : 'Ordering soon');
+        button.onclick = allowed ? (cartReady ? () => addToCart(button.dataset.id) : () => { window.location.href = url; }) : null;
       });
       if (soldOut) $('announcement').textContent = 'This drop is sold out · Join the list for the next one';
       else if (ready) $('announcement').textContent = DROP.announcement || 'Orders open · Pickup October 31, 5–9:30 p.m.';
@@ -621,6 +678,118 @@
         msg.className = 'msg err'; msg.textContent = 'Something went wrong. Please try again or email us.';
       }).finally(() => { $('alertsBtn').disabled = false; });
     });
+    /* ---------- Cart (checks out through Square via the stock service) ---------- */
+    const CART_API = (DROP.inventoryEndpoint || '').replace(/\/stock$/, '/checkout');
+    const PRICE = { chocolate: () => DROP.prices.one, maple: () => DROP.prices.one, butter: () => DROP.prices.one, three: () => DROP.prices.three, box: () => DROP.prices.six };
+    const NAMES = { chocolate: 'Milk/Dark Chocolate Sea Salt', maple: 'Maple Fudge & Pecan', butter: 'Butter Fudge', three: 'Choose your three', box: 'The Mixed Six' };
+    const COOKIES = { chocolate: 1, maple: 1, butter: 1, three: 3, box: 6 };
+    const MAX_COOKIES = DROP.maxPerOrder || 24;
+    const money = n => '$' + n.toFixed(2);
+    const cartCookies = () => cart.reduce((n, l) => n + COOKIES[l.id] * l.qty, 0);
+    const cartSub = () => cart.reduce((n, l) => n + PRICE[l.id]() * l.qty, 0);
+    function saveCart() { try { sessionStorage.setItem('gh-cart', JSON.stringify(cart)); } catch (e) {} }
+    function loadCart() {
+      try {
+        const saved = JSON.parse(sessionStorage.getItem('gh-cart') || '[]');
+        if (Array.isArray(saved)) saved.forEach(l => { if (NAMES[l.id] && Number.isInteger(l.qty) && l.qty > 0) cart.push({ id: l.id, qty: l.qty, flavours: l.flavours }); });
+      } catch (e) {}
+    }
+    function setPanel(open) {
+      $('cartPanel').classList.toggle('open', open);
+      $('cartOverlay').classList.toggle('open', open);
+      $('cartPanel').setAttribute('aria-hidden', String(!open));
+      document.body.classList.toggle('locked', open);
+      if (open) renderCart();
+    }
+    function renderCart() {
+      const n = cartCookies(), sub = cartSub(), tax = Math.round(sub * 13) / 100;
+      $('cartBar').classList.toggle('show', cartReady && cart.length > 0 && !$('cartPanel').classList.contains('open'));
+      $('cartBarText').textContent = n + (n === 1 ? ' cookie' : ' cookies') + ' · ' + money(sub);
+      $('cSub').textContent = money(sub); $('cTax').textContent = money(tax); $('cTot').textContent = money(sub + tax);
+      const box = $('cartLines'); box.textContent = '';
+      if (!cart.length) { const e = document.createElement('p'); e.className = 'cart-empty'; e.textContent = 'Your cart is empty.'; box.appendChild(e); }
+      cart.forEach((l, i) => {
+        const row = document.createElement('div'); row.className = 'cart-line';
+        const left = document.createElement('div');
+        const b = document.createElement('b'); b.textContent = NAMES[l.id]; left.appendChild(b);
+        if (l.flavours) { const s = document.createElement('small'); s.textContent = l.flavours.map(f => NAMES[f]).join(', '); left.appendChild(s); }
+        const q = document.createElement('div'); q.className = 'qty';
+        if (!l.flavours) {
+          const minus = document.createElement('button'); minus.type = 'button'; minus.textContent = '−'; minus.setAttribute('aria-label', 'Remove one');
+          minus.onclick = () => changeQty(i, -1);
+          const num = document.createElement('span'); num.textContent = l.qty;
+          const plus = document.createElement('button'); plus.type = 'button'; plus.textContent = '+'; plus.setAttribute('aria-label', 'Add one');
+          plus.onclick = () => changeQty(i, 1);
+          q.append(minus, num, plus);
+        }
+        const rm = document.createElement('button'); rm.type = 'button'; rm.className = 'rm'; rm.textContent = 'Remove';
+        rm.onclick = () => { cart.splice(i, 1); saveCart(); renderCart(); };
+        q.appendChild(rm); left.appendChild(q);
+        const price = document.createElement('div'); price.className = 'lp'; price.textContent = money(PRICE[l.id]() * l.qty);
+        row.append(left, price); box.appendChild(row);
+      });
+      $('cartGo').disabled = !cart.length;
+    }
+    function tooMany(extra) {
+      if (cartCookies() + extra > MAX_COOKIES) { toast('Orders are limited to ' + MAX_COOKIES + ' cookies.'); return true; }
+      return false;
+    }
+    function changeQty(i, d) {
+      const l = cart[i]; if (!l) return;
+      if (d > 0 && tooMany(COOKIES[l.id])) return;
+      l.qty += d; if (l.qty <= 0) cart.splice(i, 1);
+      saveCart(); renderCart();
+    }
+    function addToCart(id, flavours) {
+      if (tooMany(COOKIES[id])) return;
+      if (id === 'three' && !flavours) { openPick(); return; }
+      const existing = !flavours && cart.find(l => l.id === id && !l.flavours);
+      if (existing) existing.qty += 1; else cart.push({ id, qty: 1, ...(flavours ? { flavours } : {}) });
+      saveCart(); renderCart(); toast('Added to your cart');
+    }
+    function openPick() {
+      ['pick0', 'pick1', 'pick2'].forEach((id, i) => {
+        const s = $(id); s.textContent = '';
+        const first = document.createElement('option'); first.value = ''; first.textContent = 'Cookie ' + (i + 1) + ': choose a flavour'; s.appendChild(first);
+        ['chocolate', 'maple', 'butter'].forEach(k => { const o = document.createElement('option'); o.value = k; o.textContent = NAMES[k]; s.appendChild(o); });
+      });
+      $('pickErr').textContent = ''; $('pickModal').classList.add('open'); $('pick0').focus();
+    }
+    $('pickCancel').addEventListener('click', () => $('pickModal').classList.remove('open'));
+    $('pickAdd').addEventListener('click', () => {
+      const picks = ['pick0', 'pick1', 'pick2'].map(id => $(id).value);
+      if (picks.some(p => !p)) { $('pickErr').textContent = 'Please choose a flavour for all three cookies.'; return; }
+      $('pickModal').classList.remove('open'); addToCart('three', picks);
+    });
+    $('cartOpen').addEventListener('click', () => setPanel(true));
+    $('cartClose').addEventListener('click', () => setPanel(false));
+    $('cartOverlay').addEventListener('click', () => setPanel(false));
+    document.addEventListener('keydown', e => { if (e.key === 'Escape') { setPanel(false); $('pickModal').classList.remove('open'); } });
+    $('cartGo').addEventListener('click', async () => {
+      const msg = $('cartMsg'), btn = $('cartGo'); msg.textContent = '';
+      if (!cart.length) return;
+      btn.disabled = true; btn.textContent = 'Opening Square…';
+      try {
+        const res = await fetch(CART_API, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ items: cart.map(l => ({ id: l.id, qty: l.qty, ...(l.flavours ? { flavours: l.flavours } : {}) })) }) });
+        const data = await res.json().catch(() => ({}));
+        if (res.ok && data.url && /^https:\/\//.test(data.url)) { window.location.href = data.url; return; }
+        msg.textContent = data.error || 'Checkout is unavailable right now. Please try again in a moment.';
+      } catch (e) {
+        msg.textContent = 'Couldn’t reach checkout. Check your connection and try again.';
+      }
+      btn.disabled = false; btn.textContent = 'Checkout with Square';
+    });
+    loadCart(); renderCart();
+    if (/[?&]ordered=1/.test(location.search)) {
+      cart.length = 0; saveCart(); renderCart();
+      toast('Thank you! Your order is in. Check your email for the receipt.');
+      try { history.replaceState(null, '', location.pathname + location.hash); } catch (e) {}
+    }
+    if (CART_API.startsWith('https://')) {
+      fetch(CART_API, { cache: 'no-store' }).then(r => r.ok ? r.json() : null).then(d => {
+        if (d && d.ready === true && DROP.prices) { cartReady = true; renderCart(); updateOrdering(); }
+      }).catch(() => {});
+    }
     const menuDrawer = $('menuDrawer'), menuBtn = $('menuBtn');
     function setMenu(open) {
       menuDrawer.classList.toggle('open', open);
@@ -674,7 +843,8 @@
 </html>
  + DROP.prices.six + ' · + 13% HST';
     const capacity = DROP.capacity || 200;
-    let hasStock = false, soldOut = false, unlocked = false;
+    let hasStock = false, soldOut = false, unlocked = false, cartReady = false;
+    const cart = [];
     const EA = DROP.earlyAccess || {};
     function isOpen() { return DROP.orderingOpen === true || (DROP.autoOpen === true && !!DROP.opensAt && Date.now() >= new Date(DROP.opensAt).getTime()); }
     function earlyOk() { return unlocked && EA.open === true; }
@@ -685,10 +855,10 @@
       $('statusText').textContent = soldOut ? 'Sold out' : (ready ? (isOpen() ? 'Ordering open' : 'Early access open') : 'Ordering not open yet');
       document.querySelectorAll('.add').forEach(button => {
         const url = urls[button.dataset.id];
-        const allowed = ready && typeof url === 'string' && url.startsWith('https://gourmandhouseco.square.site/');
+        const allowed = cartReady ? ready : (ready && typeof url === 'string' && url.startsWith('https://gourmandhouseco.square.site/'));
         button.disabled = !allowed;
-        button.textContent = allowed ? 'Order on Square' : (soldOut ? 'Sold out' : 'Ordering soon');
-        button.onclick = allowed ? () => { window.location.href = url; } : null;
+        button.textContent = allowed ? (cartReady ? (button.dataset.id === 'three' ? 'Choose flavours' : 'Add to cart') : 'Order on Square') : (soldOut ? 'Sold out' : 'Ordering soon');
+        button.onclick = allowed ? (cartReady ? () => addToCart(button.dataset.id) : () => { window.location.href = url; }) : null;
       });
       if (soldOut) $('announcement').textContent = 'This drop is sold out · Join the list for the next one';
       else if (ready) $('announcement').textContent = DROP.announcement || 'Orders open · Pickup October 31, 5–9:30 p.m.';
@@ -761,6 +931,118 @@
         msg.className = 'msg err'; msg.textContent = 'Something went wrong. Please try again or email us.';
       }).finally(() => { $('alertsBtn').disabled = false; });
     });
+    /* ---------- Cart (checks out through Square via the stock service) ---------- */
+    const CART_API = (DROP.inventoryEndpoint || '').replace(/\/stock$/, '/checkout');
+    const PRICE = { chocolate: () => DROP.prices.one, maple: () => DROP.prices.one, butter: () => DROP.prices.one, three: () => DROP.prices.three, box: () => DROP.prices.six };
+    const NAMES = { chocolate: 'Milk/Dark Chocolate Sea Salt', maple: 'Maple Fudge & Pecan', butter: 'Butter Fudge', three: 'Choose your three', box: 'The Mixed Six' };
+    const COOKIES = { chocolate: 1, maple: 1, butter: 1, three: 3, box: 6 };
+    const MAX_COOKIES = DROP.maxPerOrder || 24;
+    const money = n => '$' + n.toFixed(2);
+    const cartCookies = () => cart.reduce((n, l) => n + COOKIES[l.id] * l.qty, 0);
+    const cartSub = () => cart.reduce((n, l) => n + PRICE[l.id]() * l.qty, 0);
+    function saveCart() { try { sessionStorage.setItem('gh-cart', JSON.stringify(cart)); } catch (e) {} }
+    function loadCart() {
+      try {
+        const saved = JSON.parse(sessionStorage.getItem('gh-cart') || '[]');
+        if (Array.isArray(saved)) saved.forEach(l => { if (NAMES[l.id] && Number.isInteger(l.qty) && l.qty > 0) cart.push({ id: l.id, qty: l.qty, flavours: l.flavours }); });
+      } catch (e) {}
+    }
+    function setPanel(open) {
+      $('cartPanel').classList.toggle('open', open);
+      $('cartOverlay').classList.toggle('open', open);
+      $('cartPanel').setAttribute('aria-hidden', String(!open));
+      document.body.classList.toggle('locked', open);
+      if (open) renderCart();
+    }
+    function renderCart() {
+      const n = cartCookies(), sub = cartSub(), tax = Math.round(sub * 13) / 100;
+      $('cartBar').classList.toggle('show', cartReady && cart.length > 0 && !$('cartPanel').classList.contains('open'));
+      $('cartBarText').textContent = n + (n === 1 ? ' cookie' : ' cookies') + ' · ' + money(sub);
+      $('cSub').textContent = money(sub); $('cTax').textContent = money(tax); $('cTot').textContent = money(sub + tax);
+      const box = $('cartLines'); box.textContent = '';
+      if (!cart.length) { const e = document.createElement('p'); e.className = 'cart-empty'; e.textContent = 'Your cart is empty.'; box.appendChild(e); }
+      cart.forEach((l, i) => {
+        const row = document.createElement('div'); row.className = 'cart-line';
+        const left = document.createElement('div');
+        const b = document.createElement('b'); b.textContent = NAMES[l.id]; left.appendChild(b);
+        if (l.flavours) { const s = document.createElement('small'); s.textContent = l.flavours.map(f => NAMES[f]).join(', '); left.appendChild(s); }
+        const q = document.createElement('div'); q.className = 'qty';
+        if (!l.flavours) {
+          const minus = document.createElement('button'); minus.type = 'button'; minus.textContent = '−'; minus.setAttribute('aria-label', 'Remove one');
+          minus.onclick = () => changeQty(i, -1);
+          const num = document.createElement('span'); num.textContent = l.qty;
+          const plus = document.createElement('button'); plus.type = 'button'; plus.textContent = '+'; plus.setAttribute('aria-label', 'Add one');
+          plus.onclick = () => changeQty(i, 1);
+          q.append(minus, num, plus);
+        }
+        const rm = document.createElement('button'); rm.type = 'button'; rm.className = 'rm'; rm.textContent = 'Remove';
+        rm.onclick = () => { cart.splice(i, 1); saveCart(); renderCart(); };
+        q.appendChild(rm); left.appendChild(q);
+        const price = document.createElement('div'); price.className = 'lp'; price.textContent = money(PRICE[l.id]() * l.qty);
+        row.append(left, price); box.appendChild(row);
+      });
+      $('cartGo').disabled = !cart.length;
+    }
+    function tooMany(extra) {
+      if (cartCookies() + extra > MAX_COOKIES) { toast('Orders are limited to ' + MAX_COOKIES + ' cookies.'); return true; }
+      return false;
+    }
+    function changeQty(i, d) {
+      const l = cart[i]; if (!l) return;
+      if (d > 0 && tooMany(COOKIES[l.id])) return;
+      l.qty += d; if (l.qty <= 0) cart.splice(i, 1);
+      saveCart(); renderCart();
+    }
+    function addToCart(id, flavours) {
+      if (tooMany(COOKIES[id])) return;
+      if (id === 'three' && !flavours) { openPick(); return; }
+      const existing = !flavours && cart.find(l => l.id === id && !l.flavours);
+      if (existing) existing.qty += 1; else cart.push({ id, qty: 1, ...(flavours ? { flavours } : {}) });
+      saveCart(); renderCart(); toast('Added to your cart');
+    }
+    function openPick() {
+      ['pick0', 'pick1', 'pick2'].forEach((id, i) => {
+        const s = $(id); s.textContent = '';
+        const first = document.createElement('option'); first.value = ''; first.textContent = 'Cookie ' + (i + 1) + ': choose a flavour'; s.appendChild(first);
+        ['chocolate', 'maple', 'butter'].forEach(k => { const o = document.createElement('option'); o.value = k; o.textContent = NAMES[k]; s.appendChild(o); });
+      });
+      $('pickErr').textContent = ''; $('pickModal').classList.add('open'); $('pick0').focus();
+    }
+    $('pickCancel').addEventListener('click', () => $('pickModal').classList.remove('open'));
+    $('pickAdd').addEventListener('click', () => {
+      const picks = ['pick0', 'pick1', 'pick2'].map(id => $(id).value);
+      if (picks.some(p => !p)) { $('pickErr').textContent = 'Please choose a flavour for all three cookies.'; return; }
+      $('pickModal').classList.remove('open'); addToCart('three', picks);
+    });
+    $('cartOpen').addEventListener('click', () => setPanel(true));
+    $('cartClose').addEventListener('click', () => setPanel(false));
+    $('cartOverlay').addEventListener('click', () => setPanel(false));
+    document.addEventListener('keydown', e => { if (e.key === 'Escape') { setPanel(false); $('pickModal').classList.remove('open'); } });
+    $('cartGo').addEventListener('click', async () => {
+      const msg = $('cartMsg'), btn = $('cartGo'); msg.textContent = '';
+      if (!cart.length) return;
+      btn.disabled = true; btn.textContent = 'Opening Square…';
+      try {
+        const res = await fetch(CART_API, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ items: cart.map(l => ({ id: l.id, qty: l.qty, ...(l.flavours ? { flavours: l.flavours } : {}) })) }) });
+        const data = await res.json().catch(() => ({}));
+        if (res.ok && data.url && /^https:\/\//.test(data.url)) { window.location.href = data.url; return; }
+        msg.textContent = data.error || 'Checkout is unavailable right now. Please try again in a moment.';
+      } catch (e) {
+        msg.textContent = 'Couldn’t reach checkout. Check your connection and try again.';
+      }
+      btn.disabled = false; btn.textContent = 'Checkout with Square';
+    });
+    loadCart(); renderCart();
+    if (/[?&]ordered=1/.test(location.search)) {
+      cart.length = 0; saveCart(); renderCart();
+      toast('Thank you! Your order is in. Check your email for the receipt.');
+      try { history.replaceState(null, '', location.pathname + location.hash); } catch (e) {}
+    }
+    if (CART_API.startsWith('https://')) {
+      fetch(CART_API, { cache: 'no-store' }).then(r => r.ok ? r.json() : null).then(d => {
+        if (d && d.ready === true && DROP.prices) { cartReady = true; renderCart(); updateOrdering(); }
+      }).catch(() => {});
+    }
     const menuDrawer = $('menuDrawer'), menuBtn = $('menuBtn');
     function setMenu(open) {
       menuDrawer.classList.toggle('open', open);
