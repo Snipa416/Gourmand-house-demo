@@ -48,6 +48,7 @@
     .wrap{max-width:var(--wrap);margin:0 auto;padding:0 var(--gutter)}
     .stripes{background:repeating-linear-gradient(90deg,var(--cream) 0 34px,var(--stripe) 34px 68px)}
     .label{font-size:13px;letter-spacing:.16em;text-transform:uppercase;margin:0 0 14px;color:var(--clay);font-weight:600}
+    .label.label-lg{font-size:clamp(17px,1.6vw,20px);letter-spacing:.14em;margin-bottom:16px}
     .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;border:1px solid var(--espresso);background:var(--espresso);color:var(--paper);border-radius:999px;padding:14px 24px;font-size:16px;text-decoration:none;transition:background .2s,color .2s,transform .1s;white-space:nowrap}
     .btn:hover{background:var(--cocoa);border-color:var(--cocoa)}
     .btn:active{transform:scale(.98)}
@@ -56,7 +57,7 @@
     .btn.light{background:var(--cream);color:var(--espresso);border-color:var(--cream)}
     .btn.light:hover{background:var(--paper)}
     .btn[disabled]{opacity:.45;cursor:not-allowed}
-    .section{padding:clamp(72px,10vw,128px) 0}
+    .section{padding:clamp(52px,7vw,92px) 0}
     .section-title{font-size:clamp(40px,5.4vw,72px);line-height:1.02}
     .lede{color:var(--muted);max-width:520px;margin:18px 0 0}
 
@@ -132,7 +133,7 @@
     .story-photo img{width:100%;aspect-ratio:4/3;object-fit:cover}
 
     /* Menu */
-    .drop-head{display:flex;justify-content:space-between;align-items:end;gap:32px;margin-bottom:40px}
+    .drop-head{display:flex;justify-content:space-between;align-items:end;gap:32px;margin-bottom:32px}
     .drop-head .lede{margin:0;max-width:400px}
     .products{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:24px}
     .product{background:#fffaf1;border:1px solid var(--line);display:flex;flex-direction:column}
@@ -181,10 +182,14 @@
     .form-note button{background:none;border:0;color:var(--cream);text-decoration:underline;padding:0;font-size:15px}
 
     /* Countdown, alerts, upcoming, packages */
-    .countdown{margin:22px 0 0;font-size:clamp(17px,2vw,20px);color:var(--cocoa)}
-    .countdown b{font-family:var(--serif);font-weight:500;font-size:1.25em;color:var(--espresso);letter-spacing:.02em}
+    .countdown{display:flex;flex-wrap:wrap;align-items:baseline;gap:4px 12px;margin:18px 0 0;color:var(--cocoa)}
+    .cd-label{font-size:12px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--clay)}
+    .cd-time{font-size:clamp(20px,2.2vw,24px);color:var(--espresso);font-variant-numeric:tabular-nums;letter-spacing:.01em}
+    .cd-time b{font-weight:600}
+    .cd-when{font-size:14px;color:var(--muted)}
+    .btn-lg{padding:17px 36px;font-size:18px;font-weight:600;box-shadow:0 10px 24px rgba(36,20,14,.18)}
     .countdown[hidden]{display:none}
-    .alerts{margin-top:56px;display:grid;grid-template-columns:1fr 1.1fr;gap:clamp(24px,4vw,56px);align-items:center;padding:clamp(26px,4vw,44px);background:var(--cream);border:1px solid var(--line)}
+    .alerts{margin-top:40px;display:grid;grid-template-columns:1fr 1.1fr;gap:clamp(24px,4vw,56px);align-items:center;padding:clamp(26px,4vw,44px);background:var(--cream);border:1px solid var(--line)}
     .alerts h3{font-size:clamp(26px,3vw,36px);line-height:1.1}
     .alerts p{margin:10px 0 0;color:var(--muted)}
     .alerts form{display:grid;gap:12px}
@@ -352,13 +357,13 @@
   <main id="top">
     <section class="hero">
       <div class="hero-copy stripes">
-        <p class="label">Handmade cookies · Toronto</p>
+        <p class="label">Small-batch cookies · Toronto</p>
         <h1>Handmade, <em>gourmet quality.</em></h1>
-        <p class="intro">Every Gourmand House cookie is made by hand, in small batches, right here in Toronto. We use thoughtfully chosen, gourmet-quality ingredients. Locally milled flour, real Belgian chocolate, roasted pecans, rich fudge and delicate flakes of sea salt — because the little details make all the difference.</p>
-        <p class="countdown" id="countdown" hidden></p>
+        <p class="intro">Every Gourmand House cookie is made by hand, in small batches, right here in Toronto. We use thoughtfully chosen, gourmet-quality ingredients: locally milled flour, real Belgian chocolate, roasted pecans, rich fudge and delicate flakes of sea salt, because the little details make all the difference.</p>
         <div class="hero-actions">
-          <a class="btn" href="#drop">Order now</a>
+          <a class="btn btn-lg" href="#drop">Order now</a>
         </div>
+        <p class="countdown" id="countdown" hidden></p>
       </div>
       <div class="hero-photo">
         <img src="assets/hero-sealed-cookie-over-trays.jpg?v=20261022" width="1050" height="1400" alt="A hand holding a Gourmand House cookie sealed with the round logo sticker, over trays of freshly baked cookies" fetchpriority="high">
@@ -377,12 +382,12 @@
     <section class="section" id="story">
       <div class="wrap story-grid">
         <div class="story-copy">
-          <p class="label">Our cookies</p>
+          <p class="label label-lg">Our cookies</p>
           <p>Each cookie is individually sealed in our signature bag to keep it fresh, easy to take along, and ready to gift, share, or simply keep all to yourself.</p>
-<details class="ingredients" style="margin:0 0 18px"><summary style="cursor:pointer;font-weight:600">See our ingredients list</summary><p style="margin:10px 0 0"><b>Every cookie:</b> unsalted butter, white sugar, light brown sugar, eggs, vanilla extract, locally milled all-purpose flour, baking soda and kosher salt.</p>
-          <p style="margin:8px 0 0"><b>Milk/Dark Chocolate Sea Salt:</b> Belgian chocolate (70% dark and milk) and flaky sea salt.</p>
-          <p style="margin:8px 0 0"><b>Butter Fudge:</b> butter fudge.</p>
-          <p style="margin:8px 0 0"><b>Maple Fudge &amp; Pecan:</b> maple fudge and roasted pecans.</p>
+<details class="ingredients" style="margin:0 0 18px"><summary style="cursor:pointer;font-weight:600">See our ingredients list</summary><p style="margin:10px 0 0"><b>Every cookie:</b> creamy unsalted butter, melted for a chewy centre; white and light brown sugar for crisp edges and a caramel note; whole eggs plus an extra yolk for richness; vanilla extract for warmth; locally milled all-purpose flour; a pinch of baking soda; and kosher salt to balance the sweetness.</p>
+          <p style="margin:8px 0 0"><b>Milk/Dark Chocolate Sea Salt:</b> hand-cut chunks of Belgian 70% dark chocolate and smooth Belgian milk chocolate, finished with a sprinkle of flaky sea salt.</p>
+          <p style="margin:8px 0 0"><b>Butter Fudge:</b> rich, buttery fudge pieces folded through the dough.</p>
+          <p style="margin:8px 0 0"><b>Maple Fudge &amp; Pecan:</b> sweet maple fudge pieces and toasty roasted pecans.</p>
           <p style="margin:8px 0 0"><b>Allergens:</b> contains wheat, egg and milk. Maple Fudge &amp; Pecan contains pecans (a tree nut). All flavours are made from the same dough in the same kitchen, so any cookie may contain traces of pecans.</p></details>
           <ul class="points">
             <li><b>Made by hand</b>Shaped and baked in small batches.</li>
@@ -403,7 +408,7 @@
             <p class="label">The menu</p>
             <h2 class="section-title">The <em>cookies</em></h2>
           </div>
-          <p class="lede">Pick a single cookie, choose your own three, or leave a box of six to the baker.</p>
+          <p class="lede">Pick a single cookie, choose your own three or six, or leave a box of six to the baker.</p>
         </div>
 
         <div class="products">
@@ -415,13 +420,13 @@
                 <span class="price p-price">$6</span>
               </div>
               <p class="p-desc">Milk chocolate, 70% dark chocolate, sea salt flakes.</p>
-              <div class="tags p-tags"></div>
+              <div class="tags p-tags"><span class="tag">May contain tree nuts</span></div>
               <div class="product-foot"><button class="btn add" type="button" data-id="chocolate" disabled>Ordering soon</button></div>
             </div>
           </article>
 
           <article class="product" data-product="maple">
-            <div class="product-photo"><img src="assets/maple-fudge-pecan-photo.jpg" width="1200" height="900" loading="lazy" alt="Close-up of maple fudge and pecan cookies"></div>
+            <div class="product-photo"><img src="assets/maple-fudge-pecan-photo-light.jpg" width="1200" height="900" loading="lazy" alt="Close-up of maple fudge and pecan cookies"></div>
             <div class="product-info">
               <div class="product-top">
                 <h3 class="p-name">Maple Fudge &amp; Pecan</h3>
@@ -436,7 +441,7 @@
             <div class="product-photo"><img src="assets/cookie-butter-fudge-photo.jpg" width="578" height="677" loading="lazy" alt="A butter fudge cookie"></div>
             <div class="product-info">
               <div class="product-top"><h3 class="p-name">Butter Fudge</h3><span class="price p-price">$6</span></div>
-              <p class="p-desc">Butter fudge cookie.</p>
+              <p class="p-desc">Rich, buttery fudge pieces in a golden brown-sugar dough.</p>
               <div class="tags p-tags"><span class="tag">May contain tree nuts</span></div>
               <div class="product-foot"><button class="btn add" type="button" data-id="butter" disabled>Ordering soon</button></div>
             </div>
@@ -447,13 +452,13 @@
           <div class="pack" data-product="three">
             <p class="label">Your flavour choices · $17</p>
             <h3>Choose your <em>three</em></h3>
-            <p class="p-desc">Pick any three from Chocolate Sea Salt, Maple Fudge &amp; Pecan, and Butter Fudge.</p>
+            <p class="p-desc">Pick any three from Milk/Dark Chocolate Sea Salt, Maple Fudge &amp; Pecan and Butter Fudge.</p>
             <button class="btn light add" type="button" data-id="three" disabled>Ordering soon</button>
           </div>
           <div class="pack" data-product="sixpick">
             <p class="label">Your flavour choices · $32</p>
             <h3>Choose your <em>six</em></h3>
-            <p class="p-desc">Pick any six from Chocolate Sea Salt, Maple Fudge &amp; Pecan, and Butter Fudge.</p>
+            <p class="p-desc">Pick any six from Milk/Dark Chocolate Sea Salt, Maple Fudge &amp; Pecan and Butter Fudge.</p>
             <button class="btn light add" type="button" data-id="sixpick" disabled>Ordering soon</button>
           </div>
           <div class="pack" data-product="box">
@@ -506,7 +511,7 @@
           </ul>
 
           <div class="packages" aria-label="Event packages">
-            <div class="package"><h3>Small gathering</h3><p class="size">12–24 cookies</p><p>A mix of our flavours for a birthday, babyshower or team lunch.</p></div>
+            <div class="package"><h3>Small gathering</h3><p class="size">12–24 cookies</p><p>A mix of our flavours for a birthday, baby shower or team lunch.</p></div>
             <div class="package"><h3>Party</h3><p class="size">25–60 cookies</p><p>Enough for a party or office day, in your choice of flavours.</p></div>
             <div class="package"><h3>Large event</h3><p class="size">60+ cookies</p><p>Weddings, markets and community events. We’ll plan the bake with you.</p></div>
           </div>
@@ -546,13 +551,13 @@
           <p class="lede">Something else on your mind? Email <a class="js-email" href="mailto:gourmandhouse@gmail.com">gourmandhouse@gmail.com</a>.</p>
         </div>
         <div>
-          <details open><summary>How do I pay?</summary><p>You can pay through our website. Add your cookies to the cart, choose a pickup time, and check out.</p></details>
-          <details><summary>When is my order confirmed?</summary><p>Ordering is not open yet. When checkout goes live, we’ll make the confirmation steps clear before you place an order.</p></details>
-          <details><summary>Where is pickup?</summary><p>Pickup is <span data-fill="dateLabel">Saturday, October 31</span>, from <span data-fill="timeLabel">5–9:30 p.m.</span>, at <span data-fill="venue">Jean Augustine Centre for Young Women’s Empowerment</span>, <span data-fill="address">101 Portland Street, Etobicoke, ON M8Y 1B1</span>. Bring your order confirmation.</p></details>
-          <details><summary>What’s the pickup policy?</summary><p>Pickup is only during the pickup window, <span data-fill="dateLabel">Saturday, October 31</span>, <span data-fill="timeLabel">5–9:30 p.m.</span> Bring your order confirmation or the name on the order. A friend can pick up for you if they have your confirmation. We can’t hold orders after the window closes, so if you’re running late, email us before it ends.</p></details>
+          <details open><summary>How do I pay?</summary><p>You can pay through our website. Add your cookies to the cart, choose a pickup time and check out. Payment is handled securely by Square.</p></details>
+          <details><summary>When is my order confirmed?</summary><p>Your order is confirmed as soon as your payment goes through. Square emails you a receipt, and that receipt is your order confirmation.</p></details>
+          <details><summary>Where is pickup?</summary><p>Pickup is <span data-fill="dateLabel">Saturday, October 31</span>, <span data-fill="timeLabel">5–9:30 p.m.</span>, at the <span data-fill="venue">Jean Augustine Centre for Young Women’s Empowerment</span>, <span data-fill="address">101 Portland Street, Etobicoke, ON M8Y 1B1</span>. Bring your order confirmation.</p></details>
+          <details><summary>What’s the pickup policy?</summary><p>Pickup is only during the pickup window, <span data-fill="dateLabel">Saturday, October 31</span>, <span data-fill="timeLabel">5–9:30 p.m.</span> Please come during the pickup hour you chose at checkout, and bring your order confirmation or the name on the order. A friend can pick up for you if they have your confirmation. We can’t hold orders after the window closes, so if you’re running late, email us before it ends.</p></details>
           <details id="allergens"><summary>What about allergens?</summary><p>Our cookies contain wheat, milk and eggs. Maple Fudge &amp; Pecan contains pecans, and all three flavours are made in the same kitchen, so any of our cookies may contain tree nuts. If you have an allergy, email us before you order.</p></details>
           <details><summary>Is tax included?</summary><p>The price you see is the price you pay. We are not charging HST at this time, so a $6 cookie is $6 at checkout.</p></details>
-          <details><summary>When do orders open, and how many are there?</summary><p>Each drop is limited. The live count at the top of the menu shows how many cookies are left. When a drop sells out, leave your email in the drop-alert box and you’ll hear about the next one first.</p></details>
+          <details><summary>When do orders open, and how many are there?</summary><p>Orders for this drop open Friday, October 23 at 9:00 a.m. ET and close Thursday, October 29 at 8:00 p.m. ET, or sooner if all 200 cookies sell out. The live count near the top of the page shows how many are left. If you miss this one, leave your email in the drop-alert box and you’ll hear about the next drop first.</p></details>
           <details><summary>Can I order a big batch?</summary><p>Yes. Use the <a href="#events">events form</a> or email us with the date and how many cookies you need.</p></details>
         </div>
       </div>
@@ -656,10 +661,10 @@
       if (!DROP.opensAt) return '';
       const ms = new Date(DROP.opensAt).getTime() - Date.now();
       if (isNaN(ms)) return '';
-      if (ms <= 0) return 'Orders are opening any moment now.';
+      if (ms <= 0) return '<span class="cd-label">Orders are opening any moment now</span>';
       const s = Math.floor(ms / 1000), d = Math.floor(s / 86400), hh = Math.floor(s % 86400 / 3600), mm = Math.floor(s % 3600 / 60), ss = s % 60;
       const pad = n => String(n).padStart(2, '0');
-      return 'Orders open ' + (DROP.opensLabel || '') + ' · <b>' + (d ? d + 'd ' : '') + pad(hh) + 'h ' + pad(mm) + 'm ' + pad(ss) + 's</b>';
+      return '<span class="cd-label">Orders open in</span><span class="cd-time">' + (d ? '<b>' + d + '</b>d ' : '') + '<b>' + pad(hh) + '</b>h <b>' + pad(mm) + '</b>m <b>' + pad(ss) + '</b>s</span>' + (DROP.opensLabel ? '<span class="cd-when">' + shortLabel(DROP.opensLabel) + ' ET</span>' : '');
     }
     function tickCountdown() { const t = countdownText(); if (t) $('countdown').innerHTML = t; }
     tickCountdown(); setInterval(function () { tickCountdown(); updateOrdering(); }, 1000);
