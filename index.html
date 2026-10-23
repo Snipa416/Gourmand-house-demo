@@ -105,7 +105,7 @@
     /* Status strip */
     .status{border-bottom:1px solid var(--line)}
 .hero h1 + p.intro{max-width:520px;font-size:clamp(16px,1.3vw,18px)}
-    .status-inner{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));padding:18px var(--gutter)}
+    .status-inner{display:grid;grid-auto-flow:column;grid-auto-columns:minmax(0,1fr);padding:18px var(--gutter)}
 .stat{display:flex;flex-direction:column;gap:6px;padding:4px 22px;border-left:1px solid var(--line);min-width:0}
 .stat:first-child{border-left:0;padding-left:0}
 .stat-label{font-size:12px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
@@ -114,7 +114,7 @@
 .stock-bar{display:block;max-width:180px;height:5px;margin-top:2px;border-radius:3px;background:var(--line);overflow:hidden}
 .stock-bar[hidden]{display:none}
 .stock-bar i{display:block;height:100%;width:100%;background:var(--clay);transition:width .4s}
-@media (max-width:900px){.status-inner{grid-template-columns:1fr 1fr;row-gap:18px}.stat:nth-child(3){border-left:0;padding-left:0}}
+@media (max-width:900px){.status-inner{grid-auto-flow:row;grid-template-columns:1fr 1fr;row-gap:18px}.stat:nth-child(3){border-left:0;padding-left:0}}
             #stockCount{color:var(--clay)}
     .status .dot{width:10px;height:10px}
     .order-cta{padding:10px 24px;margin-right:16px}
@@ -373,9 +373,9 @@
     <div class="status">
       <div class="wrap status-inner">
         <div class="stat"><span class="stat-label">Orders</span><span class="stat-value"><i class="dot closed" id="statusDot"></i><span id="statusText">Not open yet</span></span></div>
-        <div class="stat"><span class="stat-label">Availability</span><span class="stat-value" id="stockCount" role="status" aria-live="polite">200-cookie maximum</span><span class="stock-bar" hidden><i id="stockBar"></i></span></div>
         <div class="stat"><span class="stat-label">Pickup</span><span class="stat-value" id="statusPickup">Sat, Oct 31 · 5–9:30 p.m.</span><span class="stat-sub" id="statusWhere">101 Portland Street, Etobicoke</span></div>
         <div class="stat"><span class="stat-label">Prices</span><span class="stat-value" id="statusPrices">1 for $6 · 3 for $17 · 6 for $32</span></div>
+        <div class="stat" id="availCell" hidden><span class="stat-label">Availability</span><span class="stat-value" id="stockCount" role="status" aria-live="polite">200-cookie maximum</span><span class="stock-bar" hidden><i id="stockBar"></i></span></div>
                               </div>
     </div>
 
@@ -553,7 +553,7 @@
           <details><summary>What’s the pickup policy?</summary><p>Pickup is only during the pickup window, <span data-fill="dateLabel">Saturday, October 31</span>, <span data-fill="timeLabel">5–9:30 p.m.</span> Please come during the pickup hour you chose at checkout, and bring your order confirmation or the name on the order. A friend can pick up for you if they have your confirmation. We can’t hold orders after the window closes, so if you’re running late, email us before it ends.</p></details>
           <details id="allergens"><summary>What about allergens?</summary><p>Our cookies contain wheat, milk and eggs. Maple Fudge &amp; Pecan contains pecans, and all three flavours are made in the same kitchen, so any of our cookies may contain tree nuts. If you have an allergy, email us before you order.</p></details>
           <details><summary>Is tax included?</summary><p>The price you see is the price you pay. We are not charging HST at this time, so a $6 cookie is $6 at checkout.</p></details>
-          <details><summary>When do orders open, and how many are there?</summary><p>Orders for this drop open Friday, October 23 at 9:00 a.m. ET and close Thursday, October 29 at 8:00 p.m. ET, or sooner if all 200 cookies sell out. The live count near the top of the page shows how many are left. If you miss this one, leave your email in the drop-alert box and you’ll hear about the next drop first.</p></details>
+          <details><summary>When do orders open, and how many are there?</summary><p>Orders for this drop open Friday, October 23 at 9:00 a.m. ET and close Thursday, October 29 at 8:00 p.m. ET, or sooner if all 200 cookies sell out. When there are 50 or fewer cookies left, a live count appears near the top of the page. If you miss this one, leave your email in the drop-alert box and you’ll hear about the next drop first.</p></details>
           <details><summary>Can I order a big batch?</summary><p>Yes. Use the <a href="#events">events form</a> or email us with the date and how many cookies you need.</p></details>
         </div>
       </div>
@@ -887,6 +887,6 @@
     });
 
   </script>
-<script>(()=>{const c=document.getElementById('stockCount'),b=document.getElementById('stockBar');if(!c||!b)return;const u=()=>{const m=c.textContent.match(/(\d+) of (\d+)/);b.parentElement.hidden=!m;if(m)b.style.width=(100*m[1]/m[2])+'%'};new MutationObserver(u).observe(c,{childList:true,characterData:true,subtree:true});u()})();</script>
+<script>(()=>{const c=document.getElementById('stockCount'),b=document.getElementById('stockBar');if(!c||!b)return;const u=()=>{const m=c.textContent.match(/(\d+) of (\d+)/);b.parentElement.hidden=!m;if(m)b.style.width=(100*m[1]/m[2])+'%';const cell=document.getElementById('availCell'),lim=(window.DROP&&window.DROP.showCountAt)||50;if(cell)cell.hidden=!((m&&+m[1]<=lim)||/sold out/i.test(c.textContent))};new MutationObserver(u).observe(c,{childList:true,characterData:true,subtree:true});u()})();</script>
 </body>
 </html>
