@@ -103,6 +103,8 @@
 
     /* Status strip */
     .status{border-bottom:1px solid var(--line)}
+.hero .hero-sub{font-family:var(--serif);font-size:clamp(22px,2.3vw,28px);line-height:1.2;color:var(--espresso);margin:22px 0 0}
+.hero .hero-sub + p.intro{margin-top:12px;max-width:520px;font-size:clamp(16px,1.3vw,18px)}
     .status-inner{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));padding:18px var(--gutter)}
 .stat{display:flex;flex-direction:column;gap:6px;padding:4px 22px;border-left:1px solid var(--line);min-width:0}
 .stat:first-child{border-left:0;padding-left:0}
@@ -353,7 +355,8 @@
       <div class="hero-copy stripes">
         <p class="label">Handmade cookies · Toronto</p>
         <h1>Cookies worth <em>coming home to.</em></h1>
-        <p class="intro">Perfectly thin, crisp, golden edges and a gooey centre, everything a great cookie should be.</p>
+        <p class="hero-sub">Handmade, <em>gourmet quality.</em></p>
+        <p class="intro">Every Gourmand House cookie is made by hand, in small batches, right here in Toronto. We use thoughtfully chosen, gourmet-quality ingredients. Locally milled flour, real Belgian chocolate, roasted pecans, rich fudge and delicate flakes of sea salt — because the little details make all the difference.</p>
         <p class="countdown" id="countdown" hidden></p>
         <div class="hero-actions">
           <a class="btn" href="#drop">Order now</a>
@@ -377,8 +380,6 @@
       <div class="wrap story-grid">
         <div class="story-copy">
           <p class="label">Our cookies</p>
-          <h2 class="section-title">Handmade, <em>gourmet quality.</em></h2>
-          <p>Every Gourmand House cookie is made by hand, in small batches, right here in Toronto. We use thoughtfully chosen, gourmet-quality ingredients. Locally milled flour, real Belgian chocolate, roasted pecans, rich fudge and delicate flakes of sea salt — because the little details make all the difference.</p>
           <p>Each cookie is individually sealed in our signature bag to keep it fresh, easy to take along, and ready to gift, share, or simply keep all to yourself.</p>
 <details class="ingredients" style="margin:0 0 18px"><summary style="cursor:pointer;font-weight:600">See our ingredients list</summary><p style="margin:10px 0 0">Locally milled flour, real Belgian chocolate (milk and dark), roasted pecans, rich fudge and flakes of sea salt.</p></details>
           <ul class="points">
