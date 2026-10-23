@@ -659,7 +659,7 @@
       if (ms <= 0) return '<span class="cd-label">Orders are opening any moment now</span>';
       const s = Math.floor(ms / 1000), d = Math.floor(s / 86400), hh = Math.floor(s % 86400 / 3600), mm = Math.floor(s % 3600 / 60), ss = s % 60;
       const pad = n => String(n).padStart(2, '0');
-      return '<span class="cd-label">Orders open in</span><span class="cd-time">' + (d ? '<b>' + d + '</b>d ' : '') + '<b>' + pad(hh) + '</b>h <b>' + pad(mm) + '</b>m <b>' + pad(ss) + '</b>s</span>' + (DROP.opensLabel ? '<span class="cd-when">' + shortLabel(DROP.opensLabel) + ' ET</span>' : '');
+      return '<span class="cd-label">Orders open in</span><span class="cd-time">' + (d ? '<b>' + d + '</b>d ' : '') + '<b>' + pad(hh) + '</b>h <b>' + pad(mm) + '</b>m <b>' + pad(ss) + '</b>s</span>';
     }
     function tickCountdown() { const t = countdownText(); if (t) $('countdown').innerHTML = t; }
     tickCountdown(); setInterval(function () { tickCountdown(); updateOrdering(); }, 1000);
