@@ -6,8 +6,12 @@ window.DROP = {
   dropLabel: 'Drop 01',
   opensAt: '2026-10-23T09:00:00-04:00',
   opensLabel: 'Friday, October 23 at 9:00 a.m.',
-  announcement: 'Orders open · Pickup October 31, 5–9:30 p.m.',
+  announcement: 'Orders open until Thursday, Oct 29 at 8 p.m. · Pickup Saturday, Oct 31',
   closedMessage: 'Orders open Friday, October 23 at 9:00 a.m. ET',
+  // Orders close here (the dough needs a night in the fridge). Keep DROP_END in Cloudflare the same.
+  closesAt: '2026-10-29T20:00:00-04:00',
+  closesLabel: 'Thursday, October 29 at 8:00 p.m.',
+  closedAfterMessage: 'Orders for this drop are closed · Pickup Saturday, October 31',
   email: 'gourmandhouse@gmail.com',
   capacity: 200,
   // Cookies already promised elsewhere (for example other pre-orders). Subtracted from the live count.
