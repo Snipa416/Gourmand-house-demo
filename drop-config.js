@@ -4,10 +4,10 @@ window.DROP = {
   checkoutVerified: true,
   autoOpen: true,
   dropLabel: 'Drop 01',
-  opensAt: '2026-10-23T19:00:00-04:00',
-  opensLabel: 'Friday, October 23 at 7:00 p.m.',
+  opensAt: '2026-10-23T09:00:00-04:00',
+  opensLabel: 'Friday, October 23 at 9:00 a.m.',
   announcement: 'Orders open · Pickup October 31, 5–9:30 p.m.',
-  closedMessage: 'Orders open Friday, October 23 at 7:00 p.m. ET',
+  closedMessage: 'Orders open Friday, October 23 at 9:00 a.m. ET',
   email: 'gourmandhouse@gmail.com',
   capacity: 200,
   // Cookies already promised elsewhere (for example other pre-orders). Subtracted from the live count.
