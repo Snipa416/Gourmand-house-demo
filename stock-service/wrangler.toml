@@ -5,7 +5,7 @@ workers_dev = true
 
 [vars]
 SQUARE_LOCATION_ID = "LNTS2TVWXB76E"
-DROP_START = "2026-10-20T04:00:00Z"
-DROP_END = "2026-11-01T04:00:00Z"
+DROP_START = "2026-10-23T13:00:00Z"  # Fri Oct 23, 9:00 a.m. ET
+DROP_END = "2026-10-30T00:00:00Z"    # Thu Oct 29, 8:00 p.m. ET (keep in sync with closesAt in drop-config.js)
 
 # Store SQUARE_ACCESS_TOKEN as a Worker secret, never in this file.
