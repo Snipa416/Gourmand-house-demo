@@ -501,7 +501,7 @@
         <div class="events-inner">
           <p class="label">Events &amp; pop-ups</p>
           <h2 class="section-title">Book us for <em>your event</em></h2>
-          <p class="lede">Planning a market, a birthday, an office day or a community event? We can bring a pop-up table or bake a larger order for your guests. Send us the details below and we’ll reply by email with options and pricing.</p>
+          <p class="lede">Planning a market, a birthday, an office day or a community event? We can bring a pop-up table or bake a larger order for your guests. Send us the details below and we’ll reply by email with options and pricing. <strong>Please book at least 48 hours ahead.</strong></p>
           <ul class="event-types" aria-label="Kinds of events">
             <li>Pop-ups &amp; markets</li><li>Birthdays &amp; showers</li><li>Office &amp; team events</li><li>Community events</li>
           </ul>
@@ -511,7 +511,7 @@
             <div class="package"><h3>Party</h3><p class="size">25–60 cookies</p><p>Enough for a party or office day, in your choice of flavours.</p></div>
             <div class="package"><h3>Large event</h3><p class="size">60+ cookies</p><p>Weddings, markets and community events. We’ll plan the bake with you.</p></div>
           </div>
-          <p class="events-note">Every cookie is sealed in its own bag with our logo, so they’re easy to hand out, carry home or give as favours, with no cutting, plates or mess. Pricing is quoted per event.</p>
+          <p class="events-note">Every cookie is sealed in its own bag with our logo, so they’re easy to hand out, carry home or give as favours, with no cutting, plates or mess. Pricing is quoted per event. Events and pop-ups need a minimum 48-hour window before the event date, and larger orders may need more.</p>
 
           <form class="booking" id="bookingForm" novalidate>
             <div class="field"><label for="bName">Your name</label><input id="bName" name="name" autocomplete="name" required></div>
@@ -521,7 +521,7 @@
                 <option>Pop-up or market</option><option>Birthday or shower</option><option>Office or team event</option><option>Community event</option><option>Something else</option>
               </select>
             </div>
-            <div class="field"><label for="bDate">Event date</label><input id="bDate" name="date" type="date"></div>
+            <div class="field"><label for="bDate">Event date</label><input id="bDate" name="date" type="date" aria-describedby="bDateHint"><small id="bDateHint" style="display:block;margin-top:6px;opacity:.8">Minimum 48 hours’ notice.</small></div>
             <div class="field"><label for="bCount">About how many cookies?</label><input id="bCount" name="count" inputmode="numeric" placeholder="e.g. 60"></div>
             <div class="field"><label for="bPlace">Location</label><input id="bPlace" name="place" placeholder="Venue or neighbourhood"></div>
             <div class="field full"><label for="bMsg">Anything else we should know?</label><textarea id="bMsg" name="message" placeholder="Timing, setup, flavours, allergies…"></textarea></div>
@@ -548,13 +548,13 @@
         </div>
         <div>
           <details open><summary>How do I pay?</summary><p>You can pay through our website. Add your cookies to the cart, choose a pickup time and check out. Payment is handled securely by Square.</p></details>
-          <details><summary>When is my order confirmed?</summary><p>Your order is confirmed as soon as your payment goes through. Square emails you a receipt, and that receipt is your order confirmation.</p></details>
+          <details><summary>When is my order confirmed?</summary><p>Your order is confirmed as soon as your payment goes through. Square emails you a receipt right away, and we follow up by email with your pickup details.</p></details>
           <details><summary>Where is pickup?</summary><p>Pickup is <span data-fill="dateLabel">Saturday, October 31</span>, <span data-fill="timeLabel">5–9:30 p.m.</span>, at the <span data-fill="venue">Jean Augustine Centre for Young Women’s Empowerment</span>, <span data-fill="address">101 Portland Street, Etobicoke, ON M8Y 1B1</span>. Bring your order confirmation.</p></details>
           <details><summary>What’s the pickup policy?</summary><p>Pickup is only during the pickup window, <span data-fill="dateLabel">Saturday, October 31</span>, <span data-fill="timeLabel">5–9:30 p.m.</span> Please come during the pickup hour you chose at checkout, and bring your order confirmation or the name on the order. A friend can pick up for you if they have your confirmation. We can’t hold orders after the window closes, so if you’re running late, email us before it ends.</p></details>
           <details id="allergens"><summary>What about allergens?</summary><p>Our cookies contain wheat, milk and eggs. Maple Fudge &amp; Pecan contains pecans, and all three flavours are made in the same kitchen, so any of our cookies may contain tree nuts. If you have an allergy, email us before you order.</p></details>
           <details><summary>Is tax included?</summary><p>The price you see is the price you pay. We are not charging HST at this time, so a $6 cookie is $6 at checkout.</p></details>
-          <details><summary>When do orders open, and how many are there?</summary><p>Orders for this drop open Friday, October 23 at 9:00 a.m. ET and close Thursday, October 29 at 8:00 p.m. ET, or sooner if all 200 cookies sell out. When there are 50 or fewer cookies left, a live count appears near the top of the page. If you miss this one, leave your email in the drop-alert box and you’ll hear about the next drop first.</p></details>
-          <details><summary>Can I order a big batch?</summary><p>Yes. Use the <a href="#events">events form</a> or email us with the date and how many cookies you need.</p></details>
+          <details><summary>When do orders open, and how many are there?</summary><p>Orders for this drop open Friday, October 23 at 9:00 a.m. ET and close Thursday, October 29 at 8:00 p.m. ET, or sooner if all 200 cookies sell out. If you miss this one, leave your email in the drop-alert box and you’ll hear about the next drop first.</p></details>
+          <details><summary>Can I order a big batch?</summary><p>Yes. Use the <a href="#events">events form</a> or email us with the date and how many cookies you need. We need at least 48 hours’ notice.</p></details>
         </div>
       </div>
     </section>
@@ -830,7 +830,7 @@
     loadCart(); renderCart();
     if (/[?&]ordered=1/.test(location.search)) {
       cart.length = 0; saveCart(); renderCart();
-      toast('Thank you! Your order is in. Check your email for the receipt.');
+      toast('Thanks for ordering! A confirmation email is on its way.', 8000);
       try { history.replaceState(null, '', location.pathname + location.hash); } catch (e) {}
     }
     if (CART_API.startsWith('https://')) {
@@ -851,20 +851,29 @@
     menuDrawer.querySelectorAll('nav a').forEach(a => a.addEventListener('click', () => setMenu(false)));
     document.addEventListener('keydown', e => { if (e.key === 'Escape' && menuDrawer.classList.contains('open')) setMenu(false); });
     matchMedia('(min-width:901px)').addEventListener('change', e => { if (e.matches && menuDrawer.classList.contains('open')) setMenu(false); });
-    function toast(msg) {
+    function toast(msg, ms) {
       const t = $('toast'); t.textContent = msg; t.classList.add('show');
-      clearTimeout(toast.timer); toast.timer = setTimeout(() => t.classList.remove('show'), 1600);
+      clearTimeout(toast.timer); toast.timer = setTimeout(() => t.classList.remove('show'), ms || 1600);
     }
     async function copyText(text, msg) {
       try { await navigator.clipboard.writeText(text); toast(msg); }
       catch { toast('Please copy the details from your email draft.'); }
     }
+    function minEventDate() {
+      const d = new Date(Date.now() + 48 * 3600 * 1000), z = n => String(n).padStart(2, '0');
+      return d.getFullYear() + '-' + z(d.getMonth() + 1) + '-' + z(d.getDate());
+    }
+    $('bDate').min = minEventDate();
     $('bookingForm').addEventListener('submit', e => {
       e.preventDefault();
       const f = e.target, name = f.name.value.trim(), email = f.email.value.trim(), note = $('bookingNote');
       if (!name || !/^\S+@\S+\.\S+$/.test(email)) {
         $('bookingError').textContent = 'Please add your name and a valid email so we can reply.';
         (name ? f.email : f.name).focus(); return;
+      }
+      if (f.date.value && f.date.value < minEventDate()) {
+        $('bookingError').textContent = 'We need at least 48 hours’ notice. Please choose a date on or after ' + minEventDate() + ', or email us for a rush request.';
+        f.date.focus(); return;
       }
       $('bookingError').textContent = '';
       const date = f.date.value ? new Date(f.date.value + 'T12:00').toLocaleDateString('en-CA', { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric' }) : 'Not set yet';
