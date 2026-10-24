@@ -42,12 +42,12 @@ window.DROP = {
     start: '17:00',
     end: '21:30',
     timeZone: 'America/Toronto',
-    venue: 'Jean Augustine Centre for Young Women’s Empowerment',
-    address: '101 Portland Street, Etobicoke, ON M8Y 1B1'
+    venue: 'It’s OK* Studios',
+    address: '468 Queen St W, Toronto, ON M5V 2B2'
   },
   upcoming: [
     { date: 'Oct 25', title: 'TH3RDSPACE pop-up', place: 'It’s OK* Studios, 468 Queen St W, Toronto' },
-    { date: 'Oct 31', title: 'Cookie drop pickup', place: 'Jean Augustine Centre, 101 Portland Street, Etobicoke', href: '#drop' }
+    { date: 'Oct 31', title: 'Cookie drop pickup', place: 'It’s OK* Studios, 468 Queen St W, Toronto', href: '#drop' }
   ],
   prices: { one: 6, three: 17, six: 32 },
   // A public, sanitized stock endpoint. Never put a Square access token here.
