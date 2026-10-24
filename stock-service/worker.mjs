@@ -93,7 +93,7 @@ const PRODUCTS = {
 const FLAVOURS = { chocolate: 'Milk/Dark Chocolate Sea Salt', maple: 'Maple Fudge & Pecan', butter: 'Butter Fudge' };
 const MAX_COOKIES_PER_ORDER = 24;   // change here to raise or lower the per-order limit
 const HST_PERCENT = '13';           // change here if the tax rate changes
-const PICKUP_TEXT = 'Pickup Saturday, October 31, 2026, 5-9:30 p.m. at Jean Augustine Centre for Young Women’s Empowerment, 101 Portland Street, Etobicoke.';
+const PICKUP_TEXT = 'Pickup Saturday, October 31, 2026, 5-9:30 p.m. at It’s OK* Studios, 468 Queen St W, Toronto.';
 const PICKUP_AT = '2026-10-31T17:00:00-04:00';
 // Hourly pickup slots: key is the start hour (24h), value is [label, start time].
 const SLOTS = {
