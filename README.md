@@ -5,7 +5,7 @@ Static website hosted by GitHub Pages at https://gourmandhouse.ca/. Square hosts
 ## October 31 pickup
 
 - Orders are planned to open Friday, October 23, 2026; ordering stays disabled until checkout and shared inventory are verified.
-- Pickup: Saturday, October 31, 2026, 5–9:30 p.m., Jean Augustine Centre for Young Women's Empowerment, 101 Portland Street, Etobicoke, ON M8Y 1B1.
+- Pickup: Saturday, October 31, 2026, 5–9:30 p.m., It’s OK* Studios, 468 Queen St W, Toronto, ON M5V 2B2.
 - Flavours: Chocolate Sea Salt, Maple Fudge & Pecan, Butter Fudge.
 - Prices: one cookie $6; three customer-chosen cookies $21; six baker's-choice cookies $32.
 - Maximum batch capacity: 200 cookies across singles and packs together.
@@ -18,7 +18,7 @@ The GitHub website remains a menu preview. Its retired email/e-Transfer cart is 
 
 ## Remaining launch work
 
-1. Resolve Chocolate and Maple inventory visibility in Square; check that all singles are purchasable from the Jean Augustine pickup location.
+1. Resolve Chocolate and Maple inventory visibility in Square; check that all singles are purchasable from the It’s OK* Studios pickup location.
 2. Configure the $21 three-pack with exactly three customer-selected flavours and the $32 six-pack as baker's choice.
 3. Enforce the shared 200-cookie supply across all products. Independent pack inventory must not create additional cookie capacity.
 4. Deploy and authorize the read-only stock service described in `stock-service/README.md`, test it against Square, and set `inventoryEndpoint` in `drop-config.js`.
