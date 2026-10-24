@@ -6,7 +6,7 @@ The Worker reads Square orders and completed payments for the dedicated October 
 
 ## Activation requires the owner
 
-1. Confirm the Square location ID matches Jean Augustine Centre — Oct 31.
+1. Confirm the Square location ID matches It’s OK* Studios — Oct 31.
 2. Authorize a Square API connection limited to ORDERS_READ and PAYMENTS_READ. Do not create or copy persistent credentials without the owner's approval. The owner should enter the credential directly in Cloudflare as the encrypted `SQUARE_ACCESS_TOKEN` secret; never paste it into this repository, frontend config, chat, screenshots or logs.
 3. Deploy this folder to a Cloudflare Workers FREE account, with no nameserver or domain transfer and no paid upgrades. Check account terms with the owner if account creation is needed.
 4. Test the deployed `/stock` endpoint against actual Square records, then place its HTTPS URL in `drop-config.js` as `inventoryEndpoint`.
