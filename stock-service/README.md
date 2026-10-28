@@ -15,7 +15,7 @@ The Worker reads Square orders and completed payments for the dedicated October 
 ## Launch blockers
 
 - The 200-cookie aggregate counter is a DISPLAY, not an atomic stock-reservation system. It does not prevent overselling across independently tracked singles and pack SKUs. Do not enable ordering until shared stock or a fixed capacity allocation is configured and tested in checkout.
-- The Square three-pack does not exist yet; configure exactly three customer-selected flavours at $21, and verify the final item name matches the mapping in `worker.mjs`.
+- The Square three-pack does not exist yet; configure exactly three customer-selected flavours at $17, and verify the final item name matches the mapping in `worker.mjs`.
 - The Mixed Six is currently sold out / POS-only; change its description to baker's choice and connect stock before making it available online.
 - Chocolate and Maple are not currently appearing as purchasable on the live Square menu; resolve their online inventory visibility.
 - Refunds by themselves do not restore baking capacity. Canceled orders are excluded; an operational policy for cancellations/restocks must be agreed before launch.
