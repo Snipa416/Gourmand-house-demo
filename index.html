@@ -345,16 +345,11 @@
 
     .btn.sm{padding:9px 18px;font-size:15px}
 
-    .openbanner{display:flex;align-items:center;gap:12px;margin:0 0 22px;padding:14px 18px;background:var(--espresso);color:var(--cream)}
+    .openbanner{display:flex;align-items:center;gap:12px;margin:28px 0 0;padding:14px 18px;background:var(--espresso);color:var(--cream)}
     .openbanner p{margin:0;font-size:17px;line-height:1.45}
     .openbanner b{font-weight:600}
     .openbanner .dot{background:#7fbf6f;box-shadow:0 0 0 4px rgba(127,191,111,.25);animation:blink 1.8s ease-in-out infinite}
     @keyframes blink{50%{box-shadow:0 0 0 8px rgba(127,191,111,0)}}
-    .steps{list-style:none;margin:0 0 28px;padding:0;display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
-    .steps li{display:flex;gap:14px;align-items:flex-start;padding:16px 18px;border:1px solid var(--line);background:#fffaf1}
-    .st-n{flex:none;width:34px;height:34px;border-radius:50%;background:var(--espresso);color:var(--paper);display:grid;place-items:center;font-size:16px}
-    .steps b{display:block;font-weight:500;font-size:19px;line-height:1.2}
-    .st-d{display:block;color:var(--muted);font-size:15px;margin-top:3px;line-height:1.4}
     .thanks-modal{position:fixed;inset:0;z-index:100;display:flex;align-items:center;justify-content:center;padding:16px;background:rgba(36,20,14,.62);overflow:auto}
     .thanks-card{background:var(--paper);width:min(460px,100%);max-height:100%;overflow:auto;padding:28px 24px 22px;text-align:center;box-shadow:0 24px 60px rgba(36,20,14,.4);animation:pop .4s ease both}
     @keyframes pop{from{opacity:0;transform:translateY(16px) scale(.97)}to{opacity:1;transform:none}}
@@ -370,33 +365,10 @@
     .thanks-pick{text-align:left;font-size:15px;color:var(--cocoa);margin:0 0 18px;line-height:1.5;background:var(--cream);padding:12px 14px}
     .thanks-actions{display:flex;flex-wrap:wrap;gap:10px}
     .thanks-actions .btn{flex:1 1 170px}
-    .cal-row{margin-top:22px;display:flex;flex-wrap:wrap;gap:10px 12px;align-items:center;color:var(--muted);font-size:15px}
+    .cal-row{margin-top:18px;display:flex;flex-wrap:wrap;gap:10px 12px;align-items:center;color:var(--muted);font-size:15px}
     .product-photo img{transition:transform .6s ease}
     .product:hover .product-photo:not(.cut) img{transform:scale(1.04)}
 
-    .cart-panel{height:100vh;height:100dvh}
-    .cart-panel{overflow-y:auto}
-    .cart-lines{min-height:120px;flex:1 1 auto}
-    .cart-count{font-size:18px;color:var(--muted);font-weight:400}
-    .cart-steps{list-style:none;display:flex;gap:6px;margin:0;padding:10px 24px 0;font-size:13px;color:var(--muted);counter-reset:s}
-    .cart-steps li{flex:1;text-align:center;padding:6px 4px;border-bottom:2px solid var(--line)}
-    .cart-steps li:before{counter-increment:s;content:counter(s) " · "}
-    .cart-steps li.done{color:var(--espresso);border-color:var(--espresso)}
-    .cart-steps li.done:before{content:"\2713  "}
-    .cart-steps li.now{color:var(--clay-d);border-color:var(--clay-d);font-weight:600}
-    .cart-closes{margin:10px 24px 0;padding:9px 12px;background:#f6e3d3;color:#7a3519;font-size:14px;line-height:1.4}
-    .cart-add{padding:12px 24px;border-top:1px solid var(--line);display:flex;flex-wrap:wrap;gap:8px;align-items:center;font-size:14px;color:var(--muted)}
-    .cart-add button{border:1px solid var(--line);background:#fffaf1;border-radius:999px;padding:8px 14px;font-size:14px}
-    .cart-add button:hover{background:var(--cream)}
-    .cart-empty p{margin:0 0 14px}
-    .slot-label{font-size:14px;font-weight:600;margin:0 0 8px}
-    .slots{display:grid;grid-template-columns:repeat(auto-fill,minmax(112px,1fr));gap:8px}
-    .slot{border:1px solid var(--line);background:#fff;border-radius:10px;padding:11px 6px;font-size:15px;text-align:center;line-height:1.2}
-    .slot:hover{border-color:var(--espresso)}
-    .slot[aria-checked="true"]{background:var(--espresso);color:var(--paper);border-color:var(--espresso)}
-    .slots.need{outline:2px solid #a3341c;outline-offset:3px;border-radius:12px}
-    .cart-secure{margin:10px 0 0;text-align:center;font-size:13px;color:var(--muted)}
-    .cart-where{font-size:13px}
     @media (pointer:coarse){.qty button{width:42px;height:42px}.qty .rm{padding:10px 8px}}
 
     .pick-row{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px 0;border-top:1px solid var(--line)}
@@ -424,7 +396,6 @@
       .menu-btn{display:block}
     }
     @media (max-width:900px){
-      .steps{grid-template-columns:1fr;gap:10px}.steps li{padding:12px 14px}
       html.has-closebar{scroll-padding-top:128px}
     }
     @media (max-width:360px){.cd-dot{display:none}.cd-pill{padding:8px 14px}.cd-lbl{letter-spacing:.08em}.cd-seg{gap:6px}.cd-seg b{font-size:17px}}
@@ -436,16 +407,6 @@
       .header-actions{gap:8px}
       .header-actions .order-cta{padding:8px 13px;font-size:14px}
       .hdr-cart{width:40px;height:40px}
-      .cart-head{padding:16px 18px}.cart-lines{padding:4px 18px}.cart-foot{padding:12px 18px 16px}
-      .cart-steps{padding:8px 18px 0}.cart-closes{margin:8px 18px 0;padding:7px 10px;font-size:13px}
-      .cart-add{padding:8px 18px;gap:6px}.cart-add > span{display:none}
-      .cart-add button{padding:8px 12px;font-size:14px}
-      .cart-line{padding:12px 0}
-      .cart-sum{margin-bottom:8px}
-      .slots{grid-template-columns:repeat(3,1fr);gap:6px}
-      .slot{padding:10px 2px;font-size:14px}
-      .cart-where{margin-top:6px}
-      .cart-msg{margin:0 0 6px}
       .cartbar span{white-space:nowrap}
       .closebar-inner{padding-top:7px;padding-bottom:7px}
       .cd-pill{gap:5px 10px;padding:8px 16px 8px 14px}
@@ -463,7 +424,7 @@
     .pack-price .pk-save{font-size:12px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--sand);border:1px solid rgba(217,195,165,.5);border-radius:999px;padding:5px 11px;margin-left:2px}
     .pack-price .pk-save[hidden]{display:none}
     .pack .btn{margin-top:auto}
-    .cart-save{margin:0 0 8px;font-size:14px;color:#6a7a3f;font-weight:600;grid-column:1/-1}
+    .cart-save{margin:0 0 8px;font-size:14px;color:#6a7a3f;font-weight:600}
     .cart-save[hidden]{display:none}
     .qty .more{width:auto;border:0;background:none;text-decoration:underline;font-size:14px;color:var(--espresso);padding:0 4px}
     .cart-continue{display:block;width:100%;margin:10px 0 0;background:none;border:0;padding:6px;font-size:15px;color:var(--muted);text-decoration:underline;text-underline-offset:3px}
@@ -481,6 +442,7 @@
     .thanks-num{margin-bottom:12px;padding:10px 12px}
     .thanks-pick{margin-bottom:12px;padding:10px 12px;font-size:14.5px}
     .thanks-proof{margin-bottom:14px}
+    #drop{padding-top:clamp(28px,4vw,48px)}
   </style>
 </head>
 <body>
@@ -531,44 +493,6 @@
   </div>
 
   <main id="top">
-    <section class="hero">
-      <div class="hero-copy stripes">
-        <p class="label">Perfectly Thin Gourmand Cookies · Toronto</p>
-        <h1>Handmade, <em>gourmet quality.</em></h1>
-        <p class="intro">Every Gourmand House cookie is made by hand, in small batches, right here in Toronto. We use thoughtfully chosen, gourmet-quality ingredients: locally milled flour, real Belgian chocolate, roasted pecans, rich fudge and delicate flakes of sea salt, because the little details make all the difference.</p>
-      </div>
-      <div class="hero-photo">
-        <img src="assets/hero-sealed-cookie-over-trays.jpg?v=20261022" width="1050" height="1400" alt="A hand holding a Gourmand House cookie sealed with the round logo sticker, over trays of freshly baked cookies" fetchpriority="high">
-      </div>
-    </section>
-
-    <div class="status">
-      <div class="wrap status-inner">
-        <div class="stat"><span class="stat-label">Orders</span><span class="stat-value"><i class="dot closed" id="statusDot"></i><span id="statusText">Not open yet</span></span></div>
-        <div class="stat"><span class="stat-label">Pickup</span><span class="stat-value" id="statusPickup">Sat, Oct 31 · 5–9:30 p.m.</span><span class="stat-sub" id="statusWhere">468 Queen St W, Toronto</span></div>
-        <div class="stat"><span class="stat-label">Prices</span><span class="stat-value" id="statusPrices">1 for $6 · 3 for $17 · 6 for $32</span></div>
-        <div class="stat" id="availCell" hidden><span class="stat-label">Availability</span><span class="stat-value" id="stockCount" role="status" aria-live="polite">Limited availability</span><span class="stock-bar" hidden><i id="stockBar"></i></span></div>
-                              </div>
-    </div>
-
-    <section class="section" id="story">
-      <div class="wrap story-grid">
-        <div class="story-copy">
-          <p class="label label-lg">Our cookies</p>
-          <p>Every cookie is perfectly thin, with crisp, golden edges and a gooey centre — everything a great cookie should be.</p>
-          <p>Each cookie is individually sealed in our signature bag to keep it fresh, easy to take along, and ready to gift, share, or simply keep all to yourself.</p>
-          <ul class="points">
-            <li><b>Made by hand</b>Shaped and baked in small batches.</li>
-            <li><b>Gourmet ingredients</b>Only the best quality goes in.</li>
-            <li><b>Sealed one by one</b>All orders are freshly baked.</li>
-          </ul>
-        </div>
-        <figure class="story-photo" style="margin:0">
-          <img src="assets/ingredients.jpg" width="900" height="1200" loading="lazy" alt="Bowls of chopped milk chocolate, dark chocolate, pecans and maple fudge cubes">
-        </figure>
-      </div>
-    </section>
-
     <section class="section" id="drop">
       <div class="wrap">
         <div class="drop-head">
@@ -578,14 +502,6 @@
           </div>
           <p class="lede">Pick a single cookie, choose your own three or six, or leave a box of six to the baker.</p>
         </div>
-
-        <div class="openbanner" id="openBanner" hidden><i class="dot"></i><p><b>Orders are open now.</b> This drop closes <span id="obWhen">Thursday, October 29 at 8:00 p.m.</span> If we sell out, ordering will close until our next drop.</p></div>
-
-        <ol class="steps" aria-label="How ordering works">
-          <li><span class="st-n">1</span><div><b>Choose your cookies</b><span class="st-d">Singles, a three, a six or the baker’s box.</span></div></li>
-          <li><span class="st-n">2</span><div><b>Pick your hour &amp; pay</b><span class="st-d">Secure checkout with Square.</span></div></li>
-          <li><span class="st-n">3</span><div><b>Collect <span data-fill="dateLabel">Saturday, October 31</span></b><span class="st-d">Baked fresh for pickup in Toronto.</span></div></li>
-        </ol>
 
         <div class="products">
           <article class="product" data-product="chocolate">
@@ -648,6 +564,8 @@
           </div>
         </div>
 
+        <div class="openbanner" id="openBanner" hidden><i class="dot"></i><p><b>Orders are open now.</b> This drop closes <span id="obWhen">Thursday, October 29 at 8:00 p.m.</span> If we sell out, ordering will close until our next drop.</p></div>
+
         <div class="cal-row" id="calRow" hidden>
           <span>Don’t miss it:</span>
           <button class="btn ghost sm" type="button" data-cal="pickup">Add pickup to calendar</button>
@@ -676,6 +594,45 @@
         </div>
       </div>
     </section>
+
+    <section class="hero">
+      <div class="hero-copy stripes">
+        <p class="label">Perfectly Thin Gourmand Cookies · Toronto</p>
+        <h1>Handmade, <em>gourmet quality.</em></h1>
+        <p class="intro">Every Gourmand House cookie is made by hand, in small batches, right here in Toronto. We use thoughtfully chosen, gourmet-quality ingredients: locally milled flour, real Belgian chocolate, roasted pecans, rich fudge and delicate flakes of sea salt, because the little details make all the difference.</p>
+      </div>
+      <div class="hero-photo">
+        <img src="assets/hero-sealed-cookie-over-trays.jpg?v=20261022" width="1050" height="1400" alt="A hand holding a Gourmand House cookie sealed with the round logo sticker, over trays of freshly baked cookies" fetchpriority="high">
+      </div>
+    </section>
+
+    <div class="status">
+      <div class="wrap status-inner">
+        <div class="stat"><span class="stat-label">Orders</span><span class="stat-value"><i class="dot closed" id="statusDot"></i><span id="statusText">Not open yet</span></span></div>
+        <div class="stat"><span class="stat-label">Pickup</span><span class="stat-value" id="statusPickup">Sat, Oct 31 · 5–9:30 p.m.</span><span class="stat-sub" id="statusWhere">468 Queen St W, Toronto</span></div>
+        <div class="stat"><span class="stat-label">Prices</span><span class="stat-value" id="statusPrices">1 for $6 · 3 for $17 · 6 for $32</span></div>
+        <div class="stat" id="availCell" hidden><span class="stat-label">Availability</span><span class="stat-value" id="stockCount" role="status" aria-live="polite">Limited availability</span><span class="stock-bar" hidden><i id="stockBar"></i></span></div>
+                              </div>
+    </div>
+
+    <section class="section" id="story">
+      <div class="wrap story-grid">
+        <div class="story-copy">
+          <p class="label label-lg">Our cookies</p>
+          <p>Every cookie is perfectly thin, with crisp, golden edges and a gooey centre — everything a great cookie should be.</p>
+          <p>Each cookie is individually sealed in our signature bag to keep it fresh, easy to take along, and ready to gift, share, or simply keep all to yourself.</p>
+          <ul class="points">
+            <li><b>Made by hand</b>Shaped and baked in small batches.</li>
+            <li><b>Gourmet ingredients</b>Only the best quality goes in.</li>
+            <li><b>Sealed one by one</b>All orders are freshly baked.</li>
+          </ul>
+        </div>
+        <figure class="story-photo" style="margin:0">
+          <img src="assets/ingredients.jpg" width="900" height="1200" loading="lazy" alt="Bowls of chopped milk chocolate, dark chocolate, pecans and maple fudge cubes">
+        </figure>
+      </div>
+    </section>
+
 
     <section class="section" id="upcoming" hidden>
       <div class="wrap">
@@ -770,19 +727,15 @@
   <div class="cartbar" id="cartBar"><span id="cartBarText"></span><button class="btn" type="button" id="cartOpen">Checkout</button></div>
   <div class="cart-overlay" id="cartOverlay"></div>
   <aside class="cart-panel" id="cartPanel" aria-hidden="true" aria-label="Your cart">
-    <div class="cart-head"><h2>Your cart <span class="cart-count" id="cartCount"></span></h2><button class="cart-x" type="button" id="cartClose" aria-label="Close cart">&times;</button></div>
-    <ol class="cart-steps" aria-label="Checkout steps"><li id="stepCookies">Cookies</li><li id="stepSlot">Pickup hour</li><li id="stepPay">Pay</li></ol>
-    <p class="cart-closes" id="cartCloses" hidden></p>
+    <div class="cart-head"><h2>Your cart</h2><button class="cart-x" type="button" id="cartClose" aria-label="Close cart">&times;</button></div>
     <div class="cart-lines" id="cartLines"></div>
-    <div class="cart-add" id="cartAdd" hidden><span>Add another:</span><button type="button" data-add="chocolate">+ Milk/Dark</button><button type="button" data-add="maple">+ Maple</button><button type="button" data-add="butter">+ Butter</button></div>
     <div class="cart-foot">
       <p class="cart-save" id="cartSave" hidden></p>
       <div class="cart-sum"><span>Total · no HST added</span><span id="cSub">$0.00</span><span hidden id="cTax"></span><span hidden id="cTot"></span></div>
-      <div class="cart-slot"><p class="slot-label" id="pickLabel">Pickup hour · Saturday, Oct 31</p><div class="slots" id="slotPills" role="radiogroup" aria-labelledby="pickLabel"></div><select id="pickSlot" hidden aria-hidden="true" tabindex="-1"><option value="">Choose your pickup hour</option><option value="17">5:00 – 6:00 p.m.</option><option value="18">6:00 – 7:00 p.m.</option><option value="19">7:00 – 8:00 p.m.</option><option value="20">8:00 – 9:00 p.m.</option><option value="21">9:00 – 9:30 p.m.</option></select><p class="cart-where"><strong>Pickup location:</strong> It&rsquo;s OK* Studios, 468 Queen St W, Toronto, ON M5V 2B2</p></div>
+      <div class="cart-slot"><label for="pickSlot">Pickup time · Saturday, Oct 31</label><select id="pickSlot"><option value="">Choose your pickup hour</option><option value="17">5:00 – 6:00 p.m.</option><option value="18">6:00 – 7:00 p.m.</option><option value="19">7:00 – 8:00 p.m.</option><option value="20">8:00 – 9:00 p.m.</option><option value="21">9:00 – 9:30 p.m.</option></select><p class="cart-where"><strong>Pickup location:</strong> It&rsquo;s OK* Studios, 468 Queen St W, Toronto, ON M5V 2B2</p></div>
       <p class="cart-msg" id="cartMsg" role="alert"></p>
-      <button class="btn" type="button" id="cartGo">Checkout</button>
+      <button class="btn" type="button" id="cartGo">Checkout with Square</button>
       <button class="cart-continue" type="button" id="cartContinue">Continue browsing</button>
-      <p class="cart-secure">Secure payment through Square.</p>
     </div>
   </aside>
   <div class="pick" id="pickModal" role="dialog" aria-modal="true" aria-label="Choose your three">
@@ -955,7 +908,7 @@
       $('cartBarText').textContent = n + (n === 1 ? ' cookie' : ' cookies') + ' · ' + money(sub);
       $('cSub').textContent = money(sub); $('cTax').textContent = money(tax); $('cTot').textContent = money(sub + tax);
       const box = $('cartLines'); box.textContent = '';
-      if (!cart.length) { const e = document.createElement('div'); e.className = 'cart-empty'; const p = document.createElement('p'); p.textContent = 'Your cart is empty. Add a cookie below, or browse the menu.'; const go = document.createElement('button'); go.type = 'button'; go.className = 'btn ghost sm'; go.textContent = 'Browse cookies'; go.onclick = () => { setPanel(false); const d = document.getElementById('drop'); if (d) d.scrollIntoView({ behavior: 'smooth' }); }; e.append(p, go); box.appendChild(e); }
+      if (!cart.length) { const e = document.createElement('p'); e.className = 'cart-empty'; e.textContent = 'Your cart is empty.'; box.appendChild(e); }
       cart.forEach((l, i) => {
         const row = document.createElement('div'); row.className = 'cart-line';
         const left = document.createElement('div');
@@ -1068,7 +1021,7 @@
       } catch (e) {
         msg.textContent = 'Couldn’t reach checkout. Check your connection and try again.';
       }
-      btn.disabled = false; btn.textContent = 'Checkout'; if (window.ghSync) ghSync();
+      btn.disabled = false; btn.textContent = 'Checkout with Square';
     });
     loadCart(); renderCart();
     if (/[?&]ordered=1/.test(location.search)) {
@@ -1195,24 +1148,7 @@
     }
   });
 
-  /* ---------- Pickup-hour buttons (they drive the original select) ---------- */
-  var sel = byId('pickSlot'), pills = byId('slotPills'), prevN = 0;
-  if (sel && pills) {
-    Array.prototype.forEach.call(sel.options, function (o) {
-      if (!o.value) return;
-      var b = document.createElement('button'); b.type = 'button'; b.className = 'slot'; b.setAttribute('role', 'radio'); b.dataset.v = o.value;
-      b.textContent = o.text.replace(/:00/g, '').replace(/\s*–\s*/g, '–');
-      b.addEventListener('click', function () {
-        sel.value = o.value; sel.dispatchEvent(new Event('change', { bubbles: true }));
-        byId('cartMsg').textContent = ''; pills.classList.remove('need'); sync();
-      });
-      pills.appendChild(b);
-    });
-    var msg = byId('cartMsg');
-    if (msg && window.MutationObserver) new MutationObserver(function () {
-      if (/pickup (time|hour)/i.test(msg.textContent || '')) { pills.classList.add('need'); pills.scrollIntoView({ block: 'center', behavior: reduce ? 'auto' : 'smooth' }); }
-    }).observe(msg, { childList: true, characterData: true, subtree: true });
-  }
+  var prevN = 0;
 
   /* ---------- Everything that depends on open / closed / cart state ---------- */
   function sync() {
@@ -1246,19 +1182,8 @@
     if (n > prevN) { hc.classList.remove('bump'); void hc.offsetWidth; hc.classList.add('bump'); }
     prevN = n;
 
-    byId('cartCount').textContent = n ? '(' + n + ')' : '';
-    var note = byId('cartCloses'); note.hidden = !(timed && D.closesLabel);
-    if (!note.hidden) note.textContent = 'Orders close ' + shortLabel(D.closesLabel) + ' · ' + fmt(left) + ' left';
-    byId('cartAdd').hidden = !live;
     var saved = 0; cart.forEach(function (l) { saved += (D.prices.one * COOKIES[l.id] - PRICE[l.id]()) * l.qty; });
     var sv = byId('cartSave'); sv.hidden = !(saved > 0); if (saved > 0) sv.textContent = 'You’re saving ' + money(saved) + ' with combos';
-    var go = byId('cartGo');
-    if (!/Opening/.test(go.textContent)) go.textContent = cart.length ? 'Checkout · ' + money(cartSub()) : 'Checkout';
-    var slotOk = !!(sel && sel.value);
-    byId('stepCookies').className = cart.length ? 'done' : 'now';
-    byId('stepSlot').className = slotOk && cart.length ? 'done' : (cart.length ? 'now' : '');
-    byId('stepPay').className = slotOk && cart.length ? 'now' : '';
-    if (pills) Array.prototype.forEach.call(pills.children, function (b) { b.setAttribute('aria-checked', String(!!sel && b.dataset.v === sel.value)); });
 
     var cal = byId('calRow'); cal.hidden = !(PK && Date.now() < PK.end);
     byId('calClose').hidden = !timed;
@@ -1276,7 +1201,6 @@
   byId('cartContinue').addEventListener('click', function () { setPanel(false); });
 
   byId('hdrCart').addEventListener('click', function () { setPanel(true); });
-  byId('cartAdd').addEventListener('click', function (e) { var b = e.target.closest('[data-add]'); if (b) addToCart(b.dataset.add); });
 
   /* ---------- Thank-you pop-up after paying ---------- */
   if (window.__ghOrdered) {
