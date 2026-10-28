@@ -4,7 +4,7 @@
     onAvailability(false, false);
     const total = Math.max(0, capacity - reserved);
     if (!endpoint) {
-      element.textContent = total + '-cookie maximum';
+      element.textContent = 'Limited availability';
       return;
     }
     let refreshing = false;
@@ -20,11 +20,13 @@
             data.remaining < 0 || data.remaining > capacity || !Number.isFinite(age) ||
             age < -60000 || age > 120000) throw new Error('Invalid stock response');
         const left = Math.max(0, data.remaining - reserved);
-        element.textContent = left === 0 ? 'This drop is sold out' :
-          left + ' of ' + total + ' cookies left';
+        element.dataset.left = String(left); element.dataset.total = String(total);
+        element.textContent = left === 0 ? 'Sold out' :
+          (left <= 50 ? 'Only ' + left + ' left' : 'Limited availability');
         element.title = 'Confirmed paid orders · Updated ' + new Date(data.updatedAt).toLocaleTimeString();
         onAvailability(left > 0, left === 0);
       } catch {
+        delete element.dataset.left; delete element.dataset.total;
         element.textContent = 'Remaining stock temporarily unavailable';
         element.removeAttribute('title');
         onAvailability(false, false);
