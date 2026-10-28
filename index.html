@@ -400,14 +400,13 @@
     }
     @media (max-width:360px){.cd-dot{display:none}.cd-pill{padding:8px 14px}.cd-lbl{letter-spacing:.08em}.cd-seg{gap:6px}.cd-seg b{font-size:17px}}
     @media (max-width:700px){
-      .cartbar{left:12px;right:84px;bottom:12px;transform:none;max-width:none;padding:10px 10px 10px 16px;justify-content:space-between}
+      body.has-cartbar .to-top{bottom:84px}
       .to-top{right:12px;bottom:12px;width:54px;height:54px}
     }
     @media (max-width:560px){
       .header-actions{gap:8px}
       .header-actions .order-cta{padding:8px 13px;font-size:14px}
       .hdr-cart{width:40px;height:40px}
-      .cartbar span{white-space:nowrap}
       .closebar-inner{padding-top:7px;padding-bottom:7px}
       .cd-pill{gap:5px 10px;padding:8px 16px 8px 14px}
       .cd-lbl{font-size:11px;letter-spacing:.12em}
@@ -442,7 +441,9 @@
     .thanks-num{margin-bottom:12px;padding:10px 12px}
     .thanks-pick{margin-bottom:12px;padding:10px 12px;font-size:14.5px}
     .thanks-proof{margin-bottom:14px}
-    #drop{padding-top:clamp(28px,4vw,48px)}
+    #drop{padding-top:clamp(40px,5vw,64px)}
+    .cartbar{width:max-content}
+    .cartbar span{white-space:nowrap}
   </style>
 </head>
 <body>
@@ -493,6 +494,26 @@
   </div>
 
   <main id="top">
+    <section class="hero">
+      <div class="hero-copy stripes">
+        <p class="label">Perfectly Thin Gourmand Cookies · Toronto</p>
+        <h1>Handmade, <em>gourmet quality.</em></h1>
+        <p class="intro">Every Gourmand House cookie is made by hand, in small batches, right here in Toronto. We use thoughtfully chosen, gourmet-quality ingredients: locally milled flour, real Belgian chocolate, roasted pecans, rich fudge and delicate flakes of sea salt, because the little details make all the difference.</p>
+      </div>
+      <div class="hero-photo">
+        <img src="assets/hero-sealed-cookie-over-trays.jpg?v=20261022" width="1050" height="1400" alt="A hand holding a Gourmand House cookie sealed with the round logo sticker, over trays of freshly baked cookies" fetchpriority="high">
+      </div>
+    </section>
+
+    <div class="status">
+      <div class="wrap status-inner">
+        <div class="stat"><span class="stat-label">Orders</span><span class="stat-value"><i class="dot closed" id="statusDot"></i><span id="statusText">Not open yet</span></span></div>
+        <div class="stat"><span class="stat-label">Pickup</span><span class="stat-value" id="statusPickup">Sat, Oct 31 · 5–9:30 p.m.</span><span class="stat-sub" id="statusWhere">468 Queen St W, Toronto</span></div>
+        <div class="stat"><span class="stat-label">Prices</span><span class="stat-value" id="statusPrices">1 for $6 · 3 for $17 · 6 for $32</span></div>
+        <div class="stat" id="availCell" hidden><span class="stat-label">Availability</span><span class="stat-value" id="stockCount" role="status" aria-live="polite">Limited availability</span><span class="stock-bar" hidden><i id="stockBar"></i></span></div>
+                              </div>
+    </div>
+
     <section class="section" id="drop">
       <div class="wrap">
         <div class="drop-head">
@@ -594,26 +615,6 @@
         </div>
       </div>
     </section>
-
-    <section class="hero">
-      <div class="hero-copy stripes">
-        <p class="label">Perfectly Thin Gourmand Cookies · Toronto</p>
-        <h1>Handmade, <em>gourmet quality.</em></h1>
-        <p class="intro">Every Gourmand House cookie is made by hand, in small batches, right here in Toronto. We use thoughtfully chosen, gourmet-quality ingredients: locally milled flour, real Belgian chocolate, roasted pecans, rich fudge and delicate flakes of sea salt, because the little details make all the difference.</p>
-      </div>
-      <div class="hero-photo">
-        <img src="assets/hero-sealed-cookie-over-trays.jpg?v=20261022" width="1050" height="1400" alt="A hand holding a Gourmand House cookie sealed with the round logo sticker, over trays of freshly baked cookies" fetchpriority="high">
-      </div>
-    </section>
-
-    <div class="status">
-      <div class="wrap status-inner">
-        <div class="stat"><span class="stat-label">Orders</span><span class="stat-value"><i class="dot closed" id="statusDot"></i><span id="statusText">Not open yet</span></span></div>
-        <div class="stat"><span class="stat-label">Pickup</span><span class="stat-value" id="statusPickup">Sat, Oct 31 · 5–9:30 p.m.</span><span class="stat-sub" id="statusWhere">468 Queen St W, Toronto</span></div>
-        <div class="stat"><span class="stat-label">Prices</span><span class="stat-value" id="statusPrices">1 for $6 · 3 for $17 · 6 for $32</span></div>
-        <div class="stat" id="availCell" hidden><span class="stat-label">Availability</span><span class="stat-value" id="stockCount" role="status" aria-live="polite">Limited availability</span><span class="stock-bar" hidden><i id="stockBar"></i></span></div>
-                              </div>
-    </div>
 
     <section class="section" id="story">
       <div class="wrap story-grid">
@@ -724,7 +725,7 @@
     </div>
   </footer>
 
-  <div class="cartbar" id="cartBar"><span id="cartBarText"></span><button class="btn" type="button" id="cartOpen">Checkout</button></div>
+  <div class="cartbar" id="cartBar"><span id="cartBarText"></span><button class="btn" type="button" id="cartOpen">View cart</button></div>
   <div class="cart-overlay" id="cartOverlay"></div>
   <aside class="cart-panel" id="cartPanel" aria-hidden="true" aria-label="Your cart">
     <div class="cart-head"><h2>Your cart</h2><button class="cart-x" type="button" id="cartClose" aria-label="Close cart">&times;</button></div>
@@ -958,7 +959,7 @@
       if ((id === 'three' || id === 'sixpick') && !flavours) { openPick(id); return; }
       const existing = !flavours && cart.find(l => l.id === id && !l.flavours);
       if (existing) existing.qty += 1; else cart.push({ id, qty: 1, ...(flavours ? { flavours } : {}) });
-      saveCart(); renderCart(); const wasOpen = $('cartPanel').classList.contains('open'); setPanel(true); if (!wasOpen) { try { $('cartClose').focus({ preventScroll: true }); } catch (e) {} }
+      saveCart(); renderCart(); toast('Added to your cart');
     }
     let pickId = 'three';
     const pickCounts = { chocolate: 0, maple: 0, butter: 0 };
@@ -1182,6 +1183,7 @@
     if (n > prevN) { hc.classList.remove('bump'); void hc.offsetWidth; hc.classList.add('bump'); }
     prevN = n;
 
+    document.body.classList.toggle('has-cartbar', byId('cartBar').classList.contains('show'));
     var saved = 0; cart.forEach(function (l) { saved += (D.prices.one * COOKIES[l.id] - PRICE[l.id]()) * l.qty; });
     var sv = byId('cartSave'); sv.hidden = !(saved > 0); if (saved > 0) sv.textContent = 'You’re saving ' + money(saved) + ' with combos';
 
