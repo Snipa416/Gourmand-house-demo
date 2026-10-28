@@ -338,12 +338,6 @@
     @keyframes bump{30%{transform:scale(1.18)}60%{transform:scale(.96)}}
     .countdown.closing .cd-label{color:var(--clay-d)}
 
-    .thanks{background:var(--espresso);color:var(--cream)}
-    .thanks-inner{display:flex;flex-wrap:wrap;align-items:center;gap:10px 18px;padding-top:16px;padding-bottom:16px}
-    .thanks-inner > div{flex:1 1 320px}
-    .thanks b{display:block;font-size:21px;font-weight:500}
-    .thanks span{color:#dcc8b4;font-size:15px}
-    .thanks-x{border:0;background:none;color:var(--cream);font-size:30px;line-height:1;padding:0 4px}
     .btn.sm{padding:9px 18px;font-size:15px}
 
     .openbanner{display:flex;align-items:center;gap:12px;margin:0 0 22px;padding:14px 18px;background:var(--espresso);color:var(--cream)}
@@ -356,6 +350,21 @@
     .st-n{flex:none;width:34px;height:34px;border-radius:50%;background:var(--espresso);color:var(--paper);display:grid;place-items:center;font-size:16px}
     .steps b{display:block;font-weight:500;font-size:19px;line-height:1.2}
     .st-d{display:block;color:var(--muted);font-size:15px;margin-top:3px;line-height:1.4}
+    .thanks-modal{position:fixed;inset:0;z-index:100;display:flex;align-items:center;justify-content:center;padding:16px;background:rgba(36,20,14,.62);overflow:auto}
+    .thanks-card{background:var(--paper);width:min(460px,100%);max-height:100%;overflow:auto;padding:28px 24px 22px;text-align:center;box-shadow:0 24px 60px rgba(36,20,14,.4);animation:pop .4s ease both}
+    @keyframes pop{from{opacity:0;transform:translateY(16px) scale(.97)}to{opacity:1;transform:none}}
+    .thanks-logo{width:72px;height:72px;margin:0 auto 12px;border-radius:50%}
+    .thanks-card h2{font-size:clamp(26px,6vw,32px);line-height:1.15;text-wrap:balance}
+    .thanks-sub{margin:10px 0 18px;color:var(--muted);font-size:16px;line-height:1.5}
+    .thanks-sum{text-align:left;border-top:1px solid var(--line);margin:0 0 14px}
+    .thanks-sum h3{font-size:13px;letter-spacing:.14em;text-transform:uppercase;font-weight:600;color:var(--clay-d);margin:12px 0 4px}
+    .thanks-sum ul{list-style:none;margin:0;padding:0}
+    .thanks-sum li{display:flex;justify-content:space-between;gap:14px;padding:8px 0;font-size:16px;border-bottom:1px solid var(--line)}
+    .thanks-sum li small{display:block;color:var(--muted);font-size:13px;line-height:1.35;margin-top:2px}
+    .thanks-sum li.tot{font-weight:600;border-bottom:0}
+    .thanks-pick{text-align:left;font-size:15px;color:var(--cocoa);margin:0 0 18px;line-height:1.5;background:var(--cream);padding:12px 14px}
+    .thanks-actions{display:flex;flex-wrap:wrap;gap:10px}
+    .thanks-actions .btn{flex:1 1 170px}
     .cal-row{margin-top:22px;display:flex;flex-wrap:wrap;gap:10px 12px;align-items:center;color:var(--muted);font-size:15px}
     .product-photo img{transition:transform .6s ease}
     .product:hover .product-photo:not(.cut) img{transform:scale(1.04)}
@@ -482,13 +491,6 @@
   </div>
 
   <main id="top">
-    <div class="thanks" id="thanks" hidden>
-      <div class="wrap thanks-inner">
-        <div><b>Thank you, your order is in.</b><span id="thanksText"></span></div>
-        <button class="btn light sm" type="button" id="thanksCal" data-cal="pickup">Add pickup to calendar</button>
-        <button class="thanks-x" type="button" id="thanksClose" aria-label="Dismiss">&times;</button>
-      </div>
-    </div>
     <section class="hero">
       <div class="hero-copy stripes">
         <p class="label">Perfectly Thin Gourmand Cookies · Toronto</p>
@@ -752,6 +754,16 @@
     </div>
   </div>
 
+  <div class="thanks-modal" id="thanksModal" role="dialog" aria-modal="true" aria-labelledby="thanksTitle" hidden>
+    <div class="thanks-card">
+      <img class="thanks-logo" src="assets/logo-seal-200.png" width="72" height="72" alt="">
+      <h2 id="thanksTitle">Thank you for ordering 🍪🤎</h2>
+      <p class="thanks-sub">Your order is in. Square is emailing your receipt, and we’ll follow up with your pickup details.</p>
+      <div class="thanks-sum" id="thanksSum" hidden></div>
+      <p class="thanks-pick" id="thanksPick" hidden></p>
+      <div class="thanks-actions"><button class="btn" type="button" id="thanksCal" data-cal="pickup">Add pickup to calendar</button><button class="btn ghost" type="button" id="thanksDone">Done</button></div>
+    </div>
+  </div>
   <button class="to-top" id="toTop" type="button" aria-label="Back to top"><img src="assets/logo-seal-200.png" width="58" height="58" alt=""></button>
   <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
@@ -925,6 +937,12 @@
       $('cartGo').disabled = !cart.length;
       if (window.ghSync) ghSync();
     }
+    function saveOrderSummary() {
+      try {
+        const sel = $('pickSlot'), slot = sel && sel.selectedIndex > 0 ? sel.options[sel.selectedIndex].text : '';
+        localStorage.setItem('gh-last-order', JSON.stringify({ t: Date.now(), total: cartSub(), slot: slot, lines: cart.map(l => ({ id: l.id, qty: l.qty, flavours: l.flavours || null })) }));
+      } catch (e) {}
+    }
     function tooMany(extra) {
       if (cartCookies() + extra > MAX_COOKIES) { toast('Orders are limited to ' + MAX_COOKIES + ' cookies.'); return true; }
       return false;
@@ -998,7 +1016,7 @@
       try {
         const res = await fetch(CART_API, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ pickupSlot: slotSel.value, items: cart.map(l => ({ id: l.id, qty: l.qty, ...(l.flavours ? { flavours: l.flavours } : {}) })) }) });
         const data = await res.json().catch(() => ({}));
-        if (res.ok && data.url && /^https:\/\//.test(data.url)) { window.location.href = data.url; return; }
+        if (res.ok && data.url && /^https:\/\//.test(data.url)) { saveOrderSummary(); window.location.href = data.url; return; }
         msg.textContent = data.error || 'Checkout is unavailable right now. Please try again in a moment.';
       } catch (e) {
         msg.textContent = 'Couldn’t reach checkout. Check your connection and try again.';
@@ -1009,7 +1027,6 @@
     if (/[?&]ordered=1/.test(location.search)) {
       cart.length = 0; saveCart(); renderCart();
       window.__ghOrdered = true;
-      toast('Thanks for ordering! A confirmation email is on its way.', 8000);
       try { history.replaceState(null, '', location.pathname + location.hash); } catch (e) {}
     }
     if (CART_API.startsWith('https://')) {
@@ -1198,12 +1215,51 @@
   byId('hdrCart').addEventListener('click', function () { setPanel(true); });
   byId('cartAdd').addEventListener('click', function (e) { var b = e.target.closest('[data-add]'); if (b) addToCart(b.dataset.add); });
 
-  /* ---------- Thank-you banner after paying ---------- */
+  /* ---------- Thank-you pop-up after paying ---------- */
   if (window.__ghOrdered) {
-    var th = byId('thanks'); th.hidden = false;
-    byId('thanksText').textContent = PP.dateLabel ? 'Pickup ' + PP.dateLabel + ', ' + (PP.timeLabel || '') + ' at ' + (PP.venue || '') + ', ' + (PP.address || '') + '. Come during the hour you chose.' : '';
-    byId('thanksClose').addEventListener('click', function () { th.hidden = true; });
-    if (!PK) byId('thanksCal').hidden = true;
+    var info = null;
+    try {
+      var raw = localStorage.getItem('gh-last-order');
+      if (raw) { info = JSON.parse(raw); if (!info || !Array.isArray(info.lines) || !info.lines.length || Date.now() - info.t > 6 * 3600 * 1000) info = null; }
+      localStorage.removeItem('gh-last-order');
+    } catch (e) { info = null; }
+    var modal = byId('thanksModal'), sum = byId('thanksSum'), pickBox = byId('thanksPick');
+    sum.textContent = '';
+    if (info) {
+      var cookies = 0, ul = document.createElement('ul');
+      info.lines.forEach(function (l) {
+        if (!NAMES[l.id]) return;
+        cookies += COOKIES[l.id] * l.qty;
+        var li = document.createElement('li'), left = document.createElement('div'), name = document.createElement('span');
+        name.textContent = (l.qty > 1 ? l.qty + ' × ' : '') + NAMES[l.id]; left.appendChild(name);
+        if (Array.isArray(l.flavours) && l.flavours.length) {
+          var cnt = {}; l.flavours.forEach(function (f) { cnt[f] = (cnt[f] || 0) + 1; });
+          var sm = document.createElement('small'); sm.textContent = Object.keys(cnt).map(function (f) { return cnt[f] + ' × ' + (NAMES[f] || f); }).join(' · '); left.appendChild(sm);
+        }
+        var price = document.createElement('span'); price.textContent = money(PRICE[l.id]() * l.qty);
+        li.appendChild(left); li.appendChild(price); ul.appendChild(li);
+      });
+      if (ul.children.length) {
+        var tot = document.createElement('li'); tot.className = 'tot';
+        var tl = document.createElement('span'); tl.textContent = 'Total · ' + cookies + (cookies === 1 ? ' cookie' : ' cookies');
+        var tv = document.createElement('span'); tv.textContent = money(info.total); tot.appendChild(tl); tot.appendChild(tv); ul.appendChild(tot);
+        var h = document.createElement('h3'); h.textContent = 'Your order'; sum.appendChild(h); sum.appendChild(ul);
+      }
+    }
+    sum.hidden = !sum.children.length;
+    var hour = info && info.slot ? info.slot.replace(/:00/g, '').replace(/\s*–\s*/g, '–') : (PP.timeLabel || '');
+    pickBox.textContent = '';
+    if (PP.dateLabel) {
+      var pb = document.createElement('b'); pb.textContent = 'Pickup: '; pickBox.appendChild(pb);
+      pickBox.appendChild(document.createTextNode(PP.dateLabel + (hour ? ', ' + hour : '') + ' at ' + (PP.venue || '') + ', ' + (PP.address || '') + '. Come during the hour you chose.'));
+    }
+    pickBox.hidden = !pickBox.textContent;
+    byId('thanksCal').hidden = !PK;
+    var closeThanks = function () { modal.hidden = true; document.body.classList.remove('locked'); };
+    byId('thanksDone').addEventListener('click', closeThanks);
+    modal.addEventListener('click', function (e) { if (e.target === modal) closeThanks(); });
+    document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && !modal.hidden) closeThanks(); });
+    modal.hidden = false; document.body.classList.add('locked'); byId('thanksDone').focus();
   }
 
   /* ---------- Back to top (logo button) ---------- */
