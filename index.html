@@ -761,6 +761,16 @@
       <div class="thanks-actions"><button class="btn" type="button" id="thanksCal" data-cal="pickup">Add pickup to calendar</button><button class="btn ghost" type="button" id="thanksDone">Done</button></div>
     </div>
   </div>
+  <div class="thanks-modal" id="alertModal" role="dialog" aria-modal="true" aria-labelledby="alertModalTitle" hidden>
+    <div class="thanks-card">
+      <img class="thanks-logo" src="assets/logo-seal-200.png" width="72" height="72" alt="">
+      <p class="thanks-kicker" aria-hidden="true">🍪🤎</p>
+      <h2 id="alertModalTitle">You’re in!</h2>
+      <p class="thanks-sub" id="alertModalText">You’re on the Gourmand House drop alerts list. We’ll tell you the moment the next drop is live.</p>
+      <p class="thanks-pick" id="alertModalWho" hidden></p>
+      <div class="thanks-actions"><a class="btn ghost" href="https://www.instagram.com/gourmandhouseco/" target="_blank" rel="noopener">Follow us on Instagram</a><button class="btn" type="button" id="alertModalDone">Done</button></div>
+    </div>
+  </div>
   <button class="to-top" id="toTop" type="button" aria-label="Back to top"><img src="assets/logo-seal-200.png" width="58" height="58" alt=""></button>
   <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
@@ -863,6 +873,29 @@
       Object.keys(data).forEach(k => { if (data[k] !== undefined && data[k] !== '') body.append(k, data[k]); });
       return fetch(url, { method: 'POST', mode: 'no-cors', headers: { 'Content-Type': 'application/x-www-form-urlencoded' }, body: body.toString() });
     }
+    /* ---------- "You're in" pop-up after joining the drop alerts ---------- */
+    const alertModal = $('alertModal');
+    function closeAlertModal() {
+      if (alertModal.hidden) return;
+      alertModal.hidden = true; document.body.classList.remove('locked');
+    }
+    function showAlertModal(email, phone) {
+      const digits = (phone || '').replace(/\D/g, '');
+      const tail = digits.length >= 4 ? digits.slice(-4) : '';
+      $('alertModalText').textContent = phone
+        ? 'You’re on the Gourmand House drop alerts list. We’ll email you and text you the moment the next drop is live.'
+        : 'You’re on the Gourmand House drop alerts list. We’ll email you the moment the next drop is live.';
+      const who = $('alertModalWho');
+      who.textContent = '';
+      const b = document.createElement('b'); b.textContent = 'Alerts going to: '; who.appendChild(b);
+      who.appendChild(document.createTextNode(email + (tail ? ' · text to ••• ••• ' + tail : '')));
+      who.hidden = false;
+      alertModal.hidden = false; document.body.classList.add('locked');
+      $('alertModalDone').focus({ preventScroll: true });
+    }
+    $('alertModalDone').addEventListener('click', closeAlertModal);
+    alertModal.addEventListener('click', e => { if (e.target === alertModal) closeAlertModal(); });
+    document.addEventListener('keydown', e => { if (e.key === 'Escape') closeAlertModal(); });
     $('alertsForm').addEventListener('submit', e => {
       e.preventDefault();
       const email = $('aEmail').value.trim(), phone = $('aPhone').value.trim(), msg = $('alertsMsg');
@@ -876,6 +909,7 @@
       postForm(F.action, data).then(() => {
         msg.textContent = 'You’re on the list. We’ll be in touch when the next drop is live.';
         $('alertsForm').reset();
+        showAlertModal(email, phone);
       }).catch(() => {
         msg.className = 'msg err'; msg.textContent = 'Something went wrong. Please try again or email us.';
       }).finally(() => { $('alertsBtn').disabled = false; });
