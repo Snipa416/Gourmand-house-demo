@@ -95,6 +95,8 @@ const MAX_COOKIES_PER_ORDER = 24;   // change here to raise or lower the per-ord
 const HST_PERCENT = '13';           // change here if the tax rate changes
 const PICKUP_TEXT = 'Pickup Saturday, October 31, 2026, 5-9:30 p.m. at It’s OK* Studios, 468 Queen St W, Toronto.';
 const PICKUP_AT = '2026-10-31T17:00:00-04:00';
+// Shown on the Square receipt and order. Keep in sync with the pickup policy on the website.
+const PICKUP_POLICY = ' Pickup is only at this location during the selected time. Please notify us in advance of any delay: orders not collected on time without notice are cancelled and are not eligible for a refund.';
 // Hourly pickup slots: key is the start hour (24h), value is [label, start time].
 const SLOTS = {
   '17': ['5:00-6:00 p.m.', '2026-10-31T17:00:00-04:00'],
@@ -140,7 +142,7 @@ export function buildCart(input) {
 function paymentLinkBody(env, lines, withPickup, slot) {
   const when = slot ? SLOTS[slot] : null;
   const pickupAt = when ? when[1] : PICKUP_AT;
-  const pickupText = when ? PICKUP_TEXT.replace('5-9:30 p.m.', when[0]) : PICKUP_TEXT;
+  const pickupText = (when ? PICKUP_TEXT.replace('5-9:30 p.m.', when[0]) : PICKUP_TEXT) + PICKUP_POLICY;
   const order = {
     location_id: env.SQUARE_LOCATION_ID,
     line_items: lines
