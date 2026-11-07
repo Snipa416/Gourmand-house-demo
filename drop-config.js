@@ -42,12 +42,12 @@ window.DROP = {
     start: '15:00',
     end: '20:00',
     timeZone: 'America/Toronto',
-    venue: 'Gourmand House Pickup',
+    venue: '',
     // Public area only. The full street address goes out in the Square receipt and confirmation email (Worker + Gmail), never in this file.
     address: 'Scarborough, ON'
   },
   upcoming: [
-    { date: 'Nov 14', title: 'Cookie drop pickup', place: 'Gourmand House Pickup, Scarborough', href: '#drop' }
+    { date: 'Nov 14', title: 'Cookie drop pickup', place: 'Scarborough', href: '#drop' }
   ],
   prices: { one: 6, three: 17, six: 32 },
   // A public, sanitized stock endpoint. Never put a Square access token here.
