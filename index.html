@@ -195,7 +195,7 @@
     .alerts form{display:grid;gap:12px}
     .alerts input{background:#fffaf1;border:1px solid var(--line);border-radius:0;padding:13px 14px;font-size:16px;width:100%;color:var(--espresso)}
     .alerts input:focus{outline:none;border-color:var(--clay)}
-    .alerts .hp{position:absolute;left:-9999px;width:1px;height:1px;opacity:0}
+    .alerts .hp{position:absolute;left:-9999px;width:1px;height:1px;opacity:0}.alerts .consent{display:flex;gap:10px;align-items:flex-start;font-size:14px;line-height:1.45;color:var(--muted);cursor:pointer}.alerts .consent input{width:auto;margin-top:3px;flex:none}
     .alerts .msg{margin:0;font-size:15px;min-height:1.2em}
     .alerts .msg.err{color:#a3341c}
     .early{margin-top:14px;font-size:15px;color:var(--muted)}
@@ -611,7 +611,7 @@
           </div>
           <form id="alertsForm" novalidate>
             <input id="aEmail" type="email" placeholder="Your email" autocomplete="email" aria-label="Your email" required>
-            <input id="aPhone" type="tel" placeholder="Phone for a text (optional)" autocomplete="tel" aria-label="Phone number (optional)">
+            <input id="aPhone" type="tel" placeholder="Phone for a text (optional)" autocomplete="tel" aria-label="Phone number (optional)"><label class="consent"><input type="checkbox" id="aConsent"><span>Yes, text me when drops open. I agree to receive texts from Gourmand House at this number. Msg &amp; data rates may apply. Reply STOP any time to opt out. Questions: gourmandhouse@gmail.com</span></label>
             <input class="hp" id="aHp" type="text" tabindex="-1" autocomplete="off" aria-hidden="true">
             <button class="btn" type="submit" id="alertsBtn">Notify me</button>
             <p class="msg" id="alertsMsg" role="status"></p>
@@ -906,7 +906,7 @@
       const email = $('aEmail').value.trim(), phone = $('aPhone').value.trim(), msg = $('alertsMsg');
       msg.className = 'msg';
       if ($('aHp').value) { msg.textContent = 'Thanks, you’re on the list.'; return; }
-      if (!/^\S+@\S+\.\S+$/.test(email)) { msg.className = 'msg err'; msg.textContent = 'Please enter a valid email.'; $('aEmail').focus(); return; }
+      if (!/^\S+@\S+\.\S+$/.test(email)) { msg.className = 'msg err'; msg.textContent = 'Please enter a valid email.'; $('aEmail').focus(); return; } if (phone && !$('aConsent').checked) { msg.className = 'msg err'; msg.textContent = 'To get texts, please tick the box. Or clear the number to get email only.'; $('aConsent').focus(); return; }
       const F = (DROP.forms || {}).alerts;
       if (!F) { msg.className = 'msg err'; msg.textContent = 'Signup is unavailable right now. Email us instead.'; return; }
       const data = {}; data[F.email] = email; if (phone) data[F.phone] = phone;
