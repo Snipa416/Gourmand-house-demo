@@ -599,12 +599,6 @@
 
         <div class="openbanner" id="openBanner" hidden><i class="dot"></i><p><b>Orders are open now.</b> This drop closes <span id="obWhen">Thursday, November 12 at 8:00 p.m.</span> If we sell out, ordering will close until our next drop.</p></div>
 
-        <div class="cal-row" id="calRow" hidden>
-          <span>Don’t miss it:</span>
-          <button class="btn ghost sm" type="button" data-cal="pickup">Add pickup to calendar</button>
-          <button class="btn ghost sm" type="button" id="calClose" data-cal="close" hidden>Remind me before orders close</button>
-        </div>
-
         <details class="early" id="earlyBox" hidden>
           <summary>Have an early-access code?</summary>
           <div class="early-row"><input id="earlyCode" type="text" placeholder="Enter your code" autocomplete="off" aria-label="Early-access code"><button class="btn" type="button" id="earlyBtn">Unlock</button></div>
@@ -1194,7 +1188,15 @@
   document.addEventListener('click', function (e) {
     var b = e.target.closest && e.target.closest('[data-cal]'); if (!b) return;
     if (b.dataset.cal === 'pickup' && PK) {
-      download('gourmand-house-pickup.ics', makeIcs({ uid: 'pickup-' + PP.date, start: PK.start, end: PK.end, summary: 'Gourmand House cookie pickup', location: (PP.venue ? PP.venue + ', ' : '') + (PP.address || ''), desc: 'Come during the pickup hour you chose at checkout. Bring your order confirmation or the name on the order. https://gourmandhouse.ca', alarm: '-PT3H' }));
+      var evStart = PK.start, evEnd = PK.end;
+      try {
+        var lo = JSON.parse(localStorage.getItem('gh-last-order') || 'null'), m = lo && lo.slot && lo.slot.match(/^(\d{1,2}):00\s*[–-]\s*(\d{1,2}):00\s*p\.m\./);
+        if (m) {
+          var h1 = +m[1] % 12 + 12, h2 = +m[2] % 12 + 12, tz = PP.timeZone || 'America/Toronto';
+          evStart = zonedToUtc(PP.date, h1 + ':00', tz); evEnd = zonedToUtc(PP.date, h2 + ':00', tz);
+        }
+      } catch (err) {}
+      download('gourmand-house-pickup.ics', makeIcs({ uid: 'pickup-' + PP.date, start: evStart, end: evEnd, summary: 'Gourmand House cookie pickup', location: (PP.venue ? PP.venue + ', ' : '') + (PP.address || ''), desc: 'Come during the pickup hour you chose at checkout. Bring your order confirmation or the name on the order. https://gourmandhouse.ca', alarm: '-PT3H' }));
       toast('Calendar file downloaded. Open it to save the event.', 2600);
     } else if (b.dataset.cal === 'close' && D.closesAt) {
       var c = new Date(D.closesAt).getTime();
@@ -1251,8 +1253,6 @@
     var saved = 0; cart.forEach(function (l) { saved += (D.prices.one * COOKIES[l.id] - PRICE[l.id]()) * l.qty; });
     var sv = byId('cartSave'); sv.hidden = !(saved > 0); if (saved > 0) sv.textContent = 'You’re saving ' + money(saved) + ' with combos';
 
-    var cal = byId('calRow'); cal.hidden = !(PK && Date.now() < PK.end);
-    byId('calClose').hidden = !timed;
   }
   window.ghSync = sync;
 
