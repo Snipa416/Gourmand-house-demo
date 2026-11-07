@@ -93,17 +93,22 @@ const PRODUCTS = {
 const FLAVOURS = { chocolate: 'Milk/Dark Chocolate Sea Salt', maple: 'Maple Fudge & Pecan', butter: 'Butter Fudge' };
 const MAX_COOKIES_PER_ORDER = 24;   // change here to raise or lower the per-order limit
 const HST_PERCENT = '13';           // change here if the tax rate changes
-const PICKUP_TEXT = 'Pickup Saturday, October 31, 2026, 5-9:30 p.m. at It’s OK* Studios, 468 Queen St W, Toronto.';
-const PICKUP_AT = '2026-10-31T17:00:00-04:00';
+const PICKUP_DAY = 'Saturday, November 14, 2026';
+const PICKUP_HOURS = '3-8 p.m.';
+const PICKUP_AT = '2026-11-14T15:00:00-05:00';
+// The street address is NOT in this file (the repo is public). Set the PICKUP_ADDRESS variable in Cloudflare,
+// for example "7 Jeremiah Lane, Scarborough, ON". It shows only on the Square receipt and order note.
+const PICKUP_PLACE_PUBLIC = 'Gourmand House Pickup, Scarborough, ON';
+function pickupText(env, hours) { return 'Pickup ' + PICKUP_DAY + ', ' + hours + ' at ' + (env.PICKUP_ADDRESS ? 'Gourmand House Pickup, ' + env.PICKUP_ADDRESS : PICKUP_PLACE_PUBLIC) + '.'; }
 // Shown on the Square receipt and order. Keep in sync with the pickup policy on the website.
 const PICKUP_POLICY = ' Pickup is only at this location during the selected time. Please notify us in advance of any delay: orders not collected on time without notice are cancelled and are not eligible for a refund.';
-// Hourly pickup slots: key is the start hour (24h), value is [label, start time].
+// Hourly pickup slots: key is the start hour (24h), value is [label, start time]. Ontario is UTC-5 (EST) after Nov 1.
 const SLOTS = {
-  '17': ['5:00-6:00 p.m.', '2026-10-31T17:00:00-04:00'],
-  '18': ['6:00-7:00 p.m.', '2026-10-31T18:00:00-04:00'],
-  '19': ['7:00-8:00 p.m.', '2026-10-31T19:00:00-04:00'],
-  '20': ['8:00-9:00 p.m.', '2026-10-31T20:00:00-04:00'],
-  '21': ['9:00-9:30 p.m.', '2026-10-31T21:00:00-04:00']
+  '15': ['3:00-4:00 p.m.', '2026-11-14T15:00:00-05:00'],
+  '16': ['4:00-5:00 p.m.', '2026-11-14T16:00:00-05:00'],
+  '17': ['5:00-6:00 p.m.', '2026-11-14T17:00:00-05:00'],
+  '18': ['6:00-7:00 p.m.', '2026-11-14T18:00:00-05:00'],
+  '19': ['7:00-8:00 p.m.', '2026-11-14T19:00:00-05:00']
 };
 const RETURN_URL = 'https://gourmandhouse.ca/?ordered=1';
 
@@ -142,7 +147,7 @@ export function buildCart(input) {
 function paymentLinkBody(env, lines, withPickup, slot) {
   const when = slot ? SLOTS[slot] : null;
   const pickupAt = when ? when[1] : PICKUP_AT;
-  const pickupText = (when ? PICKUP_TEXT.replace('5-9:30 p.m.', when[0]) : PICKUP_TEXT) + PICKUP_POLICY;
+  const pickupNote = pickupText(env, when ? when[0] : PICKUP_HOURS) + PICKUP_POLICY;
   const order = {
     location_id: env.SQUARE_LOCATION_ID,
     line_items: lines
@@ -152,14 +157,14 @@ function paymentLinkBody(env, lines, withPickup, slot) {
   if (withPickup) {
     order.fulfillments = [{
       type: 'PICKUP', state: 'PROPOSED',
-      pickup_details: { recipient: { display_name: 'Website order' }, schedule_type: 'SCHEDULED', pickup_at: pickupAt, note: pickupText }
+      pickup_details: { recipient: { display_name: 'Website order' }, schedule_type: 'SCHEDULED', pickup_at: pickupAt, note: pickupNote }
     }];
   }
   return {
     idempotency_key: crypto.randomUUID(),
     order,
     checkout_options: { redirect_url: RETURN_URL, ask_for_shipping_address: false, allow_tipping: false, enable_coupon: false },
-    payment_note: pickupText
+    payment_note: pickupNote
   };
 }
 
