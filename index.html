@@ -3,23 +3,23 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Gourmand House | Thin Gourmet Cookies</title>
-  <meta name="description" content="Thin gourmet cookies, handmade in Toronto. Pickup Saturday, November 14 in Scarborough, 3–8 p.m.">
+  <title>Gourmand House | Your fav thin gourmet cookie</title>
+  <meta name="description" content="Your fav thin gourmet cookie. Handmade in Toronto, sealed one by one. Order now for pickup Saturday, November 14 in Scarborough, 3–8 p.m.">
   <meta name="theme-color" content="#24140e">
   <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png">
   <link rel="icon" type="image/png" sizes="64x64" href="assets/favicon-64.png">
   <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
   <meta property="og:type" content="website">
-  <meta property="og:title" content="Gourmand House | Thin Gourmet Cookies">
-  <meta property="og:description" content="Thin gourmet cookies, handmade in Toronto.">
-  <meta property="og:image" content="https://gourmandhouse.ca/assets/logo-seal-200.png">
-  <meta property="og:image:width" content="200">
-  <meta property="og:image:height" content="200">
-  <meta property="og:image:alt" content="Gourmand House logo">
+  <meta property="og:title" content="Gourmand House | Your fav thin gourmet cookie">
+  <meta property="og:description" content="Handmade in Toronto, sealed one by one. Order now for pickup Saturday, November 14 in Scarborough.">
+  <meta property="og:image" content="https://gourmandhouse.ca/assets/og-cover.jpg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="Gourmand House thin gourmet cookies">
   <meta property="og:site_name" content="Gourmand House">
   <meta property="og:url" content="https://gourmandhouse.ca/">
-  <meta name="twitter:card" content="summary">
-  <meta name="twitter:image" content="https://gourmandhouse.ca/assets/logo-seal-200.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:image" content="https://gourmandhouse.ca/assets/og-cover.jpg">
   <script type="application/ld+json">
   {"@context":"https://schema.org","@type":"Bakery","name":"Gourmand House","url":"https://gourmandhouse.ca/","image":"https://gourmandhouse.ca/assets/logo-seal-200.png","email":"gourmandhouse@gmail.com","address":{"@type":"PostalAddress","addressLocality":"Toronto","addressRegion":"ON","addressCountry":"CA"},"sameAs":["https://www.instagram.com/gourmandhouseco/"]}
   </script>
@@ -98,6 +98,10 @@
     .hero h1{font-size:clamp(46px,6vw,88px);line-height:1;letter-spacing:-.03em;font-weight:500}
     .hero h1 em{display:block;font-weight:500}
     .hero p.intro{font-size:clamp(17px,1.5vw,20px);max-width:440px;color:var(--cocoa);margin:22px 0 30px}
+    .hero-actions{margin:0}
+    .pack{position:relative}
+    .pack-badge{position:absolute;top:12px;right:12px;font-size:12px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;background:var(--sand);color:var(--espresso);border-radius:999px;padding:5px 12px;line-height:1.2}
+    .pack-note{text-align:center;color:var(--muted);margin:18px 0 0;font-size:16px}
     .hero-photo{position:relative;overflow:hidden;background:var(--sand);min-height:460px}
     .hero-photo img{position:absolute;inset:0;width:100%;height:100%!important;object-fit:cover;object-position:center 60%}
     .link-arrow{margin-left:6px;font-size:16px}
@@ -129,6 +133,7 @@
     .story-copy p{color:var(--cocoa);max-width:520px;margin:20px 0 0}
     .points{list-style:none;padding:0;margin:28px 0 0;display:grid;grid-template-columns:repeat(3,1fr);gap:18px;max-width:560px}
     .points li{border-top:1px solid var(--line);padding-top:12px;font-size:15px;color:var(--muted);line-height:1.45}
+    .points-4{grid-template-columns:repeat(2,1fr);margin-top:18px}
     .points b{display:block;font-weight:500;font-size:18px;color:var(--espresso);margin-bottom:2px}
     .story-photo img{width:100%;aspect-ratio:4/3;object-fit:cover}
 
@@ -461,7 +466,7 @@
           <a href="#drop">Cookies</a>
           <a href="#story">Our story</a>
           <a href="#events">Events &amp; pop-ups</a>
-          <a href="#alerts">Stay tuned</a>
+          <a href="#alerts" class="js-alerts-link">Stay tuned</a>
           <a href="#faq">FAQ</a>
         </nav>
       </div>
@@ -487,7 +492,7 @@
         <a href="#drop">Cookies</a>
         <a href="#story">Our story</a>
         <a href="#events">Events &amp; pop-ups</a>
-        <a href="#alerts" data-close-menu>Stay tuned</a>
+        <a href="#alerts" class="js-alerts-link" data-close-menu>Stay tuned</a>
         <a href="#faq">FAQ</a>
       </nav>
       <div class="menu-foot">
@@ -501,11 +506,12 @@
     <section class="hero">
       <div class="hero-copy stripes">
         <p class="label">Perfectly Thin Gourmand Cookies · Toronto</p>
-        <h1>Handmade, <em>gourmet quality.</em></h1>
+        <h1>Your fav thin <em>gourmet cookie.</em></h1>
         <p class="intro">Every Gourmand House cookie is made by hand, in small batches, right here in Toronto. We use thoughtfully chosen, gourmet-quality ingredients: locally milled flour, real Belgian chocolate, roasted pecans, rich fudge and delicate flakes of sea salt, because the little details make all the difference.</p>
+        <p class="hero-actions"><a class="btn" id="heroCta" href="#drop">See the cookies</a></p>
       </div>
       <div class="hero-photo">
-        <img src="assets/hero-sealed-cookie-over-trays.jpg?v=20261022" width="1050" height="1400" alt="A hand holding a Gourmand House cookie sealed with the round logo sticker, over trays of freshly baked cookies" fetchpriority="high">
+        <img src="assets/cookie-stack.jpg" width="750" height="1000" alt="A tall stack of thin, golden Gourmand House cookies on parchment" fetchpriority="high">
       </div>
     </section>
 
@@ -566,19 +572,20 @@
         </div>
 
         <div class="packs">
+          <div class="pack" data-product="sixpick">
+            <span class="pack-badge">Best value</span>
+            <p class="label">Your flavour choices</p>
+            <h3>Choose your <em>six</em></h3>
+            <p class="p-desc">Pick any six from Milk/Dark Chocolate Sea Salt, Maple Fudge &amp; Pecan and Butter Fudge.</p>
+            <div class="pack-price" data-pid="sixpick" data-n="6"><span class="pk-n">6 Cookies</span><span class="pk-p">$32</span><span class="pk-save">Save $4</span></div>
+            <button class="btn light add" type="button" data-id="sixpick" disabled>Ordering soon</button>
+          </div>
           <div class="pack" data-product="three">
             <p class="label">Your flavour choices</p>
             <h3>Choose your <em>three</em></h3>
             <p class="p-desc">Pick any three from Milk/Dark Chocolate Sea Salt, Maple Fudge &amp; Pecan and Butter Fudge.</p>
             <div class="pack-price" data-pid="three" data-n="3"><span class="pk-n">3 Cookies</span><span class="pk-p">$17</span><span class="pk-save">Save $1</span></div>
             <button class="btn light add" type="button" data-id="three" disabled>Ordering soon</button>
-          </div>
-          <div class="pack" data-product="sixpick">
-            <p class="label">Your flavour choices</p>
-            <h3>Choose your <em>six</em></h3>
-            <p class="p-desc">Pick any six from Milk/Dark Chocolate Sea Salt, Maple Fudge &amp; Pecan and Butter Fudge.</p>
-            <div class="pack-price" data-pid="sixpick" data-n="6"><span class="pk-n">6 Cookies</span><span class="pk-p">$32</span><span class="pk-save">Save $4</span></div>
-            <button class="btn light add" type="button" data-id="sixpick" disabled>Ordering soon</button>
           </div>
           <div class="pack" data-product="box">
             <p class="label">Baker’s choice</p>
@@ -588,6 +595,7 @@
             <button class="btn light add" type="button" data-id="box" disabled>Ordering soon</button>
           </div>
         </div>
+        <p class="pack-note">Every cookie is individually sealed, so a box of six makes an easy gift.</p>
 
         <div class="openbanner" id="openBanner" hidden><i class="dot"></i><p><b>Orders are open now.</b> This drop closes <span id="obWhen">Thursday, November 12 at 8:00 p.m.</span> If we sell out, ordering will close until our next drop.</p></div>
 
@@ -626,10 +634,17 @@
           <p class="label label-lg">Our cookies</p>
           <p>Every cookie is perfectly thin, with crisp, golden edges and a gooey centre — everything a great cookie should be.</p>
           <p>Each cookie is individually sealed in our signature bag to keep it fresh, easy to take along, and ready to gift, share, or simply keep all to yourself.</p>
+          <p>The dough is chilled for 48 hours before it is baked. The long rest deepens the flavour and gives every cookie its thin, crisp edges and gooey centre.</p>
           <ul class="points">
             <li><b>Made by hand</b>Shaped and baked in small batches.</li>
             <li><b>Gourmet ingredients</b>Only the best quality goes in.</li>
             <li><b>Sealed one by one</b>All orders are freshly baked.</li>
+          </ul>
+          <ul class="points points-4">
+            <li><b>Locally sourced flour</b>Milled close to home.</li>
+            <li><b>Chocolatier chocolate</b>From professional chocolatiers.</li>
+            <li><b>Local fudge</b>Rich, sourced locally.</li>
+            <li><b>Chilled 48 hours</b>Dough rests two days before baking.</li>
           </ul>
         </div>
         <figure class="story-photo" style="margin:0">
@@ -700,8 +715,8 @@
         <div>
           <details open><summary>How do I pay?</summary><p>You can pay through our website. Add your cookies to the cart, choose a pickup time and check out. Payment is handled securely by Square.</p></details>
           <details><summary>When is my order confirmed?</summary><p>Your order is confirmed as soon as your payment goes through. Square emails you a receipt right away, and we follow up by email with your pickup details.</p></details>
-          <details><summary>Where is pickup?</summary><p>Pickup is <span data-fill="dateLabel">Saturday, November 14</span>, <span data-fill="timeLabel">3–8 p.m.</span>, at <span data-fill="venue">Gourmand House Pickup</span> in <span data-fill="address">Scarborough, ON</span>. The full pickup address is in your Square receipt and your confirmation email once you order. Bring your order confirmation.</p></details>
-          <details><summary>What’s the pickup policy?</summary><p>Orders may only be collected at the pickup address in your confirmation email (<span data-fill="venue">Gourmand House Pickup</span>, <span data-fill="address">Scarborough, ON</span>), during the pickup time you selected at checkout. Please bring your order confirmation or the name on the order. A friend may pick up on your behalf if they have your confirmation.</p><p>If you expect to be delayed, please notify us in advance at <a href="mailto:gourmandhouse@gmail.com">gourmandhouse@gmail.com</a> so we can make a note on your order. Orders that are not collected at the selected time, and for which no prior notice has been given, will be cancelled and are not eligible for a refund.</p></details>
+          <details><summary>Where is pickup?</summary><p>Pickup is <span data-fill="dateLabel">Saturday, November 14</span>, <span data-fill="timeLabel">3–8 p.m.</span>, in <span data-fill="address">Scarborough, ON</span>. The full pickup address is in your Square receipt and your confirmation email once you order. Bring your order confirmation.</p></details>
+          <details><summary>What’s the pickup policy?</summary><p>Orders may only be collected at the pickup address in your confirmation email (<span data-fill="address">Scarborough, ON</span>), during the pickup time you selected at checkout. Please bring your order confirmation or the name on the order. A friend may pick up on your behalf if they have your confirmation.</p><p>If you expect to be delayed, please notify us in advance at <a href="mailto:gourmandhouse@gmail.com">gourmandhouse@gmail.com</a> so we can make a note on your order. Orders that are not collected at the selected time, and for which no prior notice has been given, will be cancelled and are not eligible for a refund.</p></details>
           <details id="allergens"><summary>What about allergens?</summary><p>Our cookies contain wheat, milk and eggs. Maple Fudge &amp; Pecan contains pecans, and all three flavours are made in the same kitchen, so any of our cookies may contain tree nuts. If you have an allergy, email us before you order.</p></details>
           <details><summary>Is tax included?</summary><p>The price you see is the price you pay. We are not charging HST at this time, so a $6 cookie is $6 at checkout.</p></details>
           <details><summary>When do orders open and close?</summary><p>Orders for this drop open Saturday, November 7 at 9:00 a.m. ET and close Thursday, November 12 at 8:00 p.m. ET. If we sell out, ordering will close until our next drop. If you miss this one, leave your email in the drop-alert box and you’ll hear about the next drop first.</p></details>
@@ -737,7 +752,7 @@
     <div class="cart-foot">
       <p class="cart-save" id="cartSave" hidden></p>
       <div class="cart-sum"><span>Total · no HST added</span><span id="cSub">$0.00</span><span hidden id="cTax"></span><span hidden id="cTot"></span></div>
-      <div class="cart-slot"><label for="pickSlot">Pickup time · Saturday, Nov 14</label><select id="pickSlot"><option value="">Choose your pickup hour</option><option value="15">3:00 – 4:00 p.m.</option><option value="16">4:00 – 5:00 p.m.</option><option value="17">5:00 – 6:00 p.m.</option><option value="18">6:00 – 7:00 p.m.</option><option value="19">7:00 – 8:00 p.m.</option></select><p class="cart-where"><strong>Pickup location:</strong> Gourmand House Pickup, Scarborough, ON. The full address is in your Square receipt and confirmation email.</p><p class="cart-policy"><strong>Pickup policy:</strong> Orders may only be collected at the pickup address in your confirmation email, during the pickup time you have selected. If you expect any delay, please notify us in advance at <a href="mailto:gourmandhouse@gmail.com">gourmandhouse@gmail.com</a>. Orders that are not collected at the selected time, without prior notice, will be cancelled and are not eligible for a refund.</p></div>
+      <div class="cart-slot"><label for="pickSlot">Pickup time · Saturday, Nov 14</label><select id="pickSlot"><option value="">Choose your pickup hour</option><option value="15">3:00 – 4:00 p.m.</option><option value="16">4:00 – 5:00 p.m.</option><option value="17">5:00 – 6:00 p.m.</option><option value="18">6:00 – 7:00 p.m.</option><option value="19">7:00 – 8:00 p.m.</option></select><p class="cart-where"><strong>Pickup location:</strong> Scarborough, ON. The full address is in your Square receipt and confirmation email.</p><p class="cart-policy"><strong>Pickup policy:</strong> Orders may only be collected at the pickup address in your confirmation email, during the pickup time you have selected. If you expect any delay, please notify us in advance at <a href="mailto:gourmandhouse@gmail.com">gourmandhouse@gmail.com</a>. Orders that are not collected at the selected time, without prior notice, will be cancelled and are not eligible for a refund.</p></div>
       <p class="cart-msg" id="cartMsg" role="alert"></p>
       <button class="btn" type="button" id="cartGo">Checkout with Square</button>
       <button class="cart-continue" type="button" id="cartContinue">Continue browsing</button>
@@ -779,7 +794,7 @@
   <button class="to-top" id="toTop" type="button" aria-label="Back to top"><img src="assets/logo-seal-200.png" width="58" height="58" alt=""></button>
   <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
-  <script src="drop-config.js?v=20261106-nov14"></script>
+  <script src="drop-config.js?v=20261107-scarb"></script>
   <script src="stock-counter.js?v=20261027-2"></script>
   <script>
     const DROP = window.DROP || {};
@@ -1215,6 +1230,16 @@
     if (cta.getAttribute('href') !== href) cta.setAttribute('href', href);
     cta.classList.toggle('live', live);
 
+    var hcta = byId('heroCta');
+    if (hcta) {
+      var htxt = live ? 'Order now' : ((soldOut || isClosed()) ? 'Get drop alerts' : 'See the cookies');
+      if (hcta.textContent !== htxt) hcta.textContent = htxt;
+      if (hcta.getAttribute('href') !== href) hcta.setAttribute('href', href);
+    }
+    var alertsBox = byId('alerts');
+    if (alertsBox) alertsBox.hidden = live;
+    Array.prototype.forEach.call(document.querySelectorAll('.js-alerts-link'), function (a) { a.hidden = live; });
+
     var n = cartCookies(), hc = byId('hdrCart'), badge = byId('hdrCartN');
     hc.hidden = !(cartReady && (live || cart.length));
     badge.textContent = n; badge.dataset.n = n;
@@ -1281,7 +1306,7 @@
     pickBox.textContent = '';
     if (PP.dateLabel) {
       var pb = document.createElement('b'); pb.textContent = 'Pickup: '; pickBox.appendChild(pb);
-      pickBox.appendChild(document.createTextNode(PP.dateLabel + (hour ? ', ' + hour : '') + ' at ' + (PP.venue || '') + ', ' + (PP.address || '') + '. Your full pickup address is in your Square receipt and confirmation email. Please arrive during the hour you chose.'));
+      pickBox.appendChild(document.createTextNode(PP.dateLabel + (hour ? ', ' + hour : '') + ' in ' + (PP.address || 'Scarborough, ON') + '. Your full pickup address is in your Square receipt and confirmation email. Please arrive during the hour you chose.'));
     }
     pickBox.hidden = !pickBox.textContent;
     byId('thanksCal').hidden = !PK;
