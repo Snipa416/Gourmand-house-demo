@@ -97,7 +97,7 @@ const PICKUP_DAY = 'Saturday, November 14, 2026';
 const PICKUP_HOURS = '3-8 p.m.';
 const PICKUP_AT = '2026-11-14T15:00:00-05:00';
 // The street address is NOT in this file (the repo is public). Set the PICKUP_ADDRESS variable in Cloudflare,
-// for example "7 Jeremiah Lane, Scarborough, ON". It shows only on the Square receipt and order note.
+// as a plain street address with city and province. It shows only on the Square receipt and order note.
 const PICKUP_PLACE_PUBLIC = 'Gourmand House Pickup, Scarborough, ON';
 function pickupText(env, hours) { return 'Pickup ' + PICKUP_DAY + ', ' + hours + ' at ' + (env.PICKUP_ADDRESS ? 'Gourmand House Pickup, ' + env.PICKUP_ADDRESS : PICKUP_PLACE_PUBLIC) + '.'; }
 // Shown on the Square receipt and order. Keep in sync with the pickup policy on the website.
