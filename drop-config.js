@@ -4,14 +4,14 @@ window.DROP = {
   checkoutVerified: true,
   autoOpen: true,
   dropLabel: 'Drop 01',
-  opensAt: '2026-10-23T09:00:00-04:00',
-  opensLabel: 'Friday, October 23 at 9:00 a.m.',
-  announcement: 'Orders open until Thursday, Oct 29 at 8 p.m. · Pickup Saturday, Oct 31',
-  closedMessage: 'Orders open Friday, October 23 at 9:00 a.m. ET',
+  opensAt: '2026-11-07T09:00:00-05:00',
+  opensLabel: 'Saturday, November 7 at 9:00 a.m.',
+  announcement: 'Orders open until Thursday, Nov 12 at 8 p.m. · Pickup Saturday, Nov 14',
+  closedMessage: 'Orders open Saturday, November 7 at 9:00 a.m. ET',
   // Orders close here (the dough needs a night in the fridge). Keep DROP_END in Cloudflare the same.
-  closesAt: '2026-10-29T20:00:00-04:00',
-  closesLabel: 'Thursday, October 29 at 8:00 p.m.',
-  closedAfterMessage: 'Orders for this drop are closed · Pickup Saturday, October 31',
+  closesAt: '2026-11-12T20:00:00-05:00',
+  closesLabel: 'Thursday, November 12 at 8:00 p.m.',
+  closedAfterMessage: 'Orders for this drop are closed · Pickup Saturday, November 14',
   email: 'gourmandhouse@gmail.com',
   capacity: 200,
   // Cookies already promised elsewhere (for example other pre-orders). Subtracted from the live count.
@@ -36,18 +36,18 @@ window.DROP = {
     }
   },
   pickup: {
-    date: '2026-10-31',
-    dateLabel: 'Saturday, October 31',
-    timeLabel: '5–9:30 p.m.',
-    start: '17:00',
-    end: '21:30',
+    date: '2026-11-14',
+    dateLabel: 'Saturday, November 14',
+    timeLabel: '3–8 p.m.',
+    start: '15:00',
+    end: '20:00',
     timeZone: 'America/Toronto',
-    venue: 'It’s OK* Studios',
-    address: '468 Queen St W, Toronto, ON M5V 2B2'
+    venue: 'Gourmand House Pickup',
+    // Public area only. The full street address goes out in the Square receipt and confirmation email (Worker + Gmail), never in this file.
+    address: 'Scarborough, ON'
   },
   upcoming: [
-    { date: 'Oct 25', title: 'TH3RDSPACE pop-up', place: 'It’s OK* Studios, 468 Queen St W, Toronto' },
-    { date: 'Oct 31', title: 'Cookie drop pickup', place: 'It’s OK* Studios, 468 Queen St W, Toronto', href: '#drop' }
+    { date: 'Nov 14', title: 'Cookie drop pickup', place: 'Gourmand House Pickup, Scarborough', href: '#drop' }
   ],
   prices: { one: 6, three: 17, six: 32 },
   // A public, sanitized stock endpoint. Never put a Square access token here.
