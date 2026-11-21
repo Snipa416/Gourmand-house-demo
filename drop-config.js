@@ -4,14 +4,14 @@ window.DROP = {
   checkoutVerified: true,
   autoOpen: true,
   dropLabel: 'Drop 01',
-  opensAt: '2026-11-07T09:00:00-05:00',
-  opensLabel: 'Saturday, November 7 at 9:00 a.m.',
-  announcement: 'Orders open until Thursday, Nov 12 at 8 p.m. · Pickup Saturday, Nov 14',
-  closedMessage: 'Orders open Saturday, November 7 at 9:00 a.m. ET',
+  opensAt: '2026-11-21T09:00:00-05:00',
+  opensLabel: 'Saturday, November 21 at 9:00 a.m.',
+  announcement: 'Orders open until Thursday, Nov 26 at 8 p.m. · Pickup Saturday, Nov 28',
+  closedMessage: 'Orders open Saturday, November 21 at 9:00 a.m. ET',
   // Orders close here (the dough needs a night in the fridge). Keep DROP_END in Cloudflare the same.
-  closesAt: '2026-11-12T20:00:00-05:00',
-  closesLabel: 'Thursday, November 12 at 8:00 p.m.',
-  closedAfterMessage: 'Orders for this drop are closed · Pickup Saturday, November 14',
+  closesAt: '2026-11-26T20:00:00-05:00',
+  closesLabel: 'Thursday, November 26 at 8:00 p.m.',
+  closedAfterMessage: 'Orders for this drop are closed · Pickup Saturday, November 28',
   email: 'gourmandhouse@gmail.com',
   capacity: 200,
   // Cookies already promised elsewhere (for example other pre-orders). Subtracted from the live count.
@@ -33,11 +33,20 @@ window.DROP = {
       count: 'entry.1648258946',
       place: 'entry.1088506959',
       message: 'entry.1375096338'
+    },
+    // Leave-a-review form (Google Form). Until 'action' is filled in, the review form opens an email instead.
+    reviews: {
+      action: '',
+      email: 'emailAddress',
+      name: '',
+      rating: '',
+      review: '',
+      consent: ''
     }
   },
   pickup: {
-    date: '2026-11-14',
-    dateLabel: 'Saturday, November 14',
+    date: '2026-11-28',
+    dateLabel: 'Saturday, November 28',
     timeLabel: '3–8 p.m.',
     start: '15:00',
     end: '20:00',
@@ -47,7 +56,7 @@ window.DROP = {
     address: 'Scarborough, ON'
   },
   upcoming: [
-    { date: 'Nov 14', title: 'Cookie drop pickup', place: 'Scarborough', href: '#drop' }
+    { date: 'Nov 28', title: 'Cookie drop pickup', place: 'Scarborough', href: '#drop' }
   ],
   prices: { one: 6, three: 17, six: 32 },
   // A public, sanitized stock endpoint. Never put a Square access token here.
