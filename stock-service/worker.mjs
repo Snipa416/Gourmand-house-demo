@@ -93,9 +93,9 @@ const PRODUCTS = {
 const FLAVOURS = { chocolate: 'Milk/Dark Chocolate Sea Salt', maple: 'Maple Fudge & Pecan', butter: 'Butter Fudge' };
 const MAX_COOKIES_PER_ORDER = 24;   // change here to raise or lower the per-order limit
 const HST_PERCENT = '13';           // change here if the tax rate changes
-const PICKUP_DAY = 'Saturday, November 14, 2026';
+const PICKUP_DAY = 'Saturday, November 28, 2026';
 const PICKUP_HOURS = '3-8 p.m.';
-const PICKUP_AT = '2026-11-14T15:00:00-05:00';
+const PICKUP_AT = '2026-11-28T15:00:00-05:00';
 // The street address is NOT in this file (the repo is public). Set the PICKUP_ADDRESS variable in Cloudflare,
 // as a plain street address with city and province. It shows only on the Square receipt and order note.
 const PICKUP_PLACE_PUBLIC = 'Gourmand House Pickup, Scarborough, ON';
@@ -104,11 +104,11 @@ function pickupText(env, hours) { return 'Pickup ' + PICKUP_DAY + ', ' + hours +
 const PICKUP_POLICY = ' Pickup is only at this location during the selected time. Please notify us in advance of any delay: orders not collected on time without notice are cancelled and are not eligible for a refund.';
 // Hourly pickup slots: key is the start hour (24h), value is [label, start time]. Ontario is UTC-5 (EST) after Nov 1.
 const SLOTS = {
-  '15': ['3:00-4:00 p.m.', '2026-11-14T15:00:00-05:00'],
-  '16': ['4:00-5:00 p.m.', '2026-11-14T16:00:00-05:00'],
-  '17': ['5:00-6:00 p.m.', '2026-11-14T17:00:00-05:00'],
-  '18': ['6:00-7:00 p.m.', '2026-11-14T18:00:00-05:00'],
-  '19': ['7:00-8:00 p.m.', '2026-11-14T19:00:00-05:00']
+  '15': ['3:00-4:00 p.m.', '2026-11-28T15:00:00-05:00'],
+  '16': ['4:00-5:00 p.m.', '2026-11-28T16:00:00-05:00'],
+  '17': ['5:00-6:00 p.m.', '2026-11-28T17:00:00-05:00'],
+  '18': ['6:00-7:00 p.m.', '2026-11-28T18:00:00-05:00'],
+  '19': ['7:00-8:00 p.m.', '2026-11-28T19:00:00-05:00']
 };
 const RETURN_URL = 'https://gourmandhouse.ca/?ordered=1';
 
