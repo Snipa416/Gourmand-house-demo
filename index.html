@@ -632,7 +632,6 @@
           </div>
         </div>
         <p class="pack-note">Every cookie is individually sealed, so a box of six makes an easy gift.</p>
-        <p class="pack-note review-offer"><b>Free cookie for your review:</b> <a href="#reviews">leave us a review</a> and get one free Milk/Dark Chocolate Sea Salt cookie, added to your order at pickup. One per person.</p>
 
         <div class="openbanner" id="openBanner" hidden><i class="dot"></i><p><b>Orders are open now.</b> This drop closes <span id="obWhen">Thursday, November 26 at 8:00 p.m.</span> If we sell out, ordering will close until our next drop.</p></div>
 
@@ -745,8 +744,8 @@
           <div class="rv-dots" id="rvDots"></div>
         </div>
         <div class="rv-leave">
-          <h3>Leave a review, get a <em>free cookie</em></h3>
-          <p class="lede">Tried our cookies? Tell us what you thought. Use the same email you order with and we’ll add one free Milk/Dark Chocolate Sea Salt cookie to your order at pickup. One per person.</p>
+          <h3>Leave a <em>review</em></h3>
+          <p class="lede">Tried our cookies? Tell us what you thought. We read every one, and with your OK we may share it here.</p>
           <form class="rv-form" id="reviewForm" novalidate>
             <fieldset class="rv-rate full"><legend>Your rating</legend>
               <div class="rv-starpick" id="rvStarPick">
@@ -758,7 +757,7 @@
               </div>
             </fieldset>
             <div class="rfield"><label for="rvNameIn">Your name</label><input id="rvNameIn" name="name" autocomplete="name" required></div>
-            <div class="rfield"><label for="rvEmail">Your email (the one you order with)</label><input id="rvEmail" name="email" type="email" autocomplete="email" required></div>
+            <div class="rfield"><label for="rvEmail">Your email</label><input id="rvEmail" name="email" type="email" autocomplete="email" required></div>
             <div class="rfield full"><label for="rvMsg">Your review</label><textarea id="rvMsg" name="review" maxlength="600" placeholder="Your favourite flavour, the texture, who you shared them with…" required></textarea></div>
             <label class="rv-consent full"><input type="checkbox" id="rvConsent" name="consent"> It’s OK to show my first name, last initial and review on the Gourmand House website.</label>
             <p class="rv-err full" id="rvError" role="alert"></p>
@@ -784,7 +783,6 @@
           <details id="allergens"><summary>What about allergens?</summary><p>Our cookies contain wheat, milk and eggs. Maple Fudge &amp; Pecan contains pecans, and all three flavours are made in the same kitchen, so any of our cookies may contain tree nuts. If you have an allergy, email us before you order.</p></details>
           <details><summary>Is tax included?</summary><p>The price you see is the price you pay. We are not charging HST at this time, so a $6 cookie is $6 at checkout.</p></details>
           <details><summary>When do orders open and close?</summary><p>Orders for this drop open Saturday, November 21 at 9:00 a.m. ET and close Thursday, November 26 at 8:00 p.m. ET. If we sell out, ordering will close until our next drop. If you miss this one, leave your email in the drop-alert box and you’ll hear about the next drop first.</p></details>
-          <details><summary>How do I get a free cookie for a review?</summary><p><a href="#reviews">Leave us a review</a> using the same email you order with. We’ll add one free Milk/Dark Chocolate Sea Salt cookie to your order at pickup. One per person.</p></details>
           <details><summary>Can I order a big batch?</summary><p>Yes. Use the <a href="#events">events form</a> or email us with the date and how many cookies you need. We need at least 48 hours’ notice.</p></details>
         </div>
       </div>
@@ -1210,15 +1208,15 @@
         const rate = (f.querySelector('input[name=rating]:checked') || {}).value || '';
         const ok = $('rvConsent').checked, err = $('rvError'), note = $('rvNote');
         if (!rate) { err.textContent = 'Please choose a star rating.'; return; }
-        if (!name || !/^\S+@\S+\.\S+$/.test(email)) { err.textContent = 'Please add your name and the email you order with.'; (name ? f.email : f.name).focus(); return; }
+        if (!name || !/^\S+@\S+\.\S+$/.test(email)) { err.textContent = 'Please add your name and your email.'; (name ? f.email : f.name).focus(); return; }
         if (text.length < 5) { err.textContent = 'Please write a few words about the cookies.'; f.review.focus(); return; }
         err.textContent = '';
-        const done = () => { note.textContent = 'Thank you, ' + name.split(' ')[0] + '! Your review is in. We’ll add your free Milk/Dark Chocolate Sea Salt cookie to your next order at pickup (one per person, matched to ' + email + ').'; note.classList.add('show'); f.reset(); };
+        const done = () => { note.textContent = 'Thank you, ' + name.split(' ')[0] + '! Your review is in. We really appreciate it.'; note.classList.add('show'); f.reset(); };
         const F = (DROP.forms || {}).reviews;
         const fallback = () => {
           const body = 'Hi Gourmand House,\n\nHere is my review.\n\nRating: ' + rate + ' out of 5\nName: ' + name + '\nEmail: ' + email + '\nOK to show on the website: ' + (ok ? 'Yes' : 'No') + '\n\n' + text + '\n';
           window.location.href = 'mailto:' + SHOP.email + '?subject=' + encodeURIComponent('My Gourmand House review (' + rate + ' stars)') + '&body=' + encodeURIComponent(body);
-          note.textContent = 'Your email app should open with your review filled in. Just press send and we’ll add your free cookie at pickup.'; note.classList.add('show');
+          note.textContent = 'Your email app should open with your review filled in. Just press send to share your review.'; note.classList.add('show');
         };
         if (!F || !F.action || !F.name || !F.rating || !F.review) { fallback(); return; }
         const data = {}; data[F.email] = email; data[F.name] = name; data[F.rating] = rate; data[F.review] = text;
